@@ -3,6 +3,7 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { v4 as uuidv4 } from "uuid";
+import { createSlug } from "@/utils/slugify";
 
 // Define the JobDetails type
 type JobDetails = {
@@ -48,7 +49,9 @@ export default async function handler(
       // Extract job details
       const jobDetails: JobDetails = {
         id: uuidv4(),
-        company: $('[class*="JobListing_teamName"]').first().text().trim(),
+        company: createSlug(
+          $('[class*="JobListing_teamName"]').first().text().trim(),
+        ),
         avatar_img:
           $('[class*="JobListing_headerActions"] img').first().attr("src") ||
           "",
