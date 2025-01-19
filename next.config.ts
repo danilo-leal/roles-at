@@ -1,8 +1,12 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: [
+      process.env.NEXT_PUBLIC_SUPABASE_URL?.replace("https://", "") || "",
+    ],
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

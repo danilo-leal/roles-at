@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 type Submission = {
   id: string;
@@ -14,8 +14,8 @@ type Submission = {
 const AdminPage: React.FC = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [adminSecret, setAdminSecret] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const session = useSession();
+  const supabase = useSupabaseClient();
 
   const fetchSubmissions = async () => {
     console.log("Fetching submissions..."); // Debug log
@@ -35,74 +35,112 @@ const AdminPage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchSubmissions();
-  }, []);
+    if (session) {
+      fetchSubmissions();
+    }
+  }, [session]);
 
   const handleApprove = async (submission: Submission) => {
-    const response = await fetch("/api/jobs/approve", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(submission),
-    });
+    try {
+      console.log("Sending approval request for submission:", submission);
+      const response = await fetch("/api/jobs/approve", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submission),
+        credentials: "include",
+      });
 
-    if (response.ok) {
-      // Refresh submissions
-      fetchSubmissions();
-    } else {
-      const error = await response.json();
-      console.error("Error approving submission:", error);
-      alert("Failed to approve submission. Please try again.");
+      console.log("Response status:", response.status);
+      console.log("Response headers:", response.headers);
+
+      const responseData = await response.json();
+      console.log("Full response:", responseData);
+
+      if (response.ok) {
+        console.log("Approval successful");
+        fetchSubmissions();
+      } else {
+        console.error("Error approving submission:", responseData);
+        alert(
+          `Failed to approve submission: ${responseData.error || "Unknown error"}`,
+        );
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
   };
 
   const handleReject = async (submissionId: string) => {
-    const response = await fetch("/api/jobs/reject", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: submissionId }),
+    try {
+      const response = await fetch("/api/jobs/reject", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: submissionId }),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        fetchSubmissions();
+      } else {
+        const errorData = await response.json();
+        console.error("Error rejecting submission:", errorData);
+        alert(`Failed to reject submission: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const email = (
+      e.currentTarget.elements.namedItem("email") as HTMLInputElement
+    ).value;
+    const password = (
+      e.currentTarget.elements.namedItem("password") as HTMLInputElement
+    ).value;
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
-
-    if (response.ok) {
-      // Refresh submissions
-      fetchSubmissions();
-    } else {
-      const error = await response.json();
-      console.error("Error rejecting submission:", error);
-      alert("Failed to reject submission. Please try again.");
+    if (error) {
+      alert(error.message);
     }
   };
 
-  const authenticate = () => {
-    if (adminSecret === process.env.NEXT_PUBLIC_ADMIN_SECRET) {
-      setIsAuthenticated(true);
-      console.log("Authentication successful"); // Debug log
-    } else {
-      alert("Invalid admin secret");
-      console.log("Authentication failed"); // Debug log
-    }
-  };
-
-  if (!isAuthenticated) {
+  if (!session) {
     return (
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
-        <input
-          type="password"
-          placeholder="Enter admin secret"
-          value={adminSecret}
-          onChange={(e) => setAdminSecret(e.target.value)}
-          className="w-full border p-2 mb-4"
-        />
-        <button
-          onClick={authenticate}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Login
-        </button>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            className="w-full border p-2"
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            required
+            className="w-full border p-2"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Login
+          </button>
+        </form>
       </div>
     );
   }
