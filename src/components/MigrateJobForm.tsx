@@ -20,6 +20,10 @@ const MigrateJobForm: React.FC = () => {
         body: JSON.stringify({ url, notification_email: notificationEmail }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
 
       if (response.ok) {
@@ -30,7 +34,9 @@ const MigrateJobForm: React.FC = () => {
         setMessage(`Error: ${data.error}`);
       }
     } catch (error: unknown) {
-      setMessage("An unexpected error occurred. Please try again.");
+      setMessage(
+        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`,
+      );
       console.error("Error in job migration:", error);
     } finally {
       setIsLoading(false);

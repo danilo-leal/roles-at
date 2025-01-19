@@ -37,6 +37,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  console.log("Received request method:", req.method);
+
   if (req.method === "POST") {
     try {
       const supabase = createPagesServerClient({ req, res });
@@ -107,32 +109,6 @@ export default async function handler(
         }
       });
 
-      // Check if we have a valid session
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
-        return res.status(401).json({ error: "Unauthorized" });
-      }
-
-      if (jobDetails.notification_email) {
-        try {
-          const data = await resend.emails.send({
-            from: "Your Name <onboarding@resend.dev>", // Use your verified domain
-            to: jobDetails.notification_email,
-            subject: "Job Listing Submission Confirmation",
-            react: SubmissionConfirmationEmail({
-              company: jobDetails.company,
-              title: jobDetails.title,
-            }),
-          });
-
-          console.log("Email sent:", data);
-        } catch (error) {
-          console.error("Error sending email:", error);
-        }
-      }
-
       // Insert the extracted job details into your database
       const { data, error } = await supabase
         .from("job-postings")
@@ -142,6 +118,24 @@ export default async function handler(
       if (error) {
         console.error("Supabase insert error:", error);
         throw error;
+      }
+
+      if (jobDetails.notification_email) {
+        try {
+          const emailData = await resend.emails.send({
+            from: "Your Name <onboarding@resend.dev>", // Use your verified domain
+            to: jobDetails.notification_email,
+            subject: "Job Listing Submission Confirmation",
+            react: SubmissionConfirmationEmail({
+              company: jobDetails.company,
+              title: jobDetails.title,
+            }),
+          });
+
+          console.log("Email sent:", emailData);
+        } catch (error) {
+          console.error("Error sending email:", error);
+        }
       }
 
       res
@@ -157,6 +151,6 @@ export default async function handler(
     }
   } else {
     res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+    res.status(405).json({ error: "Method Not Allowed" });
   }
 }
