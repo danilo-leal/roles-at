@@ -50,28 +50,21 @@ export default async function handler(
         return res.status(500).json({ error: updateError.message });
       }
 
-      if (jobPosting && jobPosting.notification_email) {
-        if (!process.env.RESEND_API_KEY) {
-          console.error("Resend API key is not set");
-        } else {
-          try {
-            const result = await resend.emails.send({
-              from: "daniloleal09@gmail.com", // Use Resend's default domain for testing
-              to: jobPosting.notification_email,
-              subject: "Your Job Listing Has Been Approved", // or "Update on Your Job Listing Submission" for reject
-              react: ApprovalEmail({
-                // or RejectionEmail for reject
-                company: jobPosting.company,
-                title: jobPosting.title,
-              }),
-            });
-            console.log("Email sent successfully:", result);
-          } catch (emailError) {
-            console.error("Error sending email:", emailError);
-            if (emailError instanceof Error) {
-              console.error("Error details:", emailError.message);
-            }
-          }
+      if (jobPosting.notification_email) {
+        try {
+          const data = await resend.emails.send({
+            from: "Your Name <onboarding@resend.dev>", // Use your verified domain
+            to: jobPosting.notification_email,
+            subject: "Job Listing Submission Confirmation",
+            react: ApprovalEmail({
+              company: jobPosting.company,
+              title: jobPosting.title,
+            }),
+          });
+
+          console.log("Email sent:", data);
+        } catch (error) {
+          console.error("Error sending email:", error);
         }
       }
 
