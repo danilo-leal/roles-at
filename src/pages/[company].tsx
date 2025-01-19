@@ -95,7 +95,7 @@ const JobPage: React.FC<{ job: Job }> = ({ job }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="border p-4 mb-4 rounded">
+      <div className="border p-4 mb-4 rounded-sm">
         {job.avatar_img && (
           <Image
             src={job.avatar_img}
@@ -130,7 +130,7 @@ const JobPage: React.FC<{ job: Job }> = ({ job }) => {
             href={job.application_link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded"
+            className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-sm"
           >
             Apply for this position
           </a>

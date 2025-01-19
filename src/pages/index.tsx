@@ -105,7 +105,7 @@ export default function JobsPage() {
       {jobs.length > 0 ? (
         jobs.map((job) => (
           <Link href={`/${createSlug(job.company)}`} key={job.id}>
-            <div className="border p-4 mb-4 rounded hover:shadow-lg transition-shadow duration-200">
+            <div className="border p-4 mb-4 rounded-sm hover:shadow-lg transition-shadow duration-200">
               {job.avatar_img && (
                 <Image
                   src={job.avatar_img}
@@ -143,7 +143,7 @@ export default function JobsPage() {
                   href={job.application_link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded"
+                  className="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded-sm"
                   onClick={(e) => e.stopPropagation()}
                 >
                   Apply for this position

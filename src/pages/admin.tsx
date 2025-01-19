@@ -156,7 +156,7 @@ const AdminPage: React.FC = () => {
           />
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded-sm"
           >
             Login
           </button>
@@ -237,7 +237,7 @@ const AdminPage: React.FC = () => {
                 {!jobPosting.is_approved && (
                   <button
                     onClick={() => handleApprove(jobPosting)}
-                    className="bg-green-500 text-white px-2 py-1 rounded mr-2"
+                    className="bg-green-500 text-white px-2 py-1 rounded-sm mr-2"
                   >
                     Approve
                   </button>
@@ -245,7 +245,7 @@ const AdminPage: React.FC = () => {
                 {!jobPosting.is_rejected && (
                   <button
                     onClick={() => handleReject(jobPosting)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    className="bg-red-500 text-white px-2 py-1 rounded-sm"
                   >
                     Reject
                   </button>
