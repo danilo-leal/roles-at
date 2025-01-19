@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import MigrateJobForm from "@/components/MigrateJobForm";
@@ -44,9 +44,11 @@ const AdminPage: React.FC = () => {
 
       setJobPostings(data as JobPosting[]);
       setError(null);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching job postings:", error);
-      setError(`Error fetching job postings: ${error.message}`);
+      setError(
+        `Error fetching job postings: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     } finally {
       setLoading(false);
     }
@@ -88,9 +90,11 @@ const AdminPage: React.FC = () => {
       }
 
       fetchJobPostings(); // Refresh the list
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error approving job posting:", error);
-      alert(`Failed to approve job posting: ${error.message}`);
+      alert(
+        `Failed to approve job posting: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   };
 
@@ -104,9 +108,11 @@ const AdminPage: React.FC = () => {
       if (error) throw error;
 
       fetchJobPostings();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error rejecting job posting:", error);
-      alert("Failed to reject job posting. Please try again.");
+      alert(
+        `Failed to reject job posting: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   };
 
