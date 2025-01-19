@@ -4,109 +4,115 @@ import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import MigrateJobForm from "@/components/MigrateJobForm";
 
-type Submission = {
+type JobPosting = {
   id: string;
   company: string;
   title: string;
   description: string;
   salary_range: string;
   submitter_email: string;
-  submitted_at: string;
+  created_at: string;
   avatar_img: string;
   location: string;
+  is_approved: boolean;
+  is_rejected: boolean;
 };
 
 const AdminPage: React.FC = () => {
-  const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [jobPostings, setJobPostings] = useState<JobPosting[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const session = useSession();
   const supabase = useSupabaseClient();
 
-  // useCallback is used here to memoize the fetchSubmissions function.
-  // This ensures that the function reference remains stable across re-renders,
-  // preventing unnecessary re-creation of the function and potential infinite loops in the useEffect.
-  const fetchSubmissions = useCallback(async () => {
-    console.log("Fetching submissions..."); // Debug log
-    const { data, error } = await supabase
-      .from("submissions")
-      .select("*")
-      .order("submitted_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching submissions:", error);
+  const fetchJobPostings = useCallback(async () => {
+    if (!session) {
+      setError("No active session. Please log in.");
+      setLoading(false);
       return;
     }
 
-    console.log("Fetched submissions:", data); // Debug log
-    setSubmissions(data as Submission[]);
-    setLoading(false);
-  }, [supabase]);
+    try {
+      const { data, error } = await supabase
+        .from("job-postings")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      setJobPostings(data as JobPosting[]);
+      setError(null);
+    } catch (error: any) {
+      console.error("Error fetching job postings:", error);
+      setError(`Error fetching job postings: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [supabase, session]);
 
   useEffect(() => {
-    if (session) {
-      fetchSubmissions();
-    }
-  }, [session, fetchSubmissions]);
+    if (session) fetchJobPostings();
+    else setLoading(false);
+  }, [session, fetchJobPostings]);
 
-  const handleApprove = async (submission: Submission) => {
+  const handleApprove = async (jobPosting: JobPosting) => {
+    console.log("Approving job posting:", jobPosting.id); // Debug log
     try {
-      console.log("Sending approval request for submission:", submission);
-      const response = await fetch("/api/approve", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submission),
-        credentials: "include",
-      });
+      // Perform the update
+      const { data, error } = await supabase
+        .from("job-postings")
+        .update({ is_approved: true, is_rejected: false })
+        .eq("id", jobPosting.id);
 
-      console.log("Response status:", response.status);
-      console.log("Response headers:", response.headers);
+      if (error) throw error;
 
-      const responseData = await response.json();
-      console.log("Full response:", responseData);
+      console.log("Update operation result:", data); // Debug log
 
-      if (response.ok) {
-        console.log("Approval successful");
-        fetchSubmissions();
+      // Fetch the updated row
+      const { data: updatedData, error: fetchError } = await supabase
+        .from("job-postings")
+        .select("*")
+        .eq("id", jobPosting.id)
+        .single();
+
+      if (fetchError) throw fetchError;
+
+      console.log("Updated job posting:", updatedData); // Debug log
+
+      if (updatedData.is_approved) {
+        console.log("Job posting successfully approved");
       } else {
-        console.error("Error approving submission:", responseData);
-        alert(
-          `Failed to approve submission: ${responseData.error || "Unknown error"}`,
-        );
+        console.log("Job posting not approved as expected");
       }
+
+      fetchJobPostings(); // Refresh the list
     } catch (error) {
-      console.error("Unexpected error:", error);
-      alert("An unexpected error occurred. Please try again.");
+      console.error("Error approving job posting:", error);
+      alert(`Failed to approve job posting: ${error.message}`);
     }
   };
 
-  const handleReject = async (submissionId: string) => {
+  const handleReject = async (jobPosting: JobPosting) => {
     try {
-      const response = await fetch("/api/reject", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: submissionId }),
-        credentials: "include",
-      });
+      const { error } = await supabase
+        .from("job-postings")
+        .update({ is_approved: false, is_rejected: true })
+        .eq("id", jobPosting.id);
 
-      if (response.ok) {
-        fetchSubmissions();
-      } else {
-        const errorData = await response.json();
-        console.error("Error rejecting submission:", errorData);
-        alert(`Failed to reject submission: ${errorData.error}`);
-      }
-    } catch (error) {
-      console.error("Unexpected error:", error);
-      alert("An unexpected error occurred. Please try again.");
+      if (error) throw error;
+
+      fetchJobPostings();
+    } catch (error: any) {
+      console.error("Error rejecting job posting:", error);
+      alert("Failed to reject job posting. Please try again.");
     }
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     const email = (
       e.currentTarget.elements.namedItem("email") as HTMLInputElement
     ).value;
@@ -118,8 +124,10 @@ const AdminPage: React.FC = () => {
       email,
       password,
     });
+
     if (error) {
-      alert(error.message);
+      setError(`Login failed: ${error.message}`);
+      setLoading(false);
     }
   };
 
@@ -127,6 +135,7 @@ const AdminPage: React.FC = () => {
     return (
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleLogin} className="space-y-4">
           <input
             name="email"
@@ -154,7 +163,11 @@ const AdminPage: React.FC = () => {
   }
 
   if (loading) {
-    return <div>Loading submissions...</div>;
+    return <div>Loading job postings...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
   }
 
   return (
@@ -163,6 +176,7 @@ const AdminPage: React.FC = () => {
         <Link href="/submit">Submit a Job</Link>
         <Link href="/">Home</Link>
       </div>
+
       <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
 
       <section className="mb-8">
@@ -170,46 +184,50 @@ const AdminPage: React.FC = () => {
         <MigrateJobForm />
       </section>
 
-      <h1 className="text-2xl font-bold mb-4">Pending Job Submissions</h1>
-      {submissions.length === 0 ? (
-        <p>No submissions pending.</p>
-      ) : (
-        submissions.map((submission) => (
-          <div key={submission.id} className="border p-4 mb-4 rounded">
-            <h2 className="text-xl font-semibold">{submission.title}</h2>
-            <p className="text-gray-600">Company: {submission.company}</p>
-            <p className="text-gray-600">Location: {submission.location}</p>
-            <Image
-              src={`https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_2.0/v1/1/profilePhotos/${submission.avatar_img}`}
-              unoptimized
-              alt={`${submission.company} logo`}
-              width={64}
-              height={64}
-              className="mb-2"
-            />
-            <p className="text-gray-600">
-              Submitted on:{" "}
-              {new Date(submission.submitted_at).toLocaleDateString()}
-            </p>
-            <p className="mt-2">{submission.description}</p>
-            <p className="mt-2">Salary: {submission.salary_range}</p>
-            <div className="mt-4 space-x-2">
-              <button
-                onClick={() => handleApprove(submission)}
-                className="bg-green-500 text-white px-3 py-1 rounded"
-              >
-                Approve
-              </button>
-              <button
-                onClick={() => handleReject(submission.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded"
-              >
-                Reject
-              </button>
-            </div>
-          </div>
-        ))
-      )}
+      <h2 className="text-xl font-semibold mb-4">Pending Job Postings</h2>
+      <table className="w-full border-collapse border">
+        <thead>
+          <tr>
+            <th className="border p-2">Company</th>
+            <th className="border p-2">Title</th>
+            <th className="border p-2">Status</th>
+            <th className="border p-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {jobPostings.map((jobPosting) => (
+            <tr key={jobPosting.id}>
+              <td className="border p-2">{jobPosting.company}</td>
+              <td className="border p-2">{jobPosting.title}</td>
+              <td className="border p-2">
+                {jobPosting.is_approved
+                  ? "Approved"
+                  : jobPosting.is_rejected
+                    ? "Rejected"
+                    : "Pending"}
+              </td>
+              <td className="border p-2">
+                {!jobPosting.is_approved && (
+                  <button
+                    onClick={() => handleApprove(jobPosting)}
+                    className="bg-green-500 text-white px-2 py-1 rounded mr-2"
+                  >
+                    Approve
+                  </button>
+                )}
+                {!jobPosting.is_rejected && (
+                  <button
+                    onClick={() => handleReject(jobPosting)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    Reject
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

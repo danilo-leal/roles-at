@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { supabase } from "@/lib/supabaseClient";
 import { resend } from "@/lib/resend";
 import ConfirmationEmail from "@/components/ConfirmationEmail";
+import { v4 as uuidv4 } from "uuid";
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,11 +25,14 @@ export default async function handler(
       return;
     }
 
-    // Insert into submissions table
-    const { data: submissionData, error } = await supabase
-      .from("submissions")
+    const job_posting_id = uuidv4(); // Generate a new UUID for the job posting
+
+    // Insert directly into job-postings table
+    const { data: jobPostingData, error } = await supabase
+      .from("job-postings")
       .insert([
         {
+          id: job_posting_id,
           company,
           title,
           description,
@@ -36,8 +40,10 @@ export default async function handler(
           submitter_email,
           location,
           avatar_img,
+          is_approved: false, // Add this field to indicate it needs approval
         },
-      ]);
+      ])
+      .select();
 
     if (error) {
       res.status(500).json({ error: error.message });
@@ -59,7 +65,10 @@ export default async function handler(
 
     res
       .status(201)
-      .json({ message: "Submission received", data: submissionData });
+      .json({
+        message: "Job posting submitted for approval",
+        data: jobPostingData,
+      });
   } else {
     res.setHeader("Allow", "POST");
     res.status(405).end("Method Not Allowed");

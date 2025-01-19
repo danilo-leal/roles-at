@@ -5,11 +5,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  console.log("API route hit");
   if (req.method === "POST") {
     try {
-      console.log("Request body:", req.body);
-
       const supabase = createPagesServerClient({ req, res });
 
       const {
@@ -17,7 +14,6 @@ export default async function handler(
       } = await supabase.auth.getSession();
 
       if (!session) {
-        console.log("No session found");
         return res.status(401).json({
           error: "not_authenticated",
           description:
@@ -25,71 +21,23 @@ export default async function handler(
         });
       }
 
-      console.log("Session found:", session.user.email);
+      const { id } = req.body;
 
-      const {
-        id,
-        company,
-        title,
-        description,
-        salary_range,
-        location,
-        avatar_img,
-      } = req.body;
-
-      console.log("Attempting to insert job posting:", {
-        company,
-        title,
-        description,
-        salary_range,
-        location,
-        avatar_img,
-      });
-
-      // Insert into job-postings
-      const { data: insertData, error: insertError } = await supabase
-        .from("job-postings") // Note the hyphen here
-        .insert([
-          {
-            company,
-            title,
-            description,
-            salary_range,
-            location,
-            avatar_img,
-          },
-        ])
+      // Update job posting to approved status
+      const { data, error } = await supabase
+        .from("job-postings")
+        .update({ is_approved: true, is_rejected: false })
+        .eq("id", id)
         .select();
 
-      if (insertError) {
-        console.error("Insert error:", insertError);
-        return res
-          .status(500)
-          .json({ error: insertError.message, details: insertError });
+      if (error) {
+        console.error("Update error:", error);
+        return res.status(500).json({ error: error.message, details: error });
       }
-
-      console.log("Job posting inserted successfully:", insertData);
-
-      console.log("Attempting to delete submission:", id);
-
-      // Delete from submissions
-      const { error: deleteError } = await supabase
-        .from("submissions")
-        .delete()
-        .eq("id", id);
-
-      if (deleteError) {
-        console.error("Delete error:", deleteError);
-        return res
-          .status(500)
-          .json({ error: deleteError.message, details: deleteError });
-      }
-
-      console.log("Submission deleted successfully");
 
       res.status(200).json({
-        message: "Job approved and moved to postings",
-        data: insertData,
+        message: "Job posting approved",
+        data: data,
       });
     } catch (error) {
       console.error("Unexpected error:", error);

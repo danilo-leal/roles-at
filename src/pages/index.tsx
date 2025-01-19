@@ -13,26 +13,38 @@ type Job = {
   salary_range: string;
   is_open: boolean;
   created_at: string;
+  is_approved: boolean;
 };
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const response = await fetch("/api/");
-      const data = await response.json();
-      setJobs(data);
-      setLoading(false);
+      try {
+        const response = await fetch("/api/");
+        if (!response.ok) {
+          throw new Error("Failed to fetch jobs");
+        }
+        const data = await response.json();
+        // Only show approved jobs
+        const approvedJobs = data.filter((job: Job) => job.is_approved);
+        setJobs(approvedJobs);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+        setError("Failed to fetch jobs. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchJobs();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <div className="container mx-auto p-4">
@@ -41,7 +53,7 @@ export default function JobsPage() {
         <Link href="/admin">Admin</Link>
       </div>
       <h1 className="text-2xl font-bold mb-4">Job Listings</h1>
-      {Array.isArray(jobs) && jobs.length > 0 ? (
+      {jobs.length > 0 ? (
         jobs.map((job) => (
           <Link href={`/${createSlug(job.company)}`} key={job.id}>
             <div className="border p-4 mb-4 rounded hover:shadow-lg transition-shadow duration-200">
@@ -74,7 +86,7 @@ export default function JobsPage() {
           </Link>
         ))
       ) : (
-        <p>No jobs available</p>
+        <p>No approved jobs available</p>
       )}
     </div>
   );

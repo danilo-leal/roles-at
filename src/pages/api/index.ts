@@ -6,10 +6,11 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "GET") {
-    // Fetch approved job postings
+    // Fetch only approved job postings
     const { data, error } = await supabase
       .from("job-postings")
       .select("*")
+      .eq("is_approved", true)
       .order("created_at", { ascending: false });
 
     if (error) {

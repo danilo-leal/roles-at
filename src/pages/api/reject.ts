@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const supabase = createServerSupabaseClient({ req, res });
+      const supabase = createPagesServerClient({ req, res });
 
       const {
         data: { session },
@@ -23,10 +23,10 @@ export default async function handler(
 
       const { id } = req.body;
 
-      // Delete from submissions
+      // Delete from job-postings
       const { error } = await supabase
-        .from("submissions")
-        .delete()
+        .from("job-postings")
+        .update({ is_approved: false, is_rejected: true })
         .eq("id", id);
 
       if (error) {
@@ -35,7 +35,7 @@ export default async function handler(
         return;
       }
 
-      res.status(200).json({ message: "Submission rejected and deleted" });
+      res.status(200).json({ message: "Job posting rejected and deleted" });
     } catch (error) {
       console.error("Unexpected error:", error);
       res.status(500).json({ error: "An unexpected error occurred" });
