@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
