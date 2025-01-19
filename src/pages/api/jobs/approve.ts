@@ -27,13 +27,23 @@ export default async function handler(
 
       console.log("Session found:", session.user.email);
 
-      const { id, company, title, description, salary_range } = req.body;
+      const {
+        id,
+        company,
+        title,
+        description,
+        salary_range,
+        location,
+        avatar_img,
+      } = req.body;
 
       console.log("Attempting to insert job posting:", {
         company,
         title,
         description,
         salary_range,
+        location,
+        avatar_img,
       });
 
       // Insert into job-postings
