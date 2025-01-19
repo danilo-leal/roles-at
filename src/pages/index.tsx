@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-// import { supabase } from "@/lib/supabaseClient";
+import Link from "next/link";
 
 type Job = {
   id: string;
@@ -35,13 +35,18 @@ export default function JobsPage() {
 
   return (
     <div className="container mx-auto p-4">
+      <div className="flex gap-2 mb-8">
+        <Link href="/submit">Submit a Job</Link>
+        <Link href="/admin">Admin</Link>
+      </div>
       <h1 className="text-2xl font-bold mb-4">Job Listings</h1>
       {Array.isArray(jobs) && jobs.length > 0 ? (
         jobs.map((job) => (
           <div key={job.id} className="border p-4 mb-4 rounded">
             {job.avatar_img && (
               <Image
-                src={`https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_2.0/v1/1/profilePhotos/${job.avatar_img}`}
+                // src={`https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_2.0/v1/1/profilePhotos/${job.avatar_img}`}
+                src={job.avatar_img}
                 unoptimized
                 alt={`${job.company} logo`}
                 width={64}

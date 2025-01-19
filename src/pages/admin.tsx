@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import MigrateJobForm from "@/components/MigrateJobForm";
 
@@ -158,6 +159,10 @@ const AdminPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <div className="flex gap-2 mb-8">
+        <Link href="/submit">Submit a Job</Link>
+        <Link href="/">Home</Link>
+      </div>
       <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
 
       <section className="mb-8">

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MigrateJobForm from "@/components/MigrateJobForm";
+import Link from "next/link";
 
 export default function SubmitPage() {
   const [company, setCompany] = useState("");
@@ -47,6 +48,10 @@ export default function SubmitPage() {
 
   return (
     <div className="container mx-auto p-4">
+      <div className="flex gap-2 mb-8">
+        <Link href="/">Home</Link>
+        <Link href="/admin">Admin</Link>
+      </div>
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Migrate Job Posting</h2>
         <MigrateJobForm />
