@@ -6,6 +6,8 @@ import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
 import * as cheerio from "cheerio";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/primitives/Button";
 
 type Job = {
   id: string;
@@ -25,6 +27,7 @@ export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { setTheme } = useTheme();
 
   const components: Components = {
     h1: (props) => <h1 className="text-2xl font-bold my-4" {...props} />,
@@ -100,6 +103,15 @@ export default function JobsPage() {
       <div className="flex gap-2 mb-8">
         <Link href="/submit">Submit a Job</Link>
         <Link href="/admin">Admin</Link>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() =>
+            setTheme((theme: string) => (theme === "dark" ? "light" : "dark"))
+          }
+        >
+          Toggle Theme
+        </Button>
       </div>
       <h1 className="text-2xl font-bold mb-4">Job Listings</h1>
       {jobs.length > 0 ? (
