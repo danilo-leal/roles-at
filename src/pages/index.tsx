@@ -41,15 +41,22 @@ export default function JobsPage() {
     // Remove <p> tags inside <li> tags
     $("li p").each((_, elem) => {
       const $elem = $(elem);
-      const htmlContent = $elem.html();
-      if (htmlContent !== null) {
-        $elem.replaceWith(htmlContent);
-      }
+      $elem.replaceWith($elem.html() || "");
     });
 
-    // Add more cleaning rules here as needed
-    // For example, to remove empty paragraphs:
+    // Remove empty paragraphs
     $("p:empty").remove();
+
+    // Remove specific classes
+    $(".unwanted-class").removeClass("unwanted-class");
+
+    // Convert <b> tags to <strong>
+    $("b").each((_, elem) => {
+      const $elem = $(elem);
+      $elem.replaceWith(`<strong>${$elem.html() || ""}</strong>`);
+    });
+
+    // Add more rules as needed
 
     return $.html();
   };
