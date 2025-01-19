@@ -41,7 +41,8 @@ export default function JobsPage() {
           <div key={job.id} className="border p-4 mb-4 rounded">
             {job.avatar_img && (
               <Image
-                src={job.avatar_img}
+                src={`https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_2.0/v1/1/profilePhotos/${job.avatar_img}`}
+                unoptimized
                 alt={`${job.company} logo`}
                 width={64}
                 height={64}
