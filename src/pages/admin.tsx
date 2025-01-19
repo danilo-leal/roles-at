@@ -18,16 +18,18 @@ const AdminPage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const fetchSubmissions = async () => {
+    console.log("Fetching submissions..."); // Debug log
     const { data, error } = await supabase
       .from("submissions")
       .select("*")
       .order("submitted_at", { ascending: false });
 
     if (error) {
-      console.error(error);
+      console.error("Error fetching submissions:", error);
       return;
     }
 
+    console.log("Fetched submissions:", data); // Debug log
     setSubmissions(data as Submission[]);
     setLoading(false);
   };
@@ -37,57 +39,50 @@ const AdminPage: React.FC = () => {
   }, []);
 
   const handleApprove = async (submission: Submission) => {
-    // Insert into job_postings
-    const { error: insertError } = await supabase.from("job_postings").insert([
-      {
-        company: submission.company,
-        title: submission.title,
-        description: submission.description,
-        salary_range: submission.salary_range,
+    const response = await fetch("/api/jobs/approve", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    ]);
+      body: JSON.stringify(submission),
+    });
 
-    if (insertError) {
-      console.error(insertError);
-      return;
+    if (response.ok) {
+      // Refresh submissions
+      fetchSubmissions();
+    } else {
+      const error = await response.json();
+      console.error("Error approving submission:", error);
+      alert("Failed to approve submission. Please try again.");
     }
-
-    // Delete from submissions
-    const { error: deleteError } = await supabase
-      .from("submissions")
-      .delete()
-      .eq("id", submission.id);
-
-    if (deleteError) {
-      console.error(deleteError);
-      return;
-    }
-
-    // Refresh submissions
-    fetchSubmissions();
   };
 
   const handleReject = async (submissionId: string) => {
-    // Delete from submissions
-    const { error } = await supabase
-      .from("submissions")
-      .delete()
-      .eq("id", submissionId);
+    const response = await fetch("/api/jobs/reject", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: submissionId }),
+    });
 
-    if (error) {
-      console.error(error);
-      return;
+    if (response.ok) {
+      // Refresh submissions
+      fetchSubmissions();
+    } else {
+      const error = await response.json();
+      console.error("Error rejecting submission:", error);
+      alert("Failed to reject submission. Please try again.");
     }
-
-    // Refresh submissions
-    fetchSubmissions();
   };
 
   const authenticate = () => {
     if (adminSecret === process.env.NEXT_PUBLIC_ADMIN_SECRET) {
       setIsAuthenticated(true);
+      console.log("Authentication successful"); // Debug log
     } else {
       alert("Invalid admin secret");
+      console.log("Authentication failed"); // Debug log
     }
   };
 
