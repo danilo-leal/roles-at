@@ -20,7 +20,10 @@ const AdminPage: React.FC = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
 
-  const fetchSubmissions = async () => {
+  // useCallback is used here to memoize the fetchSubmissions function.
+  // This ensures that the function reference remains stable across re-renders,
+  // preventing unnecessary re-creation of the function and potential infinite loops in the useEffect.
+  const fetchSubmissions = useCallback(async () => {
     console.log("Fetching submissions..."); // Debug log
     const { data, error } = await supabase
       .from("submissions")
@@ -35,13 +38,13 @@ const AdminPage: React.FC = () => {
     console.log("Fetched submissions:", data); // Debug log
     setSubmissions(data as Submission[]);
     setLoading(false);
-  };
+  }, [supabase]);
 
   useEffect(() => {
     if (session) {
       fetchSubmissions();
     }
-  }, [session]);
+  }, [session, fetchSubmissions]);
 
   const handleApprove = async (submission: Submission) => {
     try {
