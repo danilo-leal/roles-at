@@ -7,46 +7,62 @@ export default function SubmitPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const [location, setLocation] = useState("");
   const [avatarImg, setAvatarImg] = useState("");
   const [applicationLink, setApplicationLink] = useState("");
   const [notificationEmail, setNotificationEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setMessage("");
 
-    const response = await fetch("/api/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        company,
-        title,
-        description,
-        salary_range: salaryRange,
-        submitter_email: email,
-        location,
-        avatar_img: avatarImg,
-        application_link: applicationLink,
-        notification_email: notificationEmail,
-      }),
-    });
+    try {
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          company,
+          title,
+          description,
+          salary_range: salaryRange,
+          location,
+          avatar_img: avatarImg,
+          application_link: applicationLink,
+          notification_email: notificationEmail,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      setMessage("Your submission has been received and is pending approval.");
+      if (!response.ok) {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      }
+
+      setMessage(
+        data.message ||
+          "Your submission has been received and is pending approval.",
+      );
       // Clear form
       setCompany("");
       setTitle("");
       setDescription("");
       setSalaryRange("");
-      setEmail("");
-    } else {
-      setMessage(`Error: ${data.error}`);
+      setLocation("");
+      setAvatarImg("");
+      setApplicationLink("");
+      setNotificationEmail("");
+    } catch (error) {
+      console.error("Error submitting job posting:", error);
+      setMessage(
+        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`,
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,99 +78,107 @@ export default function SubmitPage() {
       </section>
 
       <h1 className="text-2xl font-bold mb-4">Submit a Job Opening</h1>
-      {message && <p className="mb-4">{message}</p>}
+      {message && <p className="mb-4 text-sm text-gray-600">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block">Company:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Company:
+          </label>
           <input
             type="text"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
             required
-            className="w-full border p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block">Job Title:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Job Title:
+          </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full border p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block">Location:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Location:
+          </label>
           <input
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-full border p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block">Company Avatar URL:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Company Avatar URL:
+          </label>
           <input
             type="text"
             value={avatarImg}
             onChange={(e) => setAvatarImg(e.target.value)}
-            className="w-full border p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block">Application Link:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Application Link:
+          </label>
           <input
             type="text"
             value={applicationLink}
             onChange={(e) => setApplicationLink(e.target.value)}
-            className="w-full border p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="URL or instructions to apply"
           />
         </div>
         <div>
-          <label className="block">Description:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Description:
+          </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            className="w-full border p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            rows={4}
           />
         </div>
         <div>
-          <label className="block">Salary Range:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Salary Range:
+          </label>
           <input
             type="text"
             value={salaryRange}
             onChange={(e) => setSalaryRange(e.target.value)}
-            className="w-full border p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block">Your Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full border p-2"
-          />
-        </div>
-        <div>
-          <label className="block">Notification Email:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Notification Email:
+          </label>
           <input
             type="email"
             value={notificationEmail}
             onChange={(e) => setNotificationEmail(e.target.value)}
             required
-            className="w-full border p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-sm"
+          disabled={isLoading}
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          Submit
+          {isLoading ? "Submitting..." : "Submit Job Posting"}
         </button>
       </form>
     </div>
