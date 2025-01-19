@@ -60,37 +60,24 @@ const AdminPage: React.FC = () => {
   }, [session, fetchJobPostings]);
 
   const handleApprove = async (jobPosting: JobPosting) => {
-    console.log("Approving job posting:", jobPosting.id); // Debug log
+    console.log("Approving job posting:", jobPosting.id);
     try {
-      // Perform the update
-      const { data, error } = await supabase
-        .from("job-postings")
-        .update({ is_approved: true, is_rejected: false })
-        .eq("id", jobPosting.id);
+      const response = await fetch("/api/approve", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: jobPosting.id }),
+      });
 
-      if (error) throw error;
-
-      console.log("Update operation result:", data); // Debug log
-
-      // Fetch the updated row
-      const { data: updatedData, error: fetchError } = await supabase
-        .from("job-postings")
-        .select("*")
-        .eq("id", jobPosting.id)
-        .single();
-
-      if (fetchError) throw fetchError;
-
-      console.log("Updated job posting:", updatedData); // Debug log
-
-      if (updatedData.is_approved) {
-        console.log("Job posting successfully approved");
-      } else {
-        console.log("Job posting not approved as expected");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to approve job posting");
       }
 
+      console.log("Job posting approved successfully");
       fetchJobPostings(); // Refresh the list
-    } catch (error: unknown) {
+    } catch (error) {
       console.error("Error approving job posting:", error);
       alert(
         `Failed to approve job posting: ${error instanceof Error ? error.message : "Unknown error"}`,
@@ -99,16 +86,24 @@ const AdminPage: React.FC = () => {
   };
 
   const handleReject = async (jobPosting: JobPosting) => {
+    console.log("Rejecting job posting:", jobPosting.id);
     try {
-      const { error } = await supabase
-        .from("job-postings")
-        .update({ is_approved: false, is_rejected: true })
-        .eq("id", jobPosting.id);
+      const response = await fetch("/api/reject", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: jobPosting.id }),
+      });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to reject job posting");
+      }
 
-      fetchJobPostings();
-    } catch (error: unknown) {
+      console.log("Job posting rejected successfully");
+      fetchJobPostings(); // Refresh the list
+    } catch (error) {
       console.error("Error rejecting job posting:", error);
       alert(
         `Failed to reject job posting: ${error instanceof Error ? error.message : "Unknown error"}`,

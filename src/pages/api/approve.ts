@@ -9,15 +9,21 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  console.log("Approve handler started");
+  console.log("RESEND_API_KEY set:", !!process.env.RESEND_API_KEY);
+
   if (req.method === "POST") {
     try {
       const supabase = createPagesServerClient({ req, res });
+      console.log("Supabase client created");
 
       const {
         data: { session },
       } = await supabase.auth.getSession();
+      console.log("Session retrieved:", session ? "Yes" : "No");
 
       if (!session) {
+        console.log("No active session, returning 401");
         return res.status(401).json({
           error: "not_authenticated",
           description:
@@ -26,6 +32,7 @@ export default async function handler(
       }
 
       const { id } = req.body;
+      console.log("Job posting ID:", id);
 
       // Fetch the job posting before updating
       const { data: jobPosting, error: fetchError } = await supabase
@@ -39,6 +46,8 @@ export default async function handler(
         return res.status(500).json({ error: fetchError.message });
       }
 
+      console.log("Job posting data:", jobPosting);
+
       // Update job posting to approved status
       const { error: updateError } = await supabase
         .from("job-postings")
@@ -50,12 +59,18 @@ export default async function handler(
         return res.status(500).json({ error: updateError.message });
       }
 
+      console.log("Job posting updated successfully");
+
       if (jobPosting.notification_email) {
+        console.log(
+          "Attempting to send email to:",
+          jobPosting.notification_email,
+        );
         try {
           const data = await resend.emails.send({
             from: "Your Name <onboarding@resend.dev>", // Use your verified domain
             to: jobPosting.notification_email,
-            subject: "Job Listing Submission Confirmation",
+            subject: "Your Job Listing Has Been Approved",
             react: ApprovalEmail({
               company: jobPosting.company,
               title: jobPosting.title,
@@ -65,12 +80,17 @@ export default async function handler(
           console.log("Email sent:", data);
         } catch (error) {
           console.error("Error sending email:", error);
+          console.error("Error details:", JSON.stringify(error, null, 2));
         }
+      } else {
+        console.log("No notification email provided for job posting");
       }
 
+      console.log("Sending success response");
       res.status(200).json({ message: "Job posting approved" });
     } catch (error) {
       console.error("Unexpected error:", error);
+      console.error("Error details:", JSON.stringify(error, null, 2));
       res.status(500).json({
         error: "An unexpected error occurred",
         details: error instanceof Error ? error.message : String(error),
@@ -78,6 +98,7 @@ export default async function handler(
       });
     }
   } else {
+    console.log("Method not allowed:", req.method);
     res.setHeader("Allow", "POST");
     res.status(405).end("Method Not Allowed");
   }
