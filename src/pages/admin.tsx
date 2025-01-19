@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import MigrateJobForm from "@/components/MigrateJobForm";
+import { createSlug } from "@/utils/slugify";
 
 type JobPosting = {
   id: string;
@@ -171,6 +172,13 @@ const AdminPage: React.FC = () => {
     return <div className="text-red-500">{error}</div>;
   }
 
+  const pendingCount = jobPostings.filter(
+    (job) => !job.is_approved && !job.is_rejected,
+  ).length;
+  const approvedCount = jobPostings.filter((job) => job.is_approved).length;
+  const rejectedCount = jobPostings.filter((job) => job.is_rejected).length;
+  const totalCount = jobPostings.length;
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex gap-2 mb-8">
@@ -186,6 +194,13 @@ const AdminPage: React.FC = () => {
       </section>
 
       <h2 className="text-xl font-semibold mb-4">Pending Job Postings</h2>
+
+      <div className="mb-4">
+        <p>Total Job Postings: {totalCount}</p>
+        <p>Pending: {pendingCount}</p>
+        <p>Approved: {approvedCount}</p>
+        <p>Rejected: {rejectedCount}</p>
+      </div>
       <table className="w-full border-collapse border">
         <thead>
           <tr>
@@ -198,7 +213,13 @@ const AdminPage: React.FC = () => {
         <tbody>
           {jobPostings.map((jobPosting) => (
             <tr key={jobPosting.id}>
-              <td className="border p-2">{jobPosting.company}</td>
+              <td className="border p-2">
+                <Link href={`/${createSlug(jobPosting.company)}`}>
+                  <span className="text-blue-600 hover:underline cursor-pointer">
+                    {jobPosting.company}
+                  </span>
+                </Link>
+              </td>
               <td className="border p-2">{jobPosting.title}</td>
               <td className="border p-2">
                 {jobPosting.is_approved
