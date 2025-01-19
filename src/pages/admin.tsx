@@ -207,6 +207,7 @@ const AdminPage: React.FC = () => {
           <tr>
             <th className="border p-2">Company</th>
             <th className="border p-2">Title</th>
+            <th className="border p-2">Created At</th>
             <th className="border p-2">Status</th>
             <th className="border p-2">Actions</th>
           </tr>
@@ -222,6 +223,9 @@ const AdminPage: React.FC = () => {
                 </Link>
               </td>
               <td className="border p-2">{jobPosting.title}</td>
+              <td className="border p-2">
+                {new Date(jobPosting.created_at).toLocaleString()}
+              </td>
               <td className="border p-2">
                 {jobPosting.is_approved
                   ? "Approved"

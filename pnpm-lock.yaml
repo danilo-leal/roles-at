@@ -23,9 +23,6 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.47.16
         version: 2.47.16
-      '@types/dompurify':
-        specifier: ^3.2.0
-        version: 3.2.0
       '@types/jsdom':
         specifier: ^21.1.7
         version: 21.1.7
@@ -50,6 +47,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      dompurify:
+        specifier: ^3.2.3
+        version: 3.2.3
       isomorphic-dompurify:
         specifier: ^2.20.0
         version: 2.20.0
@@ -89,6 +89,9 @@ importers:
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
+        version: 3.2.0
+      '@types/dompurify':
+        specifier: ^3.2.0
         version: 3.2.0
       '@types/node':
         specifier: ^20
