@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "./fonts.css";
 
+@variant dark (&:where(.dark, .dark *));
+
 * {
   box-sizing: border-box;
 }
@@ -15,18 +17,13 @@ body {
     BlinkMacSystemFont,
     Segoe UI,
     Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
     Helvetica Neue,
     sans-serif;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--foreground);
-  background: var(--background);
+  /* color: var(--foreground); */
+  /* background: var(--background); */
 }
 
 ::selection {
@@ -34,18 +31,12 @@ body {
   color: #fefefe;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 @theme {
-  --color-background: oklch(100% 0 0);
+  /* --color-background: oklch(100% 0 0);
   --color-background-secondary: oklch(95% 0 0);
 
   --color-foreground: oklch(0% 0 0);
-  --color-foreground-secondary: oklch(65% 0 0);
+  --color-foreground-secondary: oklch(65% 0 0); */
 }
 
 @layer base {
@@ -55,5 +46,11 @@ a {
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utility {
+  .default-border-color {
+    @apply border-gray-200/60 dark:border-gray-600/20;
   }
 }

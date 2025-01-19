@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { createSlug } from "@/utils/slugify";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import ReactMarkdown, { Components } from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import DOMPurify from "isomorphic-dompurify";
-import * as cheerio from "cheerio";
-import { useTheme } from "next-themes";
-import { Button } from "@/components/primitives/Button";
+import { Navbar } from "@/components/primitives/Navbar";
+import { Container } from "@/components/primitives/Container";
+import { formatDate } from "@/utils/data";
 
 type Job = {
   id: string;
@@ -27,51 +25,6 @@ export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { setTheme } = useTheme();
-
-  const components: Components = {
-    h1: (props) => <h1 className="text-2xl font-bold my-4" {...props} />,
-    h2: (props) => <h2 className="text-xl font-semibold my-3" {...props} />,
-    p: (props) => <p className="my-2" {...props} />,
-    ul: (props) => <ul className="list-disc list-inside my-2" {...props} />,
-    ol: (props) => <ol className="list-decimal list-inside my-2" {...props} />,
-    li: (props) => <li className="flex" {...props} />,
-  };
-
-  const cleanHtml = (html: string) => {
-    const $ = cheerio.load(html);
-
-    // Remove <p> tags inside <li> tags
-    $("li p").each((_, elem) => {
-      const $elem = $(elem);
-      $elem.replaceWith($elem.html() || "");
-    });
-
-    // Remove empty paragraphs
-    $("p:empty").remove();
-
-    // Remove specific classes
-    $(".unwanted-class").removeClass("unwanted-class");
-
-    // Convert <b> tags to <strong>
-    $("b").each((_, elem) => {
-      const $elem = $(elem);
-      $elem.replaceWith(`<strong>${$elem.html() || ""}</strong>`);
-    });
-
-    // Add more rules as needed
-
-    return $.html();
-  };
-
-  const sanitizeAndCleanHtml = (html: string) => {
-    if (typeof window === "undefined") {
-      // Server-side: just clean the HTML
-      return cleanHtml(html);
-    }
-    // Client-side: clean and sanitize
-    return DOMPurify.sanitize(cleanHtml(html));
-  };
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -99,74 +52,51 @@ export default function JobsPage() {
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex gap-2 mb-8">
-        <Link href="/submit">Submit a Job</Link>
-        <Link href="/admin">Admin</Link>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() =>
-            setTheme((theme: string) => (theme === "dark" ? "light" : "dark"))
-          }
-        >
-          Toggle Theme
-        </Button>
-      </div>
+    <Container>
+      <Navbar />
       <h1 className="text-2xl font-bold mb-4">Job Listings</h1>
-      {jobs.length > 0 ? (
-        jobs.map((job) => (
-          <Link href={`/${createSlug(job.company)}`} key={job.id}>
-            <div className="border p-4 mb-4 rounded-sm hover:shadow-lg transition-shadow duration-200">
-              {job.avatar_img && (
-                <Image
-                  src={job.avatar_img}
-                  unoptimized
-                  alt={`${job.company} logo`}
-                  width={64}
-                  height={64}
-                  className="mb-2"
-                />
-              )}
-              <h2 className="text-xl font-semibold">{job.title}</h2>
-              <p className="text-gray-600">Company: {job.company}</p>
-              {job.location && (
-                <p className="text-gray-600">Location: {job.location}</p>
-              )}
-              <p className="text-gray-600">
-                Posted on: {new Date(job.created_at).toLocaleDateString()}
-              </p>
-              <div className="mt-2">
-                <ReactMarkdown
-                  rehypePlugins={[rehypeRaw]}
-                  components={components}
-                >
-                  {sanitizeAndCleanHtml(job.description)}
-                </ReactMarkdown>
+      <div className="flex flex-col gap-5">
+        {jobs.length > 0 ? (
+          jobs.map((job) => (
+            <Link href={`/${createSlug(job.company)}`} key={job.id}>
+              <div className="border default-border-color rounded-sm">
+                <div className="p-4 flex items-center gap-4">
+                  {job.avatar_img && (
+                    <Image
+                      src={job.avatar_img}
+                      alt={`${job.company} logo`}
+                      width={44}
+                      height={44}
+                      className="rounded-full shrink-0"
+                    />
+                  )}
+                  <div className="w-full flex flex-col">
+                    <div className="w-full flex justify-between">
+                      <h2 className="">{job.company}</h2>
+                      <p
+                        className={clsx(
+                          job.is_open ? "text-green-600" : "text-red-600",
+                        )}
+                      >
+                        {job.is_open ? "Open" : "Closed"}
+                      </p>
+                    </div>
+                    <p className="text-sm text-gray-600">{job.title}</p>
+                  </div>
+                </div>
+                <div className="px-4 py-3 border-t default-border-color flex">
+                  {job.location && (
+                    <p className="text-gray-600">Location: {job.location}</p>
+                  )}
+                  <p className="text-gray-600">{formatDate(job.created_at)}</p>
+                </div>
               </div>
-              <p className="mt-2">Salary: {job.salary_range}</p>
-              <p
-                className={`mt-2 ${job.is_open ? "text-green-600" : "text-red-600"}`}
-              >
-                {job.is_open ? "Open" : "Closed"}
-              </p>
-              {job.application_link && (
-                <a
-                  href={job.application_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded-sm"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  Apply for this position
-                </a>
-              )}
-            </div>
-          </Link>
-        ))
-      ) : (
-        <p>No approved jobs available</p>
-      )}
-    </div>
+            </Link>
+          ))
+        ) : (
+          <p>No approved jobs available</p>
+        )}
+      </div>
+    </Container>
   );
 }
