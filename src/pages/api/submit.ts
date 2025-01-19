@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { supabase } from "@/lib/supabaseClient";
 import { resend } from "@/lib/resend";
-import ConfirmationEmail from "@/components/ConfirmationEmail";
+import { SubmissionConfirmationEmail } from "@/components/Emails";
 import { v4 as uuidv4 } from "uuid";
 
 export default async function handler(
@@ -18,6 +18,7 @@ export default async function handler(
       location,
       avatar_img,
       application_link,
+      notification_email,
     } = req.body;
 
     // Validate input
@@ -43,6 +44,7 @@ export default async function handler(
           avatar_img,
           is_approved: false,
           application_link,
+          notification_email,
         },
       ])
       .select();
@@ -56,13 +58,12 @@ export default async function handler(
     try {
       await resend.emails.send({
         from: "daniloleal09@gmail.com",
-        to: submitter_email,
-        subject: "Job Submission Received",
-        react: ConfirmationEmail({ company, title, email: submitter_email }),
+        to: notification_email,
+        subject: "Job Listing Submission Confirmation",
+        react: SubmissionConfirmationEmail({ company, title }),
       });
-    } catch (emailError: unknown) {
-      console.error("Error sending email:", emailError);
-      // You might choose to notify the user even if email fails
+    } catch (emailError) {
+      console.error("Error sending confirmation email:", emailError);
     }
 
     res.status(201).json({

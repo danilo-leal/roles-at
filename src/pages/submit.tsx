@@ -12,6 +12,7 @@ export default function SubmitPage() {
   const [location, setLocation] = useState("");
   const [avatarImg, setAvatarImg] = useState("");
   const [applicationLink, setApplicationLink] = useState("");
+  const [notificationEmail, setNotificationEmail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +31,7 @@ export default function SubmitPage() {
         location,
         avatar_img: avatarImg,
         application_link: applicationLink,
+        notification_email: notificationEmail,
       }),
     });
 
@@ -134,6 +136,16 @@ export default function SubmitPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full border p-2"
+          />
+        </div>
+        <div>
+          <label className="block">Notification Email:</label>
+          <input
+            type="email"
+            value={notificationEmail}
+            onChange={(e) => setNotificationEmail(e.target.value)}
             required
             className="w-full border p-2"
           />

@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { resend } from "@/lib/resend";
+import { ApprovalEmail } from "@/components/Emails";
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,22 +25,46 @@ export default async function handler(
 
       const { id } = req.body;
 
-      // Update job posting to approved status
-      const { data, error } = await supabase
+      // Fetch the job posting before updating
+      const { data: jobPosting, error: fetchError } = await supabase
         .from("job-postings")
-        .update({ is_approved: true, is_rejected: false })
+        .select("*")
         .eq("id", id)
-        .select();
+        .single();
 
-      if (error) {
-        console.error("Update error:", error);
-        return res.status(500).json({ error: error.message, details: error });
+      if (fetchError) {
+        console.error("Fetch error:", fetchError);
+        return res.status(500).json({ error: fetchError.message });
       }
 
-      res.status(200).json({
-        message: "Job posting approved",
-        data: data,
-      });
+      // Update job posting to approved status
+      const { error: updateError } = await supabase
+        .from("job-postings")
+        .update({ is_approved: true, is_rejected: false })
+        .eq("id", id);
+
+      if (updateError) {
+        console.error("Update error:", updateError);
+        return res.status(500).json({ error: updateError.message });
+      }
+
+      if (jobPosting && jobPosting.notification_email) {
+        try {
+          await resend.emails.send({
+            from: "daniloleal09@gmail.com",
+            to: jobPosting.notification_email,
+            subject: "Your Job Listing Has Been Approved",
+            react: ApprovalEmail({
+              company: jobPosting.company,
+              title: jobPosting.title,
+            }),
+          });
+        } catch (emailError) {
+          console.error("Error sending approval email:", emailError);
+        }
+      }
+
+      res.status(200).json({ message: "Job posting approved" });
     } catch (error) {
       console.error("Unexpected error:", error);
       res.status(500).json({

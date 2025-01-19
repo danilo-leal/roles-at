@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const MigrateJobForm: React.FC = () => {
   const [url, setUrl] = useState("");
+  const [notificationEmail, setNotificationEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -16,7 +17,7 @@ const MigrateJobForm: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url, notification_email: notificationEmail }),
       });
 
       const data = await response.json();
@@ -24,6 +25,7 @@ const MigrateJobForm: React.FC = () => {
       if (response.ok) {
         setMessage("Job posting migrated successfully!");
         setUrl("");
+        setNotificationEmail("");
       } else {
         setMessage(`Error: ${data.error}`);
       }
@@ -52,6 +54,23 @@ const MigrateJobForm: React.FC = () => {
           required
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           placeholder="https://example.com/job-posting"
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="notificationEmail"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Notification Email
+        </label>
+        <input
+          type="email"
+          id="notificationEmail"
+          value={notificationEmail}
+          onChange={(e) => setNotificationEmail(e.target.value)}
+          required
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          placeholder="your@email.com"
         />
       </div>
       <button

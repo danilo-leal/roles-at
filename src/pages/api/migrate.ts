@@ -1,9 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { Resend } from "resend";
+import { SubmissionConfirmationEmail } from "@/components/Emails";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { v4 as uuidv4 } from "uuid";
 import { createSlug } from "@/utils/slugify";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Define the JobDetails type
 type JobDetails = {
@@ -17,6 +21,7 @@ type JobDetails = {
   is_open: boolean;
   created_at: string;
   application_link: string;
+  notification_email?: string;
 };
 
 export default async function handler(
@@ -26,10 +31,12 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const supabase = createPagesServerClient({ req, res });
-      const { url } = req.body;
+      const { url, notification_email } = req.body;
 
-      if (!url) {
-        return res.status(400).json({ error: "URL is required" });
+      if (!url || !notification_email) {
+        return res
+          .status(400)
+          .json({ error: "URL and notification email are required" });
       }
 
       console.log("Fetching URL:", url);
@@ -68,6 +75,7 @@ export default async function handler(
         salary_range: "N/A",
         is_open: true,
         created_at: new Date().toISOString(),
+        notification_email,
       };
 
       console.log("Extracted job details:", jobDetails);
@@ -97,6 +105,24 @@ export default async function handler(
       } = await supabase.auth.getSession();
       if (!session) {
         return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      if (jobDetails.notification_email) {
+        try {
+          const data = await resend.emails.send({
+            from: "Your Name <onboarding@resend.dev>", // Use your verified domain
+            to: jobDetails.notification_email,
+            subject: "Job Listing Submission Confirmation",
+            react: SubmissionConfirmationEmail({
+              company: jobDetails.company,
+              title: jobDetails.title,
+            }),
+          });
+
+          console.log("Email sent:", data);
+        } catch (error) {
+          console.error("Error sending email:", error);
+        }
       }
 
       // Insert the extracted job details into your database
