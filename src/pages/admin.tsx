@@ -16,6 +16,7 @@ type JobPosting = {
   location: string;
   is_approved: boolean;
   is_rejected: boolean;
+  application_link: string;
 };
 
 const AdminPage: React.FC = () => {

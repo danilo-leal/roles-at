@@ -17,6 +17,7 @@ export default async function handler(
       submitter_email,
       location,
       avatar_img,
+      application_link,
     } = req.body;
 
     // Validate input
@@ -40,7 +41,8 @@ export default async function handler(
           submitter_email,
           location,
           avatar_img,
-          is_approved: false, // Add this field to indicate it needs approval
+          is_approved: false,
+          application_link,
         },
       ])
       .select();
@@ -63,12 +65,10 @@ export default async function handler(
       // You might choose to notify the user even if email fails
     }
 
-    res
-      .status(201)
-      .json({
-        message: "Job posting submitted for approval",
-        data: jobPostingData,
-      });
+    res.status(201).json({
+      message: "Job posting submitted for approval",
+      data: jobPostingData,
+    });
   } else {
     res.setHeader("Allow", "POST");
     res.status(405).end("Method Not Allowed");

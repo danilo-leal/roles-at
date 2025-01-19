@@ -13,6 +13,7 @@ type Job = {
   salary_range: string;
   is_open: boolean;
   created_at: string;
+  application_link: string;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -72,6 +73,16 @@ const JobPage: React.FC<{ job: Job }> = ({ job }) => {
         >
           {job.is_open ? "Open" : "Closed"}
         </p>
+        {job.application_link && (
+          <a
+            href={job.application_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Apply for this position
+          </a>
+        )}
       </div>
     </div>
   );

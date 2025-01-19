@@ -16,6 +16,7 @@ type JobDetails = {
   salary_range: string;
   is_open: boolean;
   created_at: string;
+  application_link: string;
 };
 
 export default async function handler(
@@ -41,6 +42,7 @@ export default async function handler(
         },
       });
 
+      console.log("Full HTML content:", htmlContent);
       console.log("HTML content fetched successfully");
 
       // Parse the HTML content
@@ -61,12 +63,22 @@ export default async function handler(
           .trim(),
         title: $('[class*="JobListing_title"]').first().text().trim(),
         description: $('[class*="JobListing_sectionDetail"]').text().trim(),
+        application_link:
+          $('[class*="JobListing_applicationCTA"] a').attr("href") || "",
         salary_range: "N/A",
         is_open: true,
         created_at: new Date().toISOString(),
       };
 
       console.log("Extracted job details:", jobDetails);
+      console.log(
+        "Application link element:",
+        $('a[class*="JobListing_applicationCTA"]').length,
+      );
+      console.log(
+        "Application link href:",
+        $('a[class*="JobListing_applicationCTA"]').attr("href"),
+      );
 
       // Clean up the data
       Object.keys(jobDetails).forEach((key) => {

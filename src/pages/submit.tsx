@@ -11,6 +11,7 @@ export default function SubmitPage() {
   const [message, setMessage] = useState("");
   const [location, setLocation] = useState("");
   const [avatarImg, setAvatarImg] = useState("");
+  const [applicationLink, setApplicationLink] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +29,7 @@ export default function SubmitPage() {
         submitter_email: email,
         location,
         avatar_img: avatarImg,
+        application_link: applicationLink,
       }),
     });
 
@@ -96,6 +98,16 @@ export default function SubmitPage() {
             value={avatarImg}
             onChange={(e) => setAvatarImg(e.target.value)}
             className="w-full border p-2"
+          />
+        </div>
+        <div>
+          <label className="block">Application Link:</label>
+          <input
+            type="text"
+            value={applicationLink}
+            onChange={(e) => setApplicationLink(e.target.value)}
+            className="w-full border p-2"
+            placeholder="URL or instructions to apply"
           />
         </div>
         <div>

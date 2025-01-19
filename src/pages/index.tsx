@@ -14,6 +14,7 @@ type Job = {
   is_open: boolean;
   created_at: string;
   is_approved: boolean;
+  application_link: string;
 };
 
 export default function JobsPage() {
@@ -82,6 +83,17 @@ export default function JobsPage() {
               >
                 {job.is_open ? "Open" : "Closed"}
               </p>
+              {job.application_link && (
+                <a
+                  href={job.application_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Apply for this position
+                </a>
+              )}
             </div>
           </Link>
         ))
