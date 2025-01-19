@@ -4,8 +4,10 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/primitives/Navbar";
+import { Chip } from "@/components/primitives/Chip";
 import { Container } from "@/components/primitives/Container";
 import { formatDate } from "@/utils/data";
+import { Smiley, Heart } from "@phosphor-icons/react";
 
 type Job = {
   id: string;
@@ -54,41 +56,49 @@ export default function JobsPage() {
   return (
     <Container>
       <Navbar />
-      <h1 className="text-2xl font-bold mb-4">Job Listings</h1>
-      <div className="flex flex-col gap-5">
+      {/* <h1 className="text-2xl font-bold mb-4">Job Listings</h1> */}
+      <div className="py-8 flex flex-col gap-4">
         {jobs.length > 0 ? (
           jobs.map((job) => (
-            <Link href={`/${createSlug(job.company)}`} key={job.id}>
-              <div className="border default-border-color rounded-sm">
-                <div className="p-4 flex items-center gap-4">
-                  {job.avatar_img && (
-                    <Image
-                      src={job.avatar_img}
-                      alt={`${job.company} logo`}
-                      width={44}
-                      height={44}
-                      className="rounded-full shrink-0"
-                    />
-                  )}
-                  <div className="w-full flex flex-col">
-                    <div className="w-full flex justify-between">
-                      <h2 className="">{job.company}</h2>
-                      <p
-                        className={clsx(
-                          job.is_open ? "text-green-600" : "text-red-600",
-                        )}
-                      >
-                        {job.is_open ? "Open" : "Closed"}
-                      </p>
-                    </div>
-                    <p className="text-sm text-gray-600">{job.title}</p>
-                  </div>
+            <Link
+              href={`/${createSlug(job.company)}`}
+              key={job.id}
+              className={clsx(
+                "border default-border-color rounded-sm p-4 flex items-center gap-4",
+                "hover:bg-gray-100 dark:hover:bg-gray-800",
+              )}
+            >
+              {job.avatar_img && (
+                <Image
+                  src={job.avatar_img}
+                  alt={`${job.company} logo`}
+                  width={44}
+                  height={44}
+                  className="rounded-full shrink-0"
+                />
+              )}
+              <div className="w-full flex flex-col">
+                <div className="w-full flex items-center justify-between">
+                  <h2 className="">{job.company}</h2>
+                  <Chip color={job.is_open ? "green" : "red"} size="small">
+                    {job.is_open ? "Open" : "Closed"}
+                  </Chip>
                 </div>
-                <div className="px-4 py-3 border-t default-border-color flex">
-                  {job.location && (
-                    <p className="text-gray-600">Location: {job.location}</p>
-                  )}
-                  <p className="text-gray-600">{formatDate(job.created_at)}</p>
+                <div className="w-full flex justify-between">
+                  <p className="text-sm">{job.title}</p>
+                  <div className="flex gap-2">
+                    {job.location && (
+                      <p className="flex items-center gap-1 text-sm">
+                        <Smiley />
+                        {job.location}
+                      </p>
+                    )}
+                    <hr className="w-px h-full bg-gray-300" />
+                    <p className="flex items-center gap-1 text-sm">
+                      <Heart />
+                      {formatDate(job.created_at)}
+                    </p>
+                  </div>
                 </div>
               </div>
             </Link>
