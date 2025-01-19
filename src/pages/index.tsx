@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { createSlug } from "@/utils/slugify";
 import Image from "next/image";
 import Link from "next/link";
+import ReactMarkdown, { Components } from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import DOMPurify from "isomorphic-dompurify";
+import * as cheerio from "cheerio";
 
 type Job = {
   id: string;
@@ -21,6 +25,43 @@ export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const components: Components = {
+    h1: (props) => <h1 className="text-2xl font-bold my-4" {...props} />,
+    h2: (props) => <h2 className="text-xl font-semibold my-3" {...props} />,
+    p: (props) => <p className="my-2" {...props} />,
+    ul: (props) => <ul className="list-disc list-inside my-2" {...props} />,
+    ol: (props) => <ol className="list-decimal list-inside my-2" {...props} />,
+    li: (props) => <li className="flex" {...props} />,
+  };
+
+  const cleanHtml = (html: string) => {
+    const $ = cheerio.load(html);
+
+    // Remove <p> tags inside <li> tags
+    $("li p").each((_, elem) => {
+      const $elem = $(elem);
+      const htmlContent = $elem.html();
+      if (htmlContent !== null) {
+        $elem.replaceWith(htmlContent);
+      }
+    });
+
+    // Add more cleaning rules here as needed
+    // For example, to remove empty paragraphs:
+    $("p:empty").remove();
+
+    return $.html();
+  };
+
+  const sanitizeAndCleanHtml = (html: string) => {
+    if (typeof window === "undefined") {
+      // Server-side: just clean the HTML
+      return cleanHtml(html);
+    }
+    // Client-side: clean and sanitize
+    return DOMPurify.sanitize(cleanHtml(html));
+  };
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -76,7 +117,14 @@ export default function JobsPage() {
               <p className="text-gray-600">
                 Posted on: {new Date(job.created_at).toLocaleDateString()}
               </p>
-              <p className="mt-2 truncate">{job.description}</p>
+              <div className="mt-2">
+                <ReactMarkdown
+                  rehypePlugins={[rehypeRaw]}
+                  components={components}
+                >
+                  {sanitizeAndCleanHtml(job.description)}
+                </ReactMarkdown>
+              </div>
               <p className="mt-2">Salary: {job.salary_range}</p>
               <p
                 className={`mt-2 ${job.is_open ? "text-green-600" : "text-red-600"}`}

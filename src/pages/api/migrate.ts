@@ -24,6 +24,15 @@ type JobDetails = {
   notification_email?: string;
 };
 
+const extractJobDescription = ($: cheerio.CheerioAPI): string => {
+  const descriptionElement = $('[class*="RichTextEditor_text"]');
+  if (descriptionElement.length) {
+    // Preserve the HTML structure inside the RichTextEditor_text element
+    return descriptionElement.html() || "";
+  }
+  return "";
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -49,7 +58,6 @@ export default async function handler(
         },
       });
 
-      console.log("Full HTML content:", htmlContent);
       console.log("HTML content fetched successfully");
 
       // Parse the HTML content
@@ -69,7 +77,7 @@ export default async function handler(
           .text()
           .trim(),
         title: $('[class*="JobListing_title"]').first().text().trim(),
-        description: $('[class*="JobListing_sectionDetail"]').text().trim(),
+        description: extractJobDescription($),
         application_link:
           $('[class*="JobListing_applicationCTA"] a').attr("href") || "",
         salary_range: "N/A",
