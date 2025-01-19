@@ -20,7 +20,7 @@ export default function JobsPage() {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const response = await fetch("/api/jobs");
+      const response = await fetch("/api/");
       const data = await response.json();
       setJobs(data);
       setLoading(false);

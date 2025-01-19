@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MigrateJobForm from "@/components/MigrateJobForm";
 
 export default function SubmitPage() {
   const [company, setCompany] = useState("");
@@ -13,7 +14,7 @@ export default function SubmitPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch("/api/jobs/submit", {
+    const response = await fetch("/api/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,6 +47,11 @@ export default function SubmitPage() {
 
   return (
     <div className="container mx-auto p-4">
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Migrate Job Posting</h2>
+        <MigrateJobForm />
+      </section>
+
       <h1 className="text-2xl font-bold mb-4">Submit a Job Opening</h1>
       {message && <p className="mb-4">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">

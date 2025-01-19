@@ -95,8 +95,8 @@ export default async function handler(
       console.error("Unexpected error:", error);
       res.status(500).json({
         error: "An unexpected error occurred",
-        details: error.message,
-        stack: error.stack,
+        details: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
       });
     }
   } else {

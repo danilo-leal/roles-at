@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import MigrateJobForm from "@/components/MigrateJobForm";
 
 type Submission = {
   id: string;
@@ -49,7 +50,7 @@ const AdminPage: React.FC = () => {
   const handleApprove = async (submission: Submission) => {
     try {
       console.log("Sending approval request for submission:", submission);
-      const response = await fetch("/api/jobs/approve", {
+      const response = await fetch("/api/approve", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +82,7 @@ const AdminPage: React.FC = () => {
 
   const handleReject = async (submissionId: string) => {
     try {
-      const response = await fetch("/api/jobs/reject", {
+      const response = await fetch("/api/reject", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -157,6 +158,13 @@ const AdminPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
+
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Migrate Job Posting</h2>
+        <MigrateJobForm />
+      </section>
+
       <h1 className="text-2xl font-bold mb-4">Pending Job Submissions</h1>
       {submissions.length === 0 ? (
         <p>No submissions pending.</p>
