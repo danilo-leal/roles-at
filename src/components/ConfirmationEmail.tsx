@@ -29,7 +29,7 @@ export default function ConfirmationEmail({ company, title, email }: Props) {
               <strong>{title}</strong> at <strong>{company}</strong>. Our team
               will review your submission and approve it shortly. If you have
               any questions, feel free to reach out to us. Best regards, The
-              Team
+              Team. Sent to {email},
             </Text>
           </Section>
         </Container>

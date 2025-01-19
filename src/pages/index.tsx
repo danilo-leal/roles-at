@@ -5,7 +5,7 @@ type Job = {
   id: string;
   company: string;
   title: string;
-  desc: string;
+  description: string;
   salary_range: string;
   is_open: boolean;
   created_at: string;
@@ -41,7 +41,7 @@ export default function JobsPage() {
             <p className="text-gray-600">
               Posted on: {new Date(job.created_at).toLocaleDateString()}
             </p>
-            <p className="mt-2">{job.desc}</p>
+            <p className="mt-2">{job.description}</p>
             <p className="mt-2">Salary: {job.salary_range}</p>
             <p
               className={`mt-2 ${job.is_open ? "text-green-600" : "text-red-600"}`}

@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function SubmitPage() {
   const [company, setCompany] = useState("");
   const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -19,7 +19,7 @@ export default function SubmitPage() {
       body: JSON.stringify({
         company,
         title,
-        desc,
+        description,
         salary_range: salaryRange,
         submitter_email: email,
       }),
@@ -32,7 +32,7 @@ export default function SubmitPage() {
       // Clear form
       setCompany("");
       setTitle("");
-      setDesc("");
+      setDescription("");
       setSalaryRange("");
       setEmail("");
     } else {
@@ -68,8 +68,8 @@ export default function SubmitPage() {
         <div>
           <label className="block">Description:</label>
           <textarea
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
             className="w-full border p-2"
           />
