@@ -1,20 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  console.log("API route hit"); // Add this line
+  console.log("API route hit");
   if (req.method === "POST") {
-    let supabase;
     try {
-      console.log("Request body:", req.body); // Add this line
+      console.log("Request body:", req.body);
 
-      // Create a Supabase client for the server
-      supabase = createServerSupabaseClient({ req, res });
+      const supabase = createPagesServerClient({ req, res });
 
-      // Check if the user is authenticated
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -39,9 +36,9 @@ export default async function handler(
         salary_range,
       });
 
-      // Insert into job_postings
+      // Insert into job-postings
       const { data: insertData, error: insertError } = await supabase
-        .from("job_postings")
+        .from("job-postings") // Note the hyphen here
         .insert([
           {
             company,
@@ -54,7 +51,9 @@ export default async function handler(
 
       if (insertError) {
         console.error("Insert error:", insertError);
-        return res.status(500).json({ error: insertError.message });
+        return res
+          .status(500)
+          .json({ error: insertError.message, details: insertError });
       }
 
       console.log("Job posting inserted successfully:", insertData);
@@ -69,7 +68,9 @@ export default async function handler(
 
       if (deleteError) {
         console.error("Delete error:", deleteError);
-        return res.status(500).json({ error: deleteError.message });
+        return res
+          .status(500)
+          .json({ error: deleteError.message, details: deleteError });
       }
 
       console.log("Submission deleted successfully");

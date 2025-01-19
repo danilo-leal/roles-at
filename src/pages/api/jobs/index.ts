@@ -8,7 +8,7 @@ export default async function handler(
   if (req.method === "GET") {
     // Fetch approved job postings
     const { data, error } = await supabase
-      .from("job_postings")
+      .from("job-postings")
       .select("*")
       .order("created_at", { ascending: false });
 
