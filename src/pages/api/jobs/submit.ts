@@ -1,45 +1,56 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { createClient } from "@supabase/supabase-js";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { supabase } from '@/lib/supabaseClient';
+import { resend } from '@/lib/resend';
+import { render } from '@react-email';
+import ConfirmationEmail from '@/components/ConfirmationEmail';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  if (req.method === "POST") {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
     const { company, title, desc, salary_range, submitter_email } = req.body;
 
     // Validate input
     if (!company || !title || !desc || !submitter_email) {
-      console.log("Missing fields:", { company, title, desc, submitter_email });
-      res.status(400).json({ error: "Missing required fields" });
+      res.status(400).json({ error: 'Missing required fields' });
       return;
     }
 
     // Insert into submissions table
-    const { data, error } = await supabase.from("submissions").insert([
-      {
-        company,
-        title,
-        desc,
-        salary_range,
-        submitter_email,
-      },
-    ]);
+    const { data, error } = await supabase
+      .from('submissions')
+      .insert([
+        {
+          company,
+          title,
+          description: desc,
+          salary_range,
+          submitter_email,
+        },
+      ]);
 
     if (error) {
-      console.error("Supabase error:", error);
       res.status(500).json({ error: error.message });
       return;
     }
 
-    res.status(201).json({ message: "Submission received", data });
+    // Render the email HTML
+    const emailHtml = render(<ConfirmationEmail company={company} title={title} email={submitter_email} />);
+
+    // Send the email using Resend
+    try {
+      await resend.emails.send({
+        from: 'your-email@example.com', // Replace with your verified sender
+        to: submitter_email,
+        subject: 'Job Submission Received',
+        html: emailHtml,
+      });
+    } catch (emailError: any) {
+      console.error('Error sending email:', emailError);
+      // You might choose to notify the user even if email fails
+    }
+
+    res.status(201).json({ message: 'Submission received', data });
   } else {
-    res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+    res.setHeader('Allow', 'POST');
+    res.status(405).end('Method Not Allowed');
   }
 }

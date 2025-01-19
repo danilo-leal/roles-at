@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import { supabase } from "@/pages/lib/supabaseClient";
+// import { supabase } from "@/lib/supabaseClient";
 
 type Job = {
   id: string;
