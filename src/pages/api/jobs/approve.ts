@@ -45,6 +45,8 @@ export default async function handler(
             title,
             description,
             salary_range,
+            location,
+            avatar_img,
           },
         ])
         .select();
@@ -75,21 +77,17 @@ export default async function handler(
 
       console.log("Submission deleted successfully");
 
-      res
-        .status(200)
-        .json({
-          message: "Job approved and moved to postings",
-          data: insertData,
-        });
+      res.status(200).json({
+        message: "Job approved and moved to postings",
+        data: insertData,
+      });
     } catch (error) {
       console.error("Unexpected error:", error);
-      res
-        .status(500)
-        .json({
-          error: "An unexpected error occurred",
-          details: error.message,
-          stack: error.stack,
-        });
+      res.status(500).json({
+        error: "An unexpected error occurred",
+        details: error.message,
+        stack: error.stack,
+      });
     }
   } else {
     res.setHeader("Allow", "POST");

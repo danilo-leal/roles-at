@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 type Submission = {
@@ -9,6 +10,8 @@ type Submission = {
   salary_range: string;
   submitter_email: string;
   submitted_at: string;
+  avatar_img: string;
+  location: string;
 };
 
 const AdminPage: React.FC = () => {
@@ -159,6 +162,15 @@ const AdminPage: React.FC = () => {
           <div key={submission.id} className="border p-4 mb-4 rounded">
             <h2 className="text-xl font-semibold">{submission.title}</h2>
             <p className="text-gray-600">Company: {submission.company}</p>
+            <p className="text-gray-600">Location: {submission.location}</p>
+            <Image
+              src={`https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_2.0/v1/1/profilePhotos/${submission.avatar_img}`}
+              unoptimized
+              alt={`${submission.company} logo`}
+              width={64}
+              height={64}
+              className="mb-2"
+            />
             <p className="text-gray-600">
               Submitted on:{" "}
               {new Date(submission.submitted_at).toLocaleDateString()}

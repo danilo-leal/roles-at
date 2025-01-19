@@ -7,6 +7,8 @@ export default function SubmitPage() {
   const [salaryRange, setSalaryRange] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [location, setLocation] = useState("");
+  const [avatarImg, setAvatarImg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +24,8 @@ export default function SubmitPage() {
         description,
         salary_range: salaryRange,
         submitter_email: email,
+        location,
+        avatar_img: avatarImg,
       }),
     });
 
@@ -62,6 +66,24 @@ export default function SubmitPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
+            className="w-full border p-2"
+          />
+        </div>
+        <div>
+          <label className="block">Location:</label>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="w-full border p-2"
+          />
+        </div>
+        <div>
+          <label className="block">Company Avatar URL:</label>
+          <input
+            type="text"
+            value={avatarImg}
+            onChange={(e) => setAvatarImg(e.target.value)}
             className="w-full border p-2"
           />
         </div>

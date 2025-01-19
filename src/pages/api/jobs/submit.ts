@@ -8,8 +8,15 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { company, title, description, salary_range, submitter_email } =
-      req.body;
+    const {
+      company,
+      title,
+      description,
+      salary_range,
+      submitter_email,
+      location,
+      avatar_img,
+    } = req.body;
 
     // Validate input
     if (!company || !title || !description || !submitter_email) {
@@ -27,6 +34,8 @@ export default async function handler(
           description,
           salary_range,
           submitter_email,
+          location,
+          avatar_img,
         },
       ]);
 

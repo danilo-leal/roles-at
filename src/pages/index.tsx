@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 // import { supabase } from "@/lib/supabaseClient";
 
 type Job = {
   id: string;
   company: string;
+  avatar_img: string;
+  location: string;
   title: string;
   description: string;
   salary_range: string;
@@ -36,8 +39,20 @@ export default function JobsPage() {
       {Array.isArray(jobs) && jobs.length > 0 ? (
         jobs.map((job) => (
           <div key={job.id} className="border p-4 mb-4 rounded">
+            {job.avatar_img && (
+              <Image
+                src={job.avatar_img}
+                alt={`${job.company} logo`}
+                width={64}
+                height={64}
+                className="mb-2"
+              />
+            )}
             <h2 className="text-xl font-semibold">{job.title}</h2>
             <p className="text-gray-600">Company: {job.company}</p>
+            {job.location && (
+              <p className="text-gray-600">Location: {job.location}</p>
+            )}
             <p className="text-gray-600">
               Posted on: {new Date(job.created_at).toLocaleDateString()}
             </p>
