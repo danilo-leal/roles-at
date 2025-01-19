@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
-import { resend } from "@/lib/resend";
+import { Resend } from "resend";
 import { RejectionEmail } from "@/components/Emails";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(
   req: NextApiRequest,
@@ -49,18 +51,27 @@ export default async function handler(
       }
 
       if (jobPosting && jobPosting.notification_email) {
-        try {
-          await resend.emails.send({
-            from: "daniloleal09@gmail.com",
-            to: jobPosting.notification_email,
-            subject: "Update on Your Job Listing Submission",
-            react: RejectionEmail({
-              company: jobPosting.company,
-              title: jobPosting.title,
-            }),
-          });
-        } catch (emailError) {
-          console.error("Error sending rejection email:", emailError);
+        if (!process.env.RESEND_API_KEY) {
+          console.error("Resend API key is not set");
+        } else {
+          try {
+            const result = await resend.emails.send({
+              from: "daniloleal09@gmail.com", // Use Resend's default domain for testing
+              to: jobPosting.notification_email,
+              subject: "Your Job Listing Has Been Repproved", // or "Update on Your Job Listing Submission" for reject
+              react: RejectionEmail({
+                // or RejectionEmail for reject
+                company: jobPosting.company,
+                title: jobPosting.title,
+              }),
+            });
+            console.log("Email sent successfully:", result);
+          } catch (emailError) {
+            console.error("Error sending email:", emailError);
+            if (emailError instanceof Error) {
+              console.error("Error details:", emailError.message);
+            }
+          }
         }
       }
 
