@@ -153,14 +153,13 @@ export default function SubmitPage() {
     <ContainerTransition>
       <Navbar />
       <h2 className="text-xl font-semibold mb-2">How does it work?</h2>
-      <p className="text-sm default-p-color mb-1">
-        Thank you wanting to submit a job posting to our platform! It&apos;s a
-        simple flow:
+      <p className="text-sm default-p-color mb-2 leading-6">
+        First of all, thank you for wanting to submit a job posting to our
+        platform! We&apos;re hoping it breeds into a thriving place to find good
+        work. Our opening submission flow is quite simple:
       </p>
-      <ul className="list-disc pl-6 default-p-color text-sm flex flex-col gap-0.5">
-        <li>
-          Choose the submission method: direct form or via Read.cv migration.
-        </li>
+      <ul className="list-disc pl-6 default-p-color text-sm flex flex-col gap-0.5 leading-6">
+        <li>Choose the method: via direct form or via Read.cv migration.</li>
         <li>
           We&apos;ll review your entry and notify you via email about whether it
           has been approved or rejected.
@@ -173,10 +172,10 @@ export default function SubmitPage() {
       <SectionDivider />
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Migration From Read.cv</h2>
-        <p className="text-sm default-p-color mb-4">
-          To have a job posting previously or currently listed on Read.cv
-          transferred here, simply provide the URL of the job posting on
-          Read.cv, and we&apos;ll crawl the data.
+        <p className="text-sm default-p-color leading-6 mb-4">
+          To migrate a listing that is opened and active on Read.cv to here,
+          simply provide its URL and add an email so you can be notified about
+          its status.
         </p>
         <MigrateJobForm />
       </section>

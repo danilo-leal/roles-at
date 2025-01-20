@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { createSlug } from "@/utils/slugify";
-import { motion } from "motion/react";
+
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import Image from "next/image";
@@ -13,12 +13,7 @@ import { Input, InputGroup } from "@/components/primitives/Input";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { JobDetailsDialog } from "@/components/JobDetailsDialog";
 import { formatDate } from "@/utils/date";
-import {
-  MapPin,
-  Clock,
-  MagnifyingGlass,
-  ArrowBendDoubleUpRight,
-} from "@phosphor-icons/react";
+import { MapPin, Clock, MagnifyingGlass } from "@phosphor-icons/react";
 
 export type Job = {
   id: string;
@@ -132,11 +127,13 @@ export default function JobsPage() {
     <div className="py-2 flex flex-col gap-3">
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
-          <div
+          <button
             key={job.id}
+            type="button"
+            aria-label={`Apply for ${job.title} at ${job.company}`}
             onClick={() => handleJobClick(job)}
             className={clsx(
-              "group rounded-lg p-4 flex items-center gap-4",
+              "group cursor-pointer rounded-lg p-4 flex items-center gap-4",
               "border default-border-color dark:hover:!border-orange-300/40",
               "hover:bg-zinc-100 dark:hover:bg-zinc-800/20",
               "hover:[box-shadow:5px_5px_0_hsla(26,_90%,_40%,_0.1)]",
@@ -155,8 +152,8 @@ export default function JobsPage() {
             <div className="w-full flex flex-col">
               <div className="w-full flex items-center justify-between">
                 <h2 className="font-medium">{job.company}</h2>
-                <p className="shrink-0 flex items-center gap-1 text-xs pb-1 dark:text-zinc-500">
-                  <Clock size={10} />
+                <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
+                  <Clock size={12} />
                   {formatDate(job.created_at)}
                 </p>
               </div>
@@ -172,16 +169,7 @@ export default function JobsPage() {
                 )}
               </div>
             </div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.2, delay: 0.1 }}
-              className="hidden group-hover:flex dark:bg-orange-500/20 border border-orange-500/50 text-orange-200 rounded-full items-center justify-center shrink-0 size-10"
-            >
-              <ArrowBendDoubleUpRight />
-            </motion.div>
-          </div>
+          </button>
         ))
       ) : (
         <p>No matching jobs found</p>
@@ -197,7 +185,7 @@ export default function JobsPage() {
       <SectionDivider />
       <hgroup className="w-full flex items-center justify-between mb-3">
         <h1 className="text-xl font-bold">Find Your Next Role</h1>
-        <p className="text-sm dark:text-zinc-500">
+        <p className="text-xs font-mono dark:text-zinc-500">
           {filteredJobs.length} Open Roles
         </p>
       </hgroup>
@@ -213,7 +201,7 @@ export default function JobsPage() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <span className="absolute inset-y-0 right-4 flex items-center gap-1">
+        <span className="hidden absolute inset-y-0 right-4 sm:flex items-center gap-1">
           <Kbd char="⌘" />
           <Kbd char="I" />
         </span>

@@ -32,6 +32,7 @@ body {
 }
 
 @theme {
+  --font-mono: Commit Mono;
   /* --color-background: oklch(100% 0 0);
   --color-background-secondary: oklch(95% 0 0);
 
