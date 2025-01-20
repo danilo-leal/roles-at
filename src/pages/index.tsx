@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { createSlug } from "@/utils/slugify";
 import { motion } from "motion/react";
+import { useRouter } from "next/router";
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
 import { Navbar } from "@/components/primitives/Navbar";
 import { Chip } from "@/components/primitives/Chip";
 import { ContainerTransition } from "@/components/primitives/Container";
@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/primitives/Skeleton";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
 import { Kbd } from "@/components/primitives/Keybinding";
+import { JobDetailsDialog } from "@/components/JobDetailsDialog";
 import { formatDate } from "@/utils/data";
 import {
   MapPin,
@@ -19,7 +20,7 @@ import {
   ArrowBendDoubleUpRight,
 } from "@phosphor-icons/react";
 
-type Job = {
+export type Job = {
   id: string;
   company: string;
   avatar_img: string;
@@ -40,6 +41,9 @@ export default function JobsPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -92,6 +96,30 @@ export default function JobsPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const { company } = router.query;
+    if (company && typeof company === "string") {
+      const job = jobs.find((j) => createSlug(j.company) === company);
+      if (job) {
+        setSelectedJob(job);
+        setIsDialogOpen(true);
+      }
+    }
+  }, [router.query, jobs]);
+
+  const handleJobClick = (job: Job) => {
+    setSelectedJob(job);
+    setIsDialogOpen(true);
+    router.push(`/?company=${createSlug(job.company)}`, undefined, {
+      shallow: true,
+    });
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setSelectedJob(null);
+  };
+
   const renderLoading = () => (
     <div className="py-2 flex flex-col gap-2">
       {Array.from({ length: 10 }).map((_, index) => (
@@ -104,9 +132,9 @@ export default function JobsPage() {
     <div className="py-2 flex flex-col gap-3">
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
-          <Link
-            href={`/${createSlug(job.company)}`}
+          <div
             key={job.id}
+            onClick={() => handleJobClick(job)}
             className={clsx(
               "group rounded-lg p-4 flex items-center gap-4",
               "border default-border-color dark:hover:!border-orange-300/40",
@@ -153,7 +181,7 @@ export default function JobsPage() {
             >
               <ArrowBendDoubleUpRight />
             </motion.div>
-          </Link>
+          </div>
         ))
       ) : (
         <p>No matching jobs found</p>
@@ -191,6 +219,11 @@ export default function JobsPage() {
         </span>
       </InputGroup>
       {loading ? renderLoading() : renderContent()}
+      <JobDetailsDialog
+        job={selectedJob}
+        isOpen={isDialogOpen}
+        onClose={handleCloseDialog}
+      />
     </ContainerTransition>
   );
 }

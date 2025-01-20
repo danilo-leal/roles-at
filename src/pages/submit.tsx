@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { Navbar } from "@/components/primitives/Navbar";
 import { Button } from "@/components/primitives/Button";
-import { Divider, SectionDivider } from "@/components/primitives/Divider";
+import { SectionDivider } from "@/components/primitives/Divider";
 import { Description, Field, Label } from "@/components/primitives/Fieldset";
 import { Input } from "@/components/primitives/Input";
 import { Textarea } from "@/components/primitives/Textarea";

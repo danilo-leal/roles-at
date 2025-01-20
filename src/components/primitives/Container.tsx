@@ -15,7 +15,7 @@ export function Container({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}
-      className={clsx("min-h-screen relative flex flex-col", className)}
+      className={clsx("min-h-screen relative isolate flex flex-col", className)}
     >
       <MeshGradient
         color1="#fb923c"
@@ -30,7 +30,7 @@ export function Container({
           maskImage: "linear-gradient(to bottom, #ffffffad, transparent",
         }}
       />
-      <div className="z-10 max-w-[740px] size-full mx-auto mb-auto mt-0 px-4 flex flex-col pb-4">
+      <div className="max-w-[740px] size-full mx-auto mb-auto mt-0 px-4 flex flex-col pb-4">
         {children}
       </div>
       <MeshGradient
