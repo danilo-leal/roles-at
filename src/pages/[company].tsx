@@ -109,9 +109,9 @@ const JobPage: React.FC<{ job: Job }> = ({ job }) => {
         <h1 className="text-2xl font-bold mb-2">{job.title}</h1>
         <h2 className="text-xl mb-2">{job.company}</h2>
         {job.location && (
-          <p className="text-gray-600 mb-2">Location: {job.location}</p>
+          <p className="text-zinc-600 mb-2">Location: {job.location}</p>
         )}
-        <p className="text-gray-600 mb-2">
+        <p className="text-zinc-600 mb-2">
           Posted on: {new Date(job.created_at).toLocaleDateString()}
         </p>
         <div className="mt-2">

@@ -1,23 +1,11 @@
 import * as React from "react";
+import Link from "next/link";
 import clsx from "clsx";
-// import Link from "next/link";
-// import * as Tooltip from "@radix-ui/react-tooltip";
-// import ScrollBar from "./ScrollBar";
-// import DarkModeButton from "./DarkModeButton";
 import { Button } from "@/components/primitives/Button";
-// import MenuButton from "./MenuButton";
-// import Logo from "./Logo";
-// import CommandKButton from "./CommandKButton";
-// import { KbdTag } from "@/components/atoms/Keybinding";
-// import { ArrowLeft } from "lucide-react";
+import { Tooltip } from "@/components/primitives/Tooltip";
+import { Kbd } from "@/components/primitives/Keybinding";
 import { useTheme } from "next-themes";
-
-const navElement = clsx(
-  "p-2.5 backdrop-blur-md w-full m-auto max-w-[920px]",
-  "flex justify-between items-center rounded-none sm:rounded-full",
-  "bg-white/60 dark:bg-black/30",
-  "border-b sm:border border-gray-300/50 dark:border-gray-400/10",
-);
+import { Sun, Moon } from "@phosphor-icons/react";
 
 // function JumpToContent() {
 //   return (
@@ -61,21 +49,39 @@ export function Navbar() {
 
   return (
     <header>
-      <nav className={navElement}>
+      <nav
+        className={clsx(
+          "py-8 isolate w-full",
+          "flex justify-between items-center rounded-none sm:rounded-full",
+          // "bg-white/60 dark:bg-black/30",
+          // "border-b sm:border border-zinc-300/50 dark:border-zinc-400/10",
+        )}
+      >
         {/* <Logo /> */}
         {/* <JumpToContent /> */}
         <div className="flex items-center gap-2.5">
-          <p>Home</p>
-          <p>About</p>
-          <Button variant="outline" size="sm" onClick={toggleTheme}>
-            Submit Opening
-          </Button>
-          <Button variant="outline" size="sm" onClick={toggleTheme}>
-            Toggle Theme
-          </Button>
-          {/* <MenuButton /> */}
-          {/* <CommandKButton /> */}
-          {/* <DarkModeButton /> */}
+          <Link href="/">Home</Link>
+          <Link href="/">About</Link>
+          <Link href="/admin">Admin</Link>
+        </div>
+        <div className="flex items-center gap-2.5">
+          <Tooltip
+            trigger={
+              <Button square onClick={toggleTheme}>
+                {theme === "dark" ? <Sun /> : <Moon />}
+              </Button>
+            }
+            content={
+              <div className="flex items-center gap-2">
+                Toggle Mode
+                <span className="flex items-center gap-1">
+                  <Kbd char="⌘" />
+                  <Kbd char="J" />
+                </span>
+              </div>
+            }
+          />
+          <Button href="/submit">Submit Opening</Button>
         </div>
       </nav>
     </header>

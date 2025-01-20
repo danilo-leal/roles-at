@@ -7,7 +7,7 @@ import { Navbar } from "@/components/primitives/Navbar";
 import { Chip } from "@/components/primitives/Chip";
 import { Container } from "@/components/primitives/Container";
 import { formatDate } from "@/utils/data";
-import { Smiley, Heart } from "@phosphor-icons/react";
+import { MapPin, Clock } from "@phosphor-icons/react";
 
 type Job = {
   id: string;
@@ -50,22 +50,25 @@ export default function JobsPage() {
     fetchJobs();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Container>Loading...</Container>;
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <Container>
       <Navbar />
       {/* <h1 className="text-2xl font-bold mb-4">Job Listings</h1> */}
-      <div className="py-8 flex flex-col gap-4">
+      <div className="py-2 flex flex-col gap-2">
         {jobs.length > 0 ? (
           jobs.map((job) => (
             <Link
               href={`/${createSlug(job.company)}`}
               key={job.id}
               className={clsx(
-                "border default-border-color rounded-sm p-4 flex items-center gap-4",
-                "hover:bg-gray-100 dark:hover:bg-gray-800",
+                "rounded-sm p-4 flex items-center gap-4",
+                "border default-border-color dark:hover:!border-zinc-700",
+                "hover:bg-zinc-100 dark:hover:bg-zinc-800/20",
+                "dark:hover:shadow-lg",
+                "transition-colors duration-100",
               )}
             >
               {job.avatar_img && (
@@ -79,26 +82,27 @@ export default function JobsPage() {
               )}
               <div className="w-full flex flex-col">
                 <div className="w-full flex items-center justify-between">
-                  <h2 className="">{job.company}</h2>
-                  <Chip color={job.is_open ? "green" : "red"} size="small">
-                    {job.is_open ? "Open" : "Closed"}
-                  </Chip>
+                  <div className="w-full flex items-center gap-2">
+                    <h2 className="font-medium">{job.company}</h2>
+                    <Chip color={job.is_open ? "green" : "red"} size="small">
+                      {job.is_open ? "Open" : "Closed"}
+                    </Chip>
+                  </div>
+                  <p className="shrink-0 flex items-center gap-1 text-sm dark:text-zinc-500">
+                    <Clock />
+                    {formatDate(job.created_at)}
+                  </p>
                 </div>
                 <div className="w-full flex justify-between">
-                  <p className="text-sm">{job.title}</p>
-                  <div className="flex gap-2">
-                    {job.location && (
-                      <p className="flex items-center gap-1 text-sm">
-                        <Smiley />
-                        {job.location}
-                      </p>
-                    )}
-                    <hr className="w-px h-full bg-gray-300" />
-                    <p className="flex items-center gap-1 text-sm">
-                      <Heart />
-                      {formatDate(job.created_at)}
+                  <p className="text-sm text-zinc-700 dark:text-zinc-500">
+                    {job.title}
+                  </p>
+                  {job.location && (
+                    <p className="flex items-center gap-1 text-sm dark:text-zinc-500">
+                      <MapPin />
+                      <span className="">{job.location}</span>
                     </p>
-                  </div>
+                  )}
                 </div>
               </div>
             </Link>

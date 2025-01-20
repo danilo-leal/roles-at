@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MigrateJobForm from "@/components/MigrateJobForm";
-import Link from "next/link";
+import { Navbar } from "@/components/primitives/Navbar";
+import { Container } from "@/components/primitives/Container";
 
 export default function SubmitPage() {
   const [company, setCompany] = useState("");
@@ -67,21 +68,18 @@ export default function SubmitPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex gap-2 mb-8">
-        <Link href="/">Home</Link>
-        <Link href="/admin">Admin</Link>
-      </div>
+    <Container>
+      <Navbar />
+
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Migrate Job Posting</h2>
         <MigrateJobForm />
       </section>
-
       <h1 className="text-2xl font-bold mb-4">Submit a Job Opening</h1>
-      {message && <p className="mb-4 text-sm text-gray-600">{message}</p>}
+      {message && <p className="mb-4 text-sm text-zinc-600">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-zinc-700">
             Company:
           </label>
           <input
@@ -89,11 +87,11 @@ export default function SubmitPage() {
             value={company}
             onChange={(e) => setCompany(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-zinc-700">
             Job Title:
           </label>
           <input
@@ -101,68 +99,68 @@ export default function SubmitPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-zinc-700">
             Location:
           </label>
           <input
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-zinc-700">
             Company Avatar URL:
           </label>
           <input
             type="text"
             value={avatarImg}
             onChange={(e) => setAvatarImg(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-zinc-700">
             Application Link:
           </label>
           <input
             type="text"
             value={applicationLink}
             onChange={(e) => setApplicationLink(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="URL or instructions to apply"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-zinc-700">
             Description:
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             rows={4}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-zinc-700">
             Salary Range:
           </label>
           <input
             type="text"
             value={salaryRange}
             onChange={(e) => setSalaryRange(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-zinc-700">
             Notification Email:
           </label>
           <input
@@ -170,7 +168,7 @@ export default function SubmitPage() {
             value={notificationEmail}
             onChange={(e) => setNotificationEmail(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <button
@@ -181,6 +179,6 @@ export default function SubmitPage() {
           {isLoading ? "Submitting..." : "Submit Job Posting"}
         </button>
       </form>
-    </div>
+    </Container>
   );
 }

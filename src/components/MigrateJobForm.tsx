@@ -48,7 +48,7 @@ const MigrateJobForm: React.FC = () => {
       <div>
         <label
           htmlFor="url"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-zinc-700"
         >
           Job Posting URL
         </label>
@@ -58,14 +58,14 @@ const MigrateJobForm: React.FC = () => {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-zinc-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           placeholder="https://example.com/job-posting"
         />
       </div>
       <div>
         <label
           htmlFor="notificationEmail"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-zinc-700"
         >
           Notification Email
         </label>
@@ -75,7 +75,7 @@ const MigrateJobForm: React.FC = () => {
           value={notificationEmail}
           onChange={(e) => setNotificationEmail(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-zinc-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           placeholder="your@email.com"
         />
       </div>
@@ -86,7 +86,7 @@ const MigrateJobForm: React.FC = () => {
       >
         {isLoading ? "Migrating..." : "Migrate Job Posting"}
       </button>
-      {message && <p className="mt-2 text-sm text-gray-600">{message}</p>}
+      {message && <p className="mt-2 text-sm text-zinc-600">{message}</p>}
     </form>
   );
 };

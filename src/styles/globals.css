@@ -45,12 +45,12 @@ body {
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-zinc-200, currentColor);
   }
 }
 
 @layer utility {
   .default-border-color {
-    @apply border-gray-200/60 dark:border-gray-600/20;
+    @apply border-zinc-200/60 dark:border-zinc-600/20;
   }
 }
