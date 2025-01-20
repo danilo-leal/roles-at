@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Job } from "@/types/job";
 import { Navbar } from "@/components/primitives/Navbar";
 import { ContainerTransition } from "@/components/primitives/Container";
+import { SectionDivider } from "@/components/primitives/Divider";
 import { Button } from "@/components/primitives/Button";
 import { formatDate } from "@/utils/date";
 import ReactMarkdown, { Components } from "react-markdown";
@@ -99,6 +100,7 @@ export default function CompanyPage({ job }: { job: Job }) {
   return (
     <ContainerTransition>
       <Navbar />
+      <SectionDivider type="alternative" />
       <div className="pb-6 mb-6 border-b default-border-color">
         <div className="flex items-center gap-4 mb-4">
           {job.avatar_img && (
