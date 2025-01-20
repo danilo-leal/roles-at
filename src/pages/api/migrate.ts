@@ -123,9 +123,9 @@ export default async function handler(
       if (jobDetails.notification_email) {
         try {
           const emailData = await resend.emails.send({
-            from: "Your Name <onboarding@resend.dev>", // Use your verified domain
+            from: "Danilo from Roles.at <onboarding@resend.dev>",
             to: jobDetails.notification_email,
-            subject: "Job Listing Submission Confirmation",
+            subject: "Roles.at: Job Listing Submitted",
             react: SubmissionConfirmationEmail({
               company: jobDetails.company,
               title: jobDetails.title,

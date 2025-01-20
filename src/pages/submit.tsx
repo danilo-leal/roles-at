@@ -170,7 +170,7 @@ export default function SubmitPage() {
         </li>
       </ul>
       <SectionDivider />
-      <section className="mb-8">
+      <section>
         <h2 className="text-xl font-semibold mb-2">Migration From Read.cv</h2>
         <p className="text-sm default-p-color leading-6 mb-4">
           To migrate a listing that is opened and active on Read.cv to here,
@@ -183,7 +183,7 @@ export default function SubmitPage() {
       <h2 className="text-xl font-semibold mb-2">Direct Form</h2>
       {message && <p className="mb-4 text-sm text-zinc-600">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Field>
             <Label>Company</Label>
             <Input
@@ -205,7 +205,7 @@ export default function SubmitPage() {
             />
           </Field>
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Field>
             <Label>Location</Label>
             <Input

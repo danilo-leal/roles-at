@@ -89,9 +89,9 @@ export function JobDetailsDialog({
         />
         <Dialog.Popup
           className={clsx(
-            "fixed top-1/2 left-1/2 -mt-8",
-            "-translate-x-1/2 -translate-y-1/2 rounded-lg",
-            "w-[700px] max-h-[700px] overflow-clip",
+            "fixed bottom-0 sm:top-1/2 left-1/2 -mt-8",
+            "-translate-x-1/2 sm:-translate-y-1/2 rounded-b-none sm:rounded-b-lg rounded-t-lg",
+            "w-full sm:w-[700px] max-h-[80vh] sm:max-h-[700px] overflow-clip",
             "bg-gray-50 text-gray-900",
             "dark:bg-neutral-950 text-gray-900",
             "border default-border-color",
@@ -158,12 +158,13 @@ export function JobDetailsDialog({
               </div>
             </Dialog.Description>
             {job.application_link && (
-              <div className="dark:bg-neutral-950 w-full border-t default-border-color flex p-4 justify-end default-p-color">
+              <div className="dark:bg-neutral-950 w-full border-t default-border-color flex p-4 sm:justify-end default-p-color">
                 <Button
                   href={job.application_link}
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="primary"
+                  className="w-full sm:w-fit"
                 >
                   Apply for this position
                 </Button>

@@ -55,9 +55,9 @@ export default async function handler(
       // Send the email using Resend
       try {
         await resend.emails.send({
-          from: "daniloleal09@gmail.com",
+          from: "Danilo from Roles.at <onboarding@resend.dev>",
           to: notification_email,
-          subject: "Job Listing Submission Confirmation",
+          subject: "Roles.at: Job Listing Submitted",
           react: SubmissionConfirmationEmail({ company, title }),
         });
       } catch (emailError) {

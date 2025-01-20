@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import { motion } from "motion/react";
+import { Footer } from "@/components/primitives/Footer";
 import { MeshGradient } from "@paper-design/shaders-react";
 
 export function Container({
@@ -47,6 +48,7 @@ export function Container({
           maskImage: "linear-gradient(to top, #ffffffad, transparent",
         }}
       />
+      <Footer />
     </motion.div>
   );
 }

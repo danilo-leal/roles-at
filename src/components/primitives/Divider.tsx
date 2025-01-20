@@ -1,6 +1,8 @@
-export function SectionDivider() {
+import clsx from "clsx";
+
+export function SectionDivider({ className }: { className?: string }) {
   return (
-    <div className="py-8 flex justify-center">
+    <div className={clsx("py-12 flex justify-center", className)}>
       <svg
         width="353"
         viewBox="0 0 353 31"
@@ -17,8 +19,13 @@ export function SectionDivider() {
   );
 }
 
-export function Divider() {
+export function Divider({ className }: { className?: string }) {
   return (
-    <hr className="w-full my-8 h-px border-t default-border-color bg-none" />
+    <hr
+      className={clsx(
+        "w-full my-8 h-px border-t default-border-color bg-none",
+        className,
+      )}
+    />
   );
 }
