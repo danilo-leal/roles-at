@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { createSlug } from "@/utils/slugify";
-
+import { Job } from "@/types/job";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import Image from "next/image";
@@ -14,20 +14,6 @@ import { Kbd } from "@/components/primitives/Keybinding";
 import { JobDetailsDialog } from "@/components/JobDetailsDialog";
 import { formatDate } from "@/utils/date";
 import { MapPin, Clock, MagnifyingGlass } from "@phosphor-icons/react";
-
-export type Job = {
-  id: string;
-  company: string;
-  avatar_img: string;
-  location: string;
-  title: string;
-  description: string;
-  salary_range: string;
-  is_open: boolean;
-  created_at: string;
-  is_approved: boolean;
-  application_link: string;
-};
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -94,7 +80,7 @@ export default function JobsPage() {
   useEffect(() => {
     const { company } = router.query;
     if (company && typeof company === "string") {
-      const job = jobs.find((j) => createSlug(j.company) === company);
+      const job = jobs.find((j) => j.company_slug === company);
       if (job) {
         setSelectedJob(job);
         setIsDialogOpen(true);
@@ -105,7 +91,7 @@ export default function JobsPage() {
   const handleJobClick = (job: Job) => {
     setSelectedJob(job);
     setIsDialogOpen(true);
-    router.push(`/?company=${createSlug(job.company)}`, undefined, {
+    router.push(`/?company=${job.company_slug}`, undefined, {
       shallow: true,
     });
   };
