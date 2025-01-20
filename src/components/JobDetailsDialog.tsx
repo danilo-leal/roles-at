@@ -79,7 +79,7 @@ export function JobDetailsDialog({
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={handleClose}>
-      <Dialog.Portal container="section">
+      <Dialog.Portal>
         <Dialog.Backdrop
           className={clsx(
             "fixed inset-0 bg-black/20 dark:bg-zinc-900/10 transition-all duration-150",
