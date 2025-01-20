@@ -26,7 +26,7 @@ export function Container({
           width: "100vw",
           height: 200,
           opacity: 0.05,
-          zIndex: 1,
+          zIndex: -1,
           maskImage: "linear-gradient(to bottom, #ffffffad, transparent",
         }}
       />
@@ -43,7 +43,7 @@ export function Container({
           width: "100vw",
           height: 200,
           opacity: 0.1,
-          zIndex: 1,
+          zIndex: -1,
           maskImage: "linear-gradient(to top, #ffffffad, transparent",
         }}
       />

@@ -71,7 +71,7 @@ export function Navbar() {
     <header>
       <nav
         className={clsx(
-          "py-8 isolate w-full",
+          "py-8 w-full",
           "flex justify-between items-center rounded-none sm:rounded-full",
           // "bg-white/60 dark:bg-black/30",
           // "border-b sm:border border-zinc-300/50 dark:border-zinc-400/10",
