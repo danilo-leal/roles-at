@@ -101,11 +101,11 @@ export function JobDetailsDialog({
             "data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
           )}
         >
-          <div className="flex flex-col w-full max-h-[700px] overflow-y-auto">
+          <div className="grow flex flex-col size-full overflow-y-auto">
             <Dialog.Title className="-mt-1.5 px-5 pt-5 pb-4 text-lg dark:text-white font-medium border-b default-border-color">
               Job Opening
             </Dialog.Title>
-            <Dialog.Description className="relative p-5 overflow-y-auto">
+            <Dialog.Description className="relative size-full p-5 overflow-y-auto">
               <div
                 className={clsx(
                   "group rounded-lg flex items-center gap-4",
@@ -126,7 +126,7 @@ export function JobDetailsDialog({
                     <h2 className="dark:text-white font-medium">
                       {job.company}
                     </h2>
-                    <p className="shrink-0 flex items-center gap-1 text-xs pb-1 dark:text-zinc-500">
+                    <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
                       <Clock size={10} />
                       {formatDate(job.created_at)}
                       <hr className="mx-2 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
