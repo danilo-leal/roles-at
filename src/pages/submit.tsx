@@ -2,7 +2,8 @@ import { useState } from "react";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { Navbar } from "@/components/primitives/Navbar";
 import { Button } from "@/components/primitives/Button";
-import { Field, Label } from "@/components/primitives/Fieldset";
+import { Divider, SectionDivider } from "@/components/primitives/Divider";
+import { Description, Field, Label } from "@/components/primitives/Fieldset";
 import { Input } from "@/components/primitives/Input";
 import { Textarea } from "@/components/primitives/Textarea";
 
@@ -52,18 +53,21 @@ function MigrateJobForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Field>
-        <Label htmlFor="url">Job Posting URL</Label>
+        <Label htmlFor="url">Read.cv Opening URL</Label>
         <Input
           type="url"
           id="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           required
-          placeholder="https://example.com/job-posting"
+          placeholder="https://read.cv/teams/company/designer-12345"
         />
       </Field>
       <Field>
-        <Label htmlFor="notificationEmail">Notification Email</Label>
+        <Label htmlFor="notificationEmail">Contact Email</Label>
+        <Description>
+          Where to send notifications about the job posting.
+        </Description>
         <Input
           type="email"
           id="notificationEmail"
@@ -74,7 +78,7 @@ function MigrateJobForm() {
         />
       </Field>
       <Button variant="primary" type="submit" disabled={isLoading}>
-        {isLoading ? "Migrating..." : "Migrate Job Posting"}
+        {isLoading ? "Migrating..." : "Migrate Opening From Read.cv"}
       </Button>
       {message && <p className="mt-2 text-sm text-zinc-600">{message}</p>}
     </form>
@@ -148,11 +152,36 @@ export default function SubmitPage() {
   return (
     <ContainerTransition>
       <Navbar />
+      <h2 className="text-xl font-semibold mb-2">How does it work?</h2>
+      <p className="text-sm default-p-color mb-1">
+        Thank you wanting to submit a job posting to our platform! It&apos;s a
+        simple flow:
+      </p>
+      <ul className="list-disc pl-6 default-p-color text-sm flex flex-col gap-0.5">
+        <li>
+          Choose the submission method: direct form or via Read.cv migration.
+        </li>
+        <li>
+          We&apos;ll review your entry and notify you via email about whether it
+          has been approved or rejected.
+        </li>
+        <li>
+          For any desired changes or updates, please contact us at
+          support@roles.at.
+        </li>
+      </ul>
+      <SectionDivider />
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Migrate Job Posting</h2>
+        <h2 className="text-xl font-semibold mb-2">Migration From Read.cv</h2>
+        <p className="text-sm default-p-color mb-4">
+          To have a job posting previously or currently listed on Read.cv
+          transferred here, simply provide the URL of the job posting on
+          Read.cv, and we&apos;ll crawl the data.
+        </p>
         <MigrateJobForm />
       </section>
-      <h1 className="text-2xl font-bold mb-4">Submit a Job Opening</h1>
+      <SectionDivider />
+      <h2 className="text-xl font-semibold mb-2">Direct Form</h2>
       {message && <p className="mb-4 text-sm text-zinc-600">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
@@ -163,6 +192,7 @@ export default function SubmitPage() {
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               required
+              placeholder="Acme Inc."
             />
           </Field>
           <Field>
@@ -172,6 +202,7 @@ export default function SubmitPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
+              placeholder="Software Designer"
             />
           </Field>
         </div>
@@ -182,6 +213,7 @@ export default function SubmitPage() {
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              placeholder="Byron Bay, Australia"
             />
           </Field>
           <Field>
@@ -190,6 +222,7 @@ export default function SubmitPage() {
               type="text"
               value={avatarImg}
               onChange={(e) => setAvatarImg(e.target.value)}
+              placeholder="https://image.com/"
             />
           </Field>
         </div>
@@ -221,7 +254,10 @@ export default function SubmitPage() {
           />
         </Field>
         <Field>
-          <Label>Notification Email</Label>
+          <Label htmlFor="notificationEmail">Contact Email</Label>
+          <Description>
+            Where to send notifications about the job posting.
+          </Description>
           <Input
             type="email"
             value={notificationEmail}

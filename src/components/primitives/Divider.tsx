@@ -16,3 +16,9 @@ export function SectionDivider() {
     </div>
   );
 }
+
+export function Divider() {
+  return (
+    <hr className="w-full my-8 h-px border-t default-border-color bg-none" />
+  );
+}
