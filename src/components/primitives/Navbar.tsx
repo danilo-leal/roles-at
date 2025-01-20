@@ -6,6 +6,7 @@ import { Button } from "@/components/primitives/Button";
 import { Tooltip } from "@/components/primitives/Tooltip";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { useTheme } from "next-themes";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Sun, Moon } from "@phosphor-icons/react";
 
 // function JumpToContent() {
@@ -44,6 +45,9 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(true);
   const { pathname } = useRouter();
+  const session = useSession();
+  const supabase = useSupabaseClient();
+  const router = useRouter();
 
   const toggleTheme = React.useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -79,6 +83,16 @@ export function Navbar() {
     );
   }
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/");
+  };
+
+  const handleLogin = () => {
+    // Redirect to login page or open login modal
+    router.push("/login"); // Adjust this based on your login implementation
+  };
+
   return (
     <header>
       <nav
@@ -106,14 +120,16 @@ export function Navbar() {
               <div className="absolute bottom-[-5px] w-6 h-[2px] bg-red-500 rounded-b-full" />
             )}
           </Button> */}
-          <Button
-            variant={pathname === "/admin" ? "outline" : "ghost"}
-            href="/admin"
-            className="relative overflow-clip"
-          >
-            Admin
-            {pathname === "/admin" && <HighlightPattern />}
-          </Button>
+          {session && (
+            <Button
+              variant={pathname === "/admin" ? "outline" : "ghost"}
+              href="/admin"
+              className="relative overflow-clip"
+            >
+              Admin
+              {pathname === "/admin" && <HighlightPattern />}
+            </Button>
+          )}
         </div>
         <div className="flex items-center gap-2.5">
           <Tooltip

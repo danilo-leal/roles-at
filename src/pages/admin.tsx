@@ -22,7 +22,7 @@ type JobPosting = {
   application_link: string;
 };
 
-const AdminPage: React.FC = () => {
+export default function AdminPage() {
   const [jobPostings, setJobPostings] = useState<JobPosting[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -278,6 +278,4 @@ const AdminPage: React.FC = () => {
       {loading ? renderLoading() : renderContent()}
     </ContainerTransition>
   );
-};
-
-export default AdminPage;
+}
