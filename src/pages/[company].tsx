@@ -116,7 +116,7 @@ export default function CompanyPage({ job }: { job: Job }) {
             <h1 className="text-2xl font-bold">{job.title}</h1>
             <p className="text-lg default-p-color">{job.company}</p>
           </div>
-          {job.application_link && (
+          {job.application_link ? (
             <Button
               href={job.application_link}
               target="_blank"
@@ -125,6 +125,15 @@ export default function CompanyPage({ job }: { job: Job }) {
               className="hidden sm:flex ml-auto"
             >
               Apply for this position
+            </Button>
+          ) : (
+            <Button
+              href="/contact"
+              variant="primary"
+              size="md"
+              className="hidden sm:flex ml-auto"
+            >
+              Contact for more details
             </Button>
           )}
         </div>
@@ -158,7 +167,7 @@ export default function CompanyPage({ job }: { job: Job }) {
           {sanitizeAndCleanHtml(job.description)}
         </ReactMarkdown>
       </div>
-      {job.application_link && (
+      {job.application_link ? (
         <Button
           href={job.application_link}
           target="_blank"
@@ -168,6 +177,15 @@ export default function CompanyPage({ job }: { job: Job }) {
           className="w-full sm:hidden"
         >
           Apply for this position
+        </Button>
+      ) : (
+        <Button
+          href="/contact"
+          variant="primary"
+          size="md"
+          className="w-full sm:hidden"
+        >
+          Contact for more details
         </Button>
       )}
     </ContainerTransition>
