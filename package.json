@@ -53,6 +53,7 @@
     "eslint-config-next": "15.1.5",
     "postcss": "^8",
     "tailwindcss": "4.0.0-beta.9",
+    "tailwindcss-bg-patterns": "^0.3.0",
     "typescript": "^5"
   }
 }

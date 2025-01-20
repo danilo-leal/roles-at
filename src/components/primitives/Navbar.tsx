@@ -24,7 +24,7 @@ import { Sun, Moon } from "@phosphor-icons/react";
 
 function Logo() {
   return (
-    <Link href="/" className="rounded-full mr-3 fv-style">
+    <Link href="/" className="rounded-full mr-2 fv-style">
       <svg
         width="24"
         viewBox="0 0 48 48"
@@ -67,6 +67,18 @@ export function Navbar() {
     };
   }, [toggleTheme]);
 
+  function HighlightPattern() {
+    return (
+      <div
+        className={clsx(
+          "pattern-diagonal-lines [--pattern-color:_#ea580c] pattern-bg-white",
+          "pattern-size-1 pattern-opacity-20 dark:[--pattern-bg-color:_transparent]",
+          "[z-index:-1] absolute inset-0 pointer-events-none select-none",
+        )}
+      />
+    );
+  }
+
   return (
     <header>
       <nav
@@ -78,13 +90,15 @@ export function Navbar() {
         )}
       >
         {/* <JumpToContent /> */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
           <Logo />
-          <Button variant={pathname === "/" ? "outline" : "ghost"} href="/">
+          <Button
+            variant={pathname === "/" ? "outline" : "ghost"}
+            href="/"
+            className="relative overflow-clip"
+          >
             Openings
-            {pathname === "/" && (
-              <div className="absolute bottom-[-5px] w-6 h-[2px] bg-red-500 rounded-b-full" />
-            )}
+            {pathname === "/" && <HighlightPattern />}
           </Button>
           {/* <Button variant={pathname === "/" ? "outline" : "ghost"} href="/">
             About
@@ -95,11 +109,10 @@ export function Navbar() {
           <Button
             variant={pathname === "/admin" ? "outline" : "ghost"}
             href="/admin"
+            className="relative overflow-clip"
           >
             Admin
-            {pathname === "/admin" && (
-              <div className="absolute bottom-[-5px] w-6 h-[2px] bg-red-500 rounded-b-full" />
-            )}
+            {pathname === "/admin" && <HighlightPattern />}
           </Button>
         </div>
         <div className="flex items-center gap-2.5">
