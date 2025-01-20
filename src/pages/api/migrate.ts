@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Job } from "@/types/job";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { Resend } from "resend";
 import { SubmissionConfirmationEmail } from "@/components/Emails";
@@ -8,21 +9,6 @@ import { v4 as uuidv4 } from "uuid";
 import { createSlug } from "@/utils/slugify";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-// Define the JobDetails type
-type JobDetails = {
-  id: string;
-  company: string;
-  avatar_img: string;
-  location: string;
-  title: string;
-  description: string;
-  salary_range: string;
-  is_open: boolean;
-  created_at: string;
-  application_link: string;
-  notification_email?: string;
-};
 
 const extractJobDescription = ($: cheerio.CheerioAPI): string => {
   const descriptionElement = $('[class*="RichTextEditor_text"]');
@@ -66,9 +52,10 @@ export default async function handler(
       const $ = cheerio.load(htmlContent);
 
       // Extract job details
-      const jobDetails: JobDetails = {
+      const jobDetails: Job = {
         id: uuidv4(),
-        company: createSlug(
+        company: $('[class*="JobListing_teamName"]').first().text().trim(),
+        company_slug: createSlug(
           $('[class*="JobListing_teamName"]').first().text().trim(),
         ),
         avatar_img:
@@ -100,10 +87,10 @@ export default async function handler(
 
       // Clean up the data
       Object.keys(jobDetails).forEach((key) => {
-        if (typeof jobDetails[key as keyof JobDetails] === "string") {
-          (jobDetails as Record<keyof JobDetails, unknown>)[
-            key as keyof JobDetails
-          ] = (jobDetails[key as keyof JobDetails] as string)
+        if (typeof jobDetails[key as keyof Job] === "string") {
+          (jobDetails as Record<keyof Job, unknown>)[key as keyof Job] = (
+            jobDetails[key as keyof Job] as string
+          )
             .replace(/\s+/g, " ")
             .trim();
         }

@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { Job } from "@/types/job";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Navbar } from "@/components/primitives/Navbar";
@@ -7,29 +8,14 @@ import { ContainerTransition } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
 import { createSlug } from "@/utils/slugify";
 
-type JobPosting = {
-  id: string;
-  company: string;
-  title: string;
-  description: string;
-  salary_range: string;
-  submitter_email: string;
-  created_at: string;
-  avatar_img: string;
-  location: string;
-  is_approved: boolean;
-  is_rejected: boolean;
-  application_link: string;
-};
-
 export default function AdminPage() {
-  const [jobPostings, setJobPostings] = useState<JobPosting[]>([]);
+  const [jobPostings, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const session = useSession();
   const supabase = useSupabaseClient();
 
-  const fetchJobPostings = useCallback(async () => {
+  const fetchJobs = useCallback(async () => {
     if (!session) {
       setError("No active session. Please log in.");
       setLoading(false);
@@ -44,7 +30,7 @@ export default function AdminPage() {
 
       if (error) throw error;
 
-      setJobPostings(data as JobPosting[]);
+      setJobs(data as Job[]);
       setError(null);
     } catch (error: unknown) {
       console.error("Error fetching job postings:", error);
@@ -57,11 +43,11 @@ export default function AdminPage() {
   }, [supabase, session]);
 
   useEffect(() => {
-    if (session) fetchJobPostings();
+    if (session) fetchJobs();
     else setLoading(false);
-  }, [session, fetchJobPostings]);
+  }, [session, fetchJobs]);
 
-  const handleApprove = async (jobPosting: JobPosting) => {
+  const handleApprove = async (jobPosting: Job) => {
     console.log("Approving job posting:", jobPosting.id);
     try {
       const response = await fetch("/api/approve", {
@@ -78,7 +64,7 @@ export default function AdminPage() {
       }
 
       console.log("Job posting approved successfully");
-      fetchJobPostings(); // Refresh the list
+      fetchJobs(); // Refresh the list
     } catch (error) {
       console.error("Error approving job posting:", error);
       alert(
@@ -87,7 +73,7 @@ export default function AdminPage() {
     }
   };
 
-  const handleReject = async (jobPosting: JobPosting) => {
+  const handleReject = async (jobPosting: Job) => {
     console.log("Rejecting job posting:", jobPosting.id);
     try {
       const response = await fetch("/api/reject", {
@@ -104,7 +90,7 @@ export default function AdminPage() {
       }
 
       console.log("Job posting rejected successfully");
-      fetchJobPostings(); // Refresh the list
+      fetchJobs(); // Refresh the list
     } catch (error) {
       console.error("Error rejecting job posting:", error);
       alert(

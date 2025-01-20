@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { resend } from "@/lib/resend";
 import { SubmissionConfirmationEmail } from "@/components/Emails";
 import { v4 as uuidv4 } from "uuid";
+import { createSlug } from "@/utils/slugify";
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,6 +28,7 @@ export default async function handler(
       }
 
       const job_posting_id = uuidv4();
+      const company_slug = createSlug(company);
 
       // Insert directly into job-postings table
       const { data: jobPostingData, error } = await supabase
@@ -35,6 +37,7 @@ export default async function handler(
           {
             id: job_posting_id,
             company,
+            company_slug,
             title,
             description,
             salary_range,

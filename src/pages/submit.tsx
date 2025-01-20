@@ -77,9 +77,11 @@ function MigrateJobForm() {
           placeholder="your@email.com"
         />
       </Field>
-      <Button variant="primary" type="submit" disabled={isLoading}>
-        {isLoading ? "Migrating..." : "Migrate Opening From Read.cv"}
-      </Button>
+      <div className="flex justify-end">
+        <Button variant="primary" type="submit" disabled={isLoading}>
+          {isLoading ? "Migrating..." : "Migrate Opening From Read.cv"}
+        </Button>
+      </div>
       {message && <p className="mt-2 text-sm text-zinc-600">{message}</p>}
     </form>
   );
@@ -264,9 +266,11 @@ export default function SubmitPage() {
             required
           />
         </Field>
-        <Button variant="primary" type="submit" disabled={isLoading}>
-          {isLoading ? "Submitting..." : "Submit Job Posting"}
-        </Button>
+        <div className="flex justify-end">
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading ? "Submitting..." : "Submit Job Posting"}
+          </Button>
+        </div>
       </form>
     </ContainerTransition>
   );
