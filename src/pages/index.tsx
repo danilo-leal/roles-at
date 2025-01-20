@@ -33,7 +33,6 @@ export default function JobsPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [timeFilter, setTimeFilter] = useState("all");
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -65,24 +64,11 @@ export default function JobsPage() {
         job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
         job.location.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const now = new Date();
-      const jobDate = new Date(job.created_at);
-      const daysDiff = (now.getTime() - jobDate.getTime()) / (1000 * 3600 * 24);
-
-      let timeMatch = true;
-      if (timeFilter === "week") {
-        timeMatch = daysDiff <= 7;
-      } else if (timeFilter === "month") {
-        timeMatch = daysDiff <= 30;
-      } else if (timeFilter === "threeMonths") {
-        timeMatch = daysDiff <= 90;
-      }
-
-      return searchMatch && timeMatch;
+      return searchMatch;
     });
 
     setFilteredJobs(filtered);
-  }, [jobs, searchTerm, timeFilter]);
+  }, [jobs, searchTerm]);
 
   const renderLoading = () => (
     <div className="py-2 flex flex-col gap-2">
@@ -118,14 +104,9 @@ export default function JobsPage() {
             )}
             <div className="w-full flex flex-col">
               <div className="w-full flex items-center justify-between">
-                <div className="w-full flex items-center gap-2">
-                  <h2 className="font-medium">{job.company}</h2>
-                  <Chip color={job.is_open ? "green" : "red"} size="small">
-                    {job.is_open ? "Open" : "Closed"}
-                  </Chip>
-                </div>
-                <p className="shrink-0 flex items-center gap-1 text-sm dark:text-zinc-500">
-                  <Clock />
+                <h2 className="font-medium">{job.company}</h2>
+                <p className="shrink-0 flex items-center gap-1 text-xs pb-1 dark:text-zinc-500">
+                  <Clock size={10} />
                   {formatDate(job.created_at)}
                 </p>
               </div>
@@ -134,10 +115,10 @@ export default function JobsPage() {
                   {job.title}
                 </p>
                 {job.location && (
-                  <p className="flex items-center gap-1 text-sm dark:text-zinc-500">
+                  <Chip color="zinc" className="gap-1">
                     <MapPin />
                     <span className="">{job.location}</span>
-                  </p>
+                  </Chip>
                 )}
               </div>
             </div>
@@ -155,29 +136,24 @@ export default function JobsPage() {
     <ContainerTransition>
       <Navbar />
       <SectionDivider />
-      <h1 className="text-xl font-bold mb-4">Your next role at:</h1>
-      <div className="mb-2 flex flex-col sm:flex-row gap-3">
-        <InputGroup>
-          <MagnifyingGlass data-slot="icon" />
-          <Input
-            type="search"
-            aria-label="Search"
-            placeholder="Search for roles, location, or companies…"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </InputGroup>
-        <Select
-          name="status"
-          value={timeFilter}
-          onChange={(e) => setTimeFilter(e.target.value)}
-        >
-          <option value="all">All time</option>
-          <option value="week">This week</option>
-          <option value="month">This month</option>
-          <option value="threeMonths">Last three months</option>
-        </Select>
-      </div>
+      <hgroup className="w-full flex items-center justify-between mb-4">
+        <h1 className="text-xl font-bold">Find Your Next Role</h1>
+        <p className="text-sm dark:text-zinc-500">
+          {filteredJobs.length} Open Roles
+        </p>
+      </hgroup>
+
+      <InputGroup data-slot="search">
+        <MagnifyingGlass data-slot="icon" />
+        <Input
+          startSlot
+          type="search"
+          aria-label="Search"
+          placeholder="Search for roles, location, or companies…"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </InputGroup>
       {loading ? renderLoading() : renderContent()}
     </ContainerTransition>
   );

@@ -27,9 +27,11 @@ type DateType = (typeof dateTypes)[number];
 export const Input = forwardRef(function Input(
   {
     className,
+    startSlot,
     ...props
   }: {
     className?: string;
+    startSlot?: boolean;
     type?:
       | "email"
       | "number"
@@ -97,6 +99,8 @@ export const Input = forwardRef(function Input(
           "data-[disabled]:border-zinc-950/20 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%]",
           // System icons
           "dark:[color-scheme:dark]",
+          // Additional padding left if startSlot is true
+          startSlot && "pl-10 sm:pl-9",
         ])}
       />
     </span>
