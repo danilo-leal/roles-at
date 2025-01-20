@@ -10,7 +10,7 @@ import * as cheerio from "cheerio";
 import clsx from "clsx";
 import { Chip } from "@/components/primitives/Chip";
 import { Button } from "@/components/primitives/Button";
-import { formatDate } from "@/utils/data";
+import { formatDate } from "@/utils/date";
 import { MapPin, Clock } from "@phosphor-icons/react";
 
 type JobDetailsDialogProps = {

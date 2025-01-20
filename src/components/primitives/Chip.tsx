@@ -8,7 +8,7 @@ const chipColorStyle = {
   blue: "bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-700/50 dark:text-blue-300",
   green:
     "bg-green-50 text-green-800 border border-green-200 dark:bg-green-900/30 dark:border-green-700/50 dark:text-green-300",
-  zinc: "bg-zinc-50 text-zinc-800 border border-zinc-200 dark:bg-zinc-900/30 dark:border-zinc-700/50 dark:text-zinc-300",
+  zinc: "bg-zinc-50 text-zinc-800 border border-zinc-200 dark:bg-zinc-900/30 dark:border-zinc-700/50 dark:text-zinc-200",
 };
 
 const textTransform = {

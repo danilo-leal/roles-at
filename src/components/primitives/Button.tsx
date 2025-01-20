@@ -8,7 +8,7 @@ import { Spinner } from "@/components/primitives/Spinner";
 
 export const buttonStyle = cva({
   base: clsx(
-    "shrink-0 relative whitespace-nowrap select-none",
+    "shrink-0 relative whitespace-nowrap select-none overflow-clip",
     "inline-flex items-center justify-center gap-1.5",
     "text-sm font-medium shadow-xs transition fv-style",
     "disabled:opacity-40 enabled:cursor-pointer",

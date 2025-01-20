@@ -12,7 +12,7 @@ import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { JobDetailsDialog } from "@/components/JobDetailsDialog";
-import { formatDate } from "@/utils/data";
+import { formatDate } from "@/utils/date";
 import {
   MapPin,
   Clock,
@@ -160,7 +160,7 @@ export default function JobsPage() {
                   {formatDate(job.created_at)}
                 </p>
               </div>
-              <div className="w-full flex justify-between">
+              <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <p className="text-sm text-zinc-700 dark:text-zinc-500">
                   {job.title}
                 </p>
