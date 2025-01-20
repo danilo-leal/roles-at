@@ -18,23 +18,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const supabase = createPagesServerClient(context);
     const { company } = context.params as { company: string };
 
-    const { data: job, error } = await supabase
+    const { data, error } = await supabase
       .from("job-postings")
       .select("*")
       .eq("company_slug", company)
-      .single();
+      .order("created_at", { ascending: false })
+      .limit(1);
 
     if (error) {
       console.error("Supabase error:", error);
       return { notFound: true };
     }
 
-    if (!job) {
+    if (!data || data.length === 0) {
       console.log("Job not found for company slug:", company);
       return { notFound: true };
     }
 
-    return { props: { job } };
+    return { props: { job: data[0] } };
   } catch (error) {
     console.error("Unexpected error in getServerSideProps:", error);
     return { props: { error: "An unexpected error occurred" } };
