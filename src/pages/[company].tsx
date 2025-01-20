@@ -4,14 +4,13 @@ import Image from "next/image";
 import { Job } from "@/types/job";
 import { Navbar } from "@/components/primitives/Navbar";
 import { ContainerTransition } from "@/components/primitives/Container";
-import { SectionDivider } from "@/components/primitives/Divider";
 import { Button } from "@/components/primitives/Button";
 import { formatDate } from "@/utils/date";
 import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
 import * as cheerio from "cheerio";
-import { MapPin, Clock, MagnifyingGlass } from "@phosphor-icons/react";
+import { MapPin, Clock, Calendar } from "@phosphor-icons/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createPagesServerClient(context);
@@ -100,7 +99,6 @@ export default function CompanyPage({ job }: { job: Job }) {
   return (
     <ContainerTransition>
       <Navbar />
-      <SectionDivider />
       <div className="pb-6 mb-6 border-b default-border-color">
         <div className="flex items-center gap-4 mb-4">
           {job.avatar_img && (
@@ -116,6 +114,17 @@ export default function CompanyPage({ job }: { job: Job }) {
             <h1 className="text-2xl font-bold">{job.title}</h1>
             <p className="text-lg default-p-color">{job.company}</p>
           </div>
+          {job.application_link && (
+            <Button
+              href={job.application_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="primary"
+              className="hidden sm:flex ml-auto"
+            >
+              Apply for this position
+            </Button>
+          )}
         </div>
         <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
           {job.location && (
@@ -128,7 +137,10 @@ export default function CompanyPage({ job }: { job: Job }) {
           <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
             <Clock size={12} />
             {formatDate(job.created_at)}
-            <hr className="mx-2 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
+          </p>
+          <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
+          <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
+            <Calendar size={12} />
             {new Date(job.created_at).toLocaleDateString()}
           </p>
           <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />

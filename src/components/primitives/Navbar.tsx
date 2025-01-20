@@ -165,9 +165,7 @@ export function Navbar() {
               </div>
             }
           />
-          <Button href="/submit" variant="primary">
-            Submit Opening
-          </Button>
+          <Button href="/submit">Submit Opening</Button>
         </div>
       </nav>
     </header>
