@@ -1,45 +1,35 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
-import { createSlug } from "@/utils/slugify";
-import { Job } from "@/pages/index";
+import { Job } from "@/types/job";
+import JobsPage from "./index";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createPagesServerClient(context);
   const { company } = context.params as { company: string };
 
-  const { data: jobs, error } = await supabase.from("job-postings").select("*");
+  const { data: job, error } = await supabase
+    .from("job-postings")
+    .select("*")
+    .eq("company_slug", company)
+    .single();
 
-  if (error) {
-    console.error("Error fetching jobs:", error);
+  if (error || !job) {
     return { notFound: true };
   }
 
-  const job = jobs.find((j) => createSlug(j.company) === company);
-
-  if (!job) {
-    return { notFound: true };
-  }
-
-  return {
-    props: {
-      job,
-    },
-  };
+  return { props: { initialJob: job } };
 };
 
-const CompanyPage: React.FC<{ job: Job }> = ({ job }) => {
-  return (
-    <div>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.history.replaceState({}, '', '/?company=${createSlug(job.company)}');
-            window.location.reload();
-          `,
-        }}
-      />
-    </div>
-  );
-};
+export default function CompanyPage({ initialJob }: { initialJob: Job }) {
+  const router = useRouter();
 
-export default CompanyPage;
+  useEffect(() => {
+    router.replace(`/?company=${initialJob.company_slug}`, undefined, {
+      shallow: true,
+    });
+  }, [initialJob, router]);
+
+  return <JobsPage initialSelectedJob={initialJob} />;
+}

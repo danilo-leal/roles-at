@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Dialog } from "@base-ui-components/react/dialog";
 import { useRouter } from "next/router";
-import { Job } from "@/pages/index";
+import { Job } from "@/types/job";
 import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";

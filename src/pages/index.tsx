@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { createSlug } from "@/utils/slugify";
+
 import { Job } from "@/types/job";
 import { useRouter } from "next/router";
 import clsx from "clsx";
@@ -15,15 +15,21 @@ import { JobDetailsDialog } from "@/components/JobDetailsDialog";
 import { formatDate } from "@/utils/date";
 import { MapPin, Clock, MagnifyingGlass } from "@phosphor-icons/react";
 
-export default function JobsPage() {
+type JobsPageProps = {
+  initialSelectedJob?: Job | null;
+};
+
+export default function JobsPage({ initialSelectedJob = null }: JobsPageProps) {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(
+    initialSelectedJob,
+  );
+  const [isDialogOpen, setIsDialogOpen] = useState(!!initialSelectedJob);
   const router = useRouter();
 
   useEffect(() => {
@@ -85,20 +91,22 @@ export default function JobsPage() {
         setSelectedJob(job);
         setIsDialogOpen(true);
       }
+    } else {
+      setSelectedJob(null);
+      setIsDialogOpen(false);
     }
   }, [router.query, jobs]);
 
   const handleJobClick = (job: Job) => {
     setSelectedJob(job);
     setIsDialogOpen(true);
-    router.push(`/?company=${job.company_slug}`, undefined, {
-      shallow: true,
-    });
+    router.push(`/?company=${job.company_slug}`, undefined, { shallow: true });
   };
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
     setSelectedJob(null);
+    router.push("/", undefined, { shallow: true });
   };
 
   const renderLoading = () => (

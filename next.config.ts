@@ -9,6 +9,14 @@ const nextConfig = {
       "pbs.twimg.com",
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/:company",
+        destination: "/[company]",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
