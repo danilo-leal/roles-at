@@ -25,8 +25,11 @@ export const buttonStyle = cva({
         "border default-border-color dark:hover:bg-zinc-600",
         // "dark:focus-visible:ring-zinc-500",
       ),
-      ghost:
-        "border-none bg-transparent ring-0 shadow-none hover:bg-foreground/5",
+      ghost: clsx(
+        "border-transparent default-border-color dark:hover:bg-zinc-600/20",
+        "dark:text-zinc-200",
+        // "dark:focus-visible:ring-zinc-500",
+      ),
       destructive: "bg-red-600 text-white ring-red-600/50 hover:bg-red-700",
     },
     size: {
@@ -41,7 +44,7 @@ export const buttonStyle = cva({
   },
   defaultVariants: {
     variant: "outline",
-    size: "md",
+    size: "sm",
   },
 });
 

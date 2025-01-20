@@ -1,8 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
-// import Image from "next/image";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import MigrateJobForm from "@/components/MigrateJobForm";
+import { Navbar } from "@/components/primitives/Navbar";
+import { SectionDivider } from "@/components/primitives/Divider";
+import { ContainerTransition } from "@/components/primitives/Container";
+import { Skeleton } from "@/components/primitives/Skeleton";
 import { createSlug } from "@/utils/slugify";
 
 type JobPosting = {
@@ -145,14 +147,14 @@ const AdminPage: React.FC = () => {
             type="email"
             placeholder="Email"
             required
-            className="w-full border p-2"
+            className="w-full border default-border-color p-2"
           />
           <input
             name="password"
             type="password"
             placeholder="Password"
             required
-            className="w-full border p-2"
+            className="w-full border default-border-color p-2"
           />
           <button
             type="submit"
@@ -165,9 +167,17 @@ const AdminPage: React.FC = () => {
     );
   }
 
-  if (loading) {
-    return <div>Loading job postings...</div>;
-  }
+  if (loading)
+    return (
+      <ContainerTransition>
+        <Navbar />
+        <div className="py-2 flex flex-col gap-2">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <Skeleton key={index} className="h-[78px] w-full" />
+          ))}
+        </div>
+      </ContainerTransition>
+    );
 
   if (error) {
     return <div className="text-red-500">{error}</div>;
@@ -181,59 +191,68 @@ const AdminPage: React.FC = () => {
   const totalCount = jobPostings.length;
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex gap-2 mb-8">
-        <Link href="/submit">Submit a Job</Link>
-        <Link href="/">Home</Link>
-      </div>
-
+    <ContainerTransition>
+      <Navbar />
+      <SectionDivider />
       <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Migrate Job Posting</h2>
-        <MigrateJobForm />
-      </section>
-
-      <h2 className="text-xl font-semibold mb-4">Pending Job Postings</h2>
-
-      <div className="mb-4">
-        <p>Total Job Postings: {totalCount}</p>
-        <p>Pending: {pendingCount}</p>
-        <p>Approved: {approvedCount}</p>
-        <p>Rejected: {rejectedCount}</p>
+      <div className="border default-border-color p-4 mb-6 grid grid-cols-4 gap-4">
+        <div className="flex-1 min-w-[200px]">
+          <p className="text-sm font-medium text-gray-500">
+            Total Job Postings
+          </p>
+          <p className="text-2xl font-semibold text-gray-900">{totalCount}</p>
+        </div>
+        <div className="flex-1 min-w-[200px]">
+          <p className="text-sm font-medium text-yellow-600">Pending</p>
+          <p className="text-2xl font-semibold text-yellow-700">
+            {pendingCount}
+          </p>
+        </div>
+        <div className="flex-1 min-w-[200px]">
+          <p className="text-sm font-medium text-green-600">Approved</p>
+          <p className="text-2xl font-semibold text-green-700">
+            {approvedCount}
+          </p>
+        </div>
+        <div className="flex-1 min-w-[200px]">
+          <p className="text-sm font-medium text-red-600">Rejected</p>
+          <p className="text-2xl font-semibold text-red-700">{rejectedCount}</p>
+        </div>
       </div>
-      <table className="w-full border-collapse border">
+      <table className="w-full border-collapse border default-border-color">
         <thead>
           <tr>
-            <th className="border p-2">Company</th>
-            <th className="border p-2">Title</th>
-            <th className="border p-2">Created At</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Actions</th>
+            <th className="border default-border-color p-2">Company</th>
+            <th className="border default-border-color p-2">Title</th>
+            <th className="border default-border-color p-2">Created At</th>
+            <th className="border default-border-color p-2">Status</th>
+            <th className="border default-border-color p-2">Actions</th>
           </tr>
         </thead>
         <tbody>
           {jobPostings.map((jobPosting) => (
             <tr key={jobPosting.id}>
-              <td className="border p-2">
+              <td className="border default-border-color p-2">
                 <Link href={`/${createSlug(jobPosting.company)}`}>
                   <span className="text-blue-600 hover:underline cursor-pointer">
                     {jobPosting.company}
                   </span>
                 </Link>
               </td>
-              <td className="border p-2">{jobPosting.title}</td>
-              <td className="border p-2">
+              <td className="border default-border-color p-2">
+                {jobPosting.title}
+              </td>
+              <td className="border default-border-color p-2">
                 {new Date(jobPosting.created_at).toLocaleString()}
               </td>
-              <td className="border p-2">
+              <td className="border default-border-color p-2">
                 {jobPosting.is_approved
                   ? "Approved"
                   : jobPosting.is_rejected
                     ? "Rejected"
                     : "Pending"}
               </td>
-              <td className="border p-2">
+              <td className="border default-border-color p-2">
                 {!jobPosting.is_approved && (
                   <button
                     onClick={() => handleApprove(jobPosting)}
@@ -255,7 +274,7 @@ const AdminPage: React.FC = () => {
           ))}
         </tbody>
       </table>
-    </div>
+    </ContainerTransition>
   );
 };
 

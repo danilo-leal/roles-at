@@ -7,6 +7,7 @@ import { Navbar } from "@/components/primitives/Navbar";
 import { Chip } from "@/components/primitives/Chip";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
+import { SectionDivider } from "@/components/primitives/Divider";
 import { formatDate } from "@/utils/data";
 import { MapPin, Clock } from "@phosphor-icons/react";
 
@@ -62,12 +63,14 @@ export default function JobsPage() {
         </div>
       </ContainerTransition>
     );
+
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <ContainerTransition>
       <Navbar />
-      {/* <h1 className="text-2xl font-bold mb-4">Job Listings</h1> */}
+      <SectionDivider />
+      <h1 className="text-xl font-bold mb-4">Your next role at:</h1>
       <div className="py-2 flex flex-col gap-3">
         {jobs.length > 0 ? (
           jobs.map((job) => (
@@ -79,7 +82,7 @@ export default function JobsPage() {
                 "border default-border-color dark:hover:!border-zinc-700",
                 "hover:bg-zinc-100 dark:hover:bg-zinc-800/20",
                 "hover:[box-shadow:5px_5px_0_hsla(219,_90%,_60%,_0.1)]",
-                "transition-colors duration-100",
+                "transition-colors tran duration-100",
               )}
             >
               {job.avatar_img && (
