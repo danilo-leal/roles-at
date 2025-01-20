@@ -42,7 +42,7 @@ function MigrateJobForm() {
       }
     } catch (error: unknown) {
       setMessage(
-        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`,
+        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`
       );
       console.error("Error in job migration:", error);
     } finally {
@@ -130,7 +130,7 @@ export default function SubmitPage() {
 
       setMessage(
         data.message ||
-          "Your submission has been received and is pending approval.",
+          "Your submission has been received and is pending approval."
       );
       // Clear form
       setCompany("");
@@ -144,7 +144,7 @@ export default function SubmitPage() {
     } catch (error) {
       console.error("Error submitting job posting:", error);
       setMessage(
-        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`,
+        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`
       );
     } finally {
       setIsLoading(false);
@@ -187,7 +187,7 @@ export default function SubmitPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Field>
-            <Label>Company</Label>
+            <Label>Company *</Label>
             <Input
               type="text"
               value={company}
@@ -197,7 +197,7 @@ export default function SubmitPage() {
             />
           </Field>
           <Field>
-            <Label>Job Title</Label>
+            <Label>Job Title *</Label>
             <Input
               type="text"
               value={title}
@@ -237,7 +237,7 @@ export default function SubmitPage() {
           />
         </Field>
         <Field>
-          <Label>Description</Label>
+          <Label>Description *</Label>
           <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -255,7 +255,7 @@ export default function SubmitPage() {
           />
         </Field>
         <Field>
-          <Label htmlFor="notificationEmail">Contact Email</Label>
+          <Label htmlFor="notificationEmail">Contact Email *</Label>
           <Description>
             Where to send notifications about the job posting.
           </Description>
