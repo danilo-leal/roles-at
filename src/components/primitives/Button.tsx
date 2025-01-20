@@ -10,19 +10,24 @@ export const buttonStyle = cva({
   base: clsx(
     "shrink-0 relative whitespace-nowrap select-none",
     "inline-flex items-center justify-center gap-1.5",
-    "text-sm font-medium shadow-xs transition",
-    "focus-visible:outline-none focus-visible:ring-4",
+    "text-sm font-medium shadow-xs transition fv-style",
     "disabled:opacity-40 enabled:cursor-pointer",
-    "h-(--button-height) ring-ring active:scale-98 rounded-full",
+    "h-(--button-height) active:scale-98 rounded-full",
   ),
   variants: {
     variant: {
       primary: clsx(
-        "border default-border-color dark:hover:bg-zinc-600",
+        "bg-gradient-to-b from-orange-600 to-orange-700",
+        "dark:from-orange-700 dark:to-orange-800",
+        "hover:saturate-150",
+        "text-white shadow-[inset_0px_0.5px_0px_rgb(255_255_255_/_0.4)]",
+        "border-transparent",
         // "dark:focus-visible:ring-zinc-500",
       ),
       outline: clsx(
-        "border default-border-color dark:hover:bg-zinc-600",
+        "border default-border-color",
+        "hover:!border-zinc-300 hover:bg-zinc-200/50",
+        "dark:hover:!border-zinc-600/80 dark:hover:bg-zinc-600/20",
         // "dark:focus-visible:ring-zinc-500",
       ),
       ghost: clsx(

@@ -9,9 +9,14 @@ import { ContainerTransition } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
-import { Select } from "@/components/primitives/Select";
 import { formatDate } from "@/utils/data";
-import { MapPin, Clock, MagnifyingGlass } from "@phosphor-icons/react";
+import {
+  MapPin,
+  Clock,
+  MagnifyingGlass,
+  ArrowBendDoubleUpRight,
+} from "@phosphor-icons/react";
+import { motion } from "motion/react";
 
 type Job = {
   id: string;
@@ -86,11 +91,11 @@ export default function JobsPage() {
             href={`/${createSlug(job.company)}`}
             key={job.id}
             className={clsx(
-              "rounded-sm p-4 flex items-center gap-4",
-              "border default-border-color dark:hover:!border-zinc-700",
+              "group rounded-lg p-4 flex items-center gap-4",
+              "border default-border-color dark:hover:!border-orange-300/40",
               "hover:bg-zinc-100 dark:hover:bg-zinc-800/20",
-              "hover:[box-shadow:5px_5px_0_hsla(219,_90%,_60%,_0.1)]",
-              "transition-colors tran duration-100",
+              "hover:[box-shadow:5px_5px_0_hsla(26,_90%,_40%,_0.1)]",
+              "transition-all duration-100 fv-style",
             )}
           >
             {job.avatar_img && (
@@ -122,6 +127,15 @@ export default function JobsPage() {
                 )}
               </div>
             </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2, delay: 0.1 }}
+              className="hidden group-hover:flex dark:bg-orange-500/20 border border-orange-500/50 text-orange-200 rounded-full items-center justify-center shrink-0 size-10"
+            >
+              <ArrowBendDoubleUpRight />
+            </motion.div>
           </Link>
         ))
       ) : (
@@ -136,14 +150,13 @@ export default function JobsPage() {
     <ContainerTransition>
       <Navbar />
       <SectionDivider />
-      <hgroup className="w-full flex items-center justify-between mb-4">
+      <hgroup className="w-full flex items-center justify-between mb-3">
         <h1 className="text-xl font-bold">Find Your Next Role</h1>
         <p className="text-sm dark:text-zinc-500">
           {filteredJobs.length} Open Roles
         </p>
       </hgroup>
-
-      <InputGroup data-slot="search">
+      <InputGroup data-slot="search" className="mb-3">
         <MagnifyingGlass data-slot="icon" />
         <Input
           startSlot

@@ -24,7 +24,7 @@ import { Sun, Moon } from "@phosphor-icons/react";
 
 function Logo() {
   return (
-    <Link href="/" className="mr-3">
+    <Link href="/" className="rounded-full mr-3 fv-style">
       <svg
         width="24"
         viewBox="0 0 48 48"
@@ -119,7 +119,9 @@ export function Navbar() {
               </div>
             }
           />
-          <Button href="/submit">Submit Opening</Button>
+          <Button href="/submit" variant="primary">
+            Submit Opening
+          </Button>
         </div>
       </nav>
     </header>

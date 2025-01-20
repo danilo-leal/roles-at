@@ -33,6 +33,20 @@ export function Container({
       <div className="z-10 max-w-[740px] size-full mx-auto mb-auto mt-0 px-4 flex flex-col pb-4">
         {children}
       </div>
+      <MeshGradient
+        color1="#fb923c"
+        color2="#431407"
+        speed={0.05}
+        style={{
+          position: "fixed",
+          bottom: 0,
+          width: "100vw",
+          height: 200,
+          opacity: 0.1,
+          zIndex: 1,
+          maskImage: "linear-gradient(to top, #ffffffad, transparent",
+        }}
+      />
     </motion.div>
   );
 }
