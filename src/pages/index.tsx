@@ -89,9 +89,9 @@ export default function JobsPage() {
             className={clsx(
               "group cursor-pointer rounded-lg p-4 flex items-center gap-4",
               "border default-border-color dark:hover:!border-orange-300/40",
-              "hover:bg-zinc-100 dark:hover:bg-zinc-800/20",
+              "hover:bg-zinc-50/70 dark:hover:bg-zinc-800/20",
               "hover:[box-shadow:5px_5px_0_hsla(26,_90%,_40%,_0.1)]",
-              "transition-all duration-100 fv-style",
+              "transition-all duration-100 fv-style"
             )}
           >
             {job.avatar_img && (
@@ -100,12 +100,12 @@ export default function JobsPage() {
                 alt={`${job.company} logo`}
                 width={44}
                 height={44}
-                className="rounded-full size-10 grow-0 shrink-0 object-cover"
+                className="rounded-full size-8 grow-0 shrink-0 object-cover border default-border-color"
               />
             )}
             <div className="w-full flex flex-col">
               <div className="w-full flex items-center justify-between">
-                <h2 className="font-medium">{job.company}</h2>
+                <h2 className="font-medium">{job.title}</h2>
                 <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
                   <Clock size={12} />
                   {formatDate(job.created_at)}
@@ -113,7 +113,7 @@ export default function JobsPage() {
               </div>
               <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <p className="text-sm text-zinc-700 dark:text-zinc-500">
-                  {job.title}
+                  {job.company}
                 </p>
                 {job.location && (
                   <Chip color="zinc" className="gap-1">

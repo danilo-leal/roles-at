@@ -164,7 +164,8 @@ export default function CompanyPage({ job }: { job: Job }) {
           target="_blank"
           rel="noopener noreferrer"
           variant="primary"
-          className="w-full"
+          size="md"
+          className="w-full sm:hidden"
         >
           Apply for this position
         </Button>
