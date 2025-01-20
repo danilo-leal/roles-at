@@ -6,6 +6,7 @@ import { SectionDivider } from "@/components/primitives/Divider";
 import { Description, Field, Label } from "@/components/primitives/Fieldset";
 import { Input } from "@/components/primitives/Input";
 import { Textarea } from "@/components/primitives/Textarea";
+import { Asterisk } from "@phosphor-icons/react";
 
 function MigrateJobForm() {
   const [url, setUrl] = useState("");
@@ -78,7 +79,13 @@ function MigrateJobForm() {
         />
       </Field>
       <div className="flex justify-end">
-        <Button variant="primary" type="submit" disabled={isLoading}>
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={isLoading}
+          size="md"
+          className="w-full sm:w-auto"
+        >
           {isLoading ? "Migrating..." : "Migrate Opening From Read.cv"}
         </Button>
       </div>
@@ -187,7 +194,12 @@ export default function SubmitPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Field>
-            <Label>Company *</Label>
+            <Label className="flex items-center gap-1">
+              Company{" "}
+              <span>
+                <Asterisk size={10} className="opacity-70" />
+              </span>
+            </Label>
             <Input
               type="text"
               value={company}
@@ -197,7 +209,12 @@ export default function SubmitPage() {
             />
           </Field>
           <Field>
-            <Label>Job Title *</Label>
+            <Label className="flex items-center gap-1">
+              Job Title{" "}
+              <span>
+                <Asterisk size={10} className="opacity-70" />
+              </span>
+            </Label>
             <Input
               type="text"
               value={title}
@@ -237,7 +254,12 @@ export default function SubmitPage() {
           />
         </Field>
         <Field>
-          <Label>Description *</Label>
+          <Label className="flex items-center gap-1">
+            Description{" "}
+            <span>
+              <Asterisk size={10} className="opacity-70" />
+            </span>
+          </Label>
           <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -255,7 +277,15 @@ export default function SubmitPage() {
           />
         </Field>
         <Field>
-          <Label htmlFor="notificationEmail">Contact Email *</Label>
+          <Label
+            htmlFor="notificationEmail"
+            className="flex items-center gap-1"
+          >
+            Contact Email{" "}
+            <span>
+              <Asterisk size={10} className="opacity-70" />
+            </span>
+          </Label>
           <Description>
             Where to send notifications about the job posting.
           </Description>
@@ -267,7 +297,13 @@ export default function SubmitPage() {
           />
         </Field>
         <div className="flex justify-end">
-          <Button variant="primary" type="submit" disabled={isLoading}>
+          <Button
+            variant="secondary"
+            type="submit"
+            size="md"
+            className="w-full sm:w-auto"
+            disabled={isLoading}
+          >
             {isLoading ? "Submitting..." : "Submit Job Posting"}
           </Button>
         </div>

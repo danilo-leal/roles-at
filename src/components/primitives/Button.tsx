@@ -24,6 +24,14 @@ export const buttonStyle = cva({
         "border-transparent"
         // "dark:focus-visible:ring-zinc-500",
       ),
+      secondary: clsx(
+        "bg-gradient-to-b from-zinc-700 to-zinc-800",
+        "dark:from-zinc-600 dark:to-zinc-700",
+        "hover:brightness-120",
+        "text-white shadow-[inset_0px_0.5px_0px_rgb(255_255_255_/_0.4)]",
+        "border-transparent"
+        // "dark:focus-visible:ring-zinc-500",
+      ),
       outline: clsx(
         "border default-border-color",
         "hover:!border-zinc-300 hover:bg-zinc-200/50",
