@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-
 import { Job } from "@/types/job";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import clsx from "clsx";
 import Image from "next/image";
 import { Navbar } from "@/components/primitives/Navbar";
@@ -11,26 +10,16 @@ import { Skeleton } from "@/components/primitives/Skeleton";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
 import { Kbd } from "@/components/primitives/Keybinding";
-import { JobDetailsDialog } from "@/components/JobDetailsDialog";
 import { formatDate } from "@/utils/date";
 import { MapPin, Clock, MagnifyingGlass } from "@phosphor-icons/react";
 
-type JobsPageProps = {
-  initialSelectedJob?: Job | null;
-};
-
-export default function JobsPage({ initialSelectedJob = null }: JobsPageProps) {
+export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [selectedJob, setSelectedJob] = useState<Job | null>(
-    initialSelectedJob,
-  );
-  const [isDialogOpen, setIsDialogOpen] = useState(!!initialSelectedJob);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -40,7 +29,6 @@ export default function JobsPage({ initialSelectedJob = null }: JobsPageProps) {
           throw new Error("Failed to fetch jobs");
         }
         const data = await response.json();
-        // Only show approved jobs
         const approvedJobs = data.filter((job: Job) => job.is_approved);
         setJobs(approvedJobs);
         setFilteredJobs(approvedJobs);
@@ -83,32 +71,6 @@ export default function JobsPage({ initialSelectedJob = null }: JobsPageProps) {
     };
   }, []);
 
-  useEffect(() => {
-    const { company } = router.query;
-    if (company && typeof company === "string") {
-      const job = jobs.find((j) => j.company_slug === company);
-      if (job) {
-        setSelectedJob(job);
-        setIsDialogOpen(true);
-      }
-    } else {
-      setSelectedJob(null);
-      setIsDialogOpen(false);
-    }
-  }, [router.query, jobs]);
-
-  const handleJobClick = (job: Job) => {
-    setSelectedJob(job);
-    setIsDialogOpen(true);
-    router.push(`/?company=${job.company_slug}`, undefined, { shallow: true });
-  };
-
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-    setSelectedJob(null);
-    router.push("/", undefined, { shallow: true });
-  };
-
   const renderLoading = () => (
     <div className="py-2 flex flex-col gap-2">
       {Array.from({ length: 10 }).map((_, index) => (
@@ -121,11 +83,9 @@ export default function JobsPage({ initialSelectedJob = null }: JobsPageProps) {
     <div className="py-2 flex flex-col gap-3">
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
-          <button
+          <Link
             key={job.id}
-            type="button"
-            aria-label={`Apply for ${job.title} at ${job.company}`}
-            onClick={() => handleJobClick(job)}
+            href={`/${job.company_slug}`}
             className={clsx(
               "group cursor-pointer rounded-lg p-4 flex items-center gap-4",
               "border default-border-color dark:hover:!border-orange-300/40",
@@ -163,7 +123,7 @@ export default function JobsPage({ initialSelectedJob = null }: JobsPageProps) {
                 )}
               </div>
             </div>
-          </button>
+          </Link>
         ))
       ) : (
         <p>No matching jobs found</p>
@@ -201,11 +161,6 @@ export default function JobsPage({ initialSelectedJob = null }: JobsPageProps) {
         </span>
       </InputGroup>
       {loading ? renderLoading() : renderContent()}
-      <JobDetailsDialog
-        job={selectedJob}
-        isOpen={isDialogOpen}
-        onClose={handleCloseDialog}
-      />
     </ContainerTransition>
   );
 }
