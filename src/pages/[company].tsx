@@ -16,20 +16,32 @@ import * as cheerio from "cheerio";
 import { MapPin, Clock, Calendar } from "@phosphor-icons/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const supabase = createPagesServerClient(context);
-  const { company } = context.params as { company: string };
+  try {
+    const supabase = createPagesServerClient(context);
+    const { company } = context.params as { company: string };
 
-  const { data: job, error } = await supabase
-    .from("job-postings")
-    .select("*")
-    .eq("company_slug", company)
-    .single();
+    const { data, error } = await supabase
+      .from("job-postings")
+      .select("*")
+      .eq("company_slug", company)
+      .order("created_at", { ascending: false })
+      .limit(1);
 
-  if (error || !job) {
-    return { notFound: true };
+    if (error) {
+      console.error("Supabase error:", error);
+      return { notFound: true };
+    }
+
+    if (!data || data.length === 0) {
+      console.log("Job not found for company slug:", company);
+      return { notFound: true };
+    }
+
+    return { props: { job: data[0] } };
+  } catch (error) {
+    console.error("Unexpected error in getServerSideProps:", error);
+    return { props: { error: "An unexpected error occurred" } };
   }
-
-  return { props: { job } };
 };
 
 export default function CompanyPage({ job }: { job: Job }) {
