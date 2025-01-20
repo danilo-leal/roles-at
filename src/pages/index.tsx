@@ -85,7 +85,7 @@ export default function JobsPage() {
         filteredJobs.map((job) => (
           <Link
             key={job.id}
-            href={`/${job.company_slug}`}
+            href={job.company_slug}
             className={clsx(
               "group cursor-pointer rounded-lg p-4 flex items-center gap-4",
               "border default-border-color dark:hover:!border-orange-300/40",
