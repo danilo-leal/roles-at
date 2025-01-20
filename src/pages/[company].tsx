@@ -1,7 +1,9 @@
+import React from "react";
 import { GetServerSideProps } from "next";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { Job } from "@/types/job";
+import { Dialog } from "@/components/primitives/Dialog";
 import { Navbar } from "@/components/primitives/Navbar";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
@@ -43,6 +45,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function CompanyPage({ job }: { job: Job }) {
+  const [isDialogOpen, setDialogOpen] = React.useState(false);
+
   const components: Components = {
     h1: (props) => (
       <h1 className="text-2xl dark:text-white font-bold my-4" {...props} />
@@ -128,7 +132,7 @@ export default function CompanyPage({ job }: { job: Job }) {
             <h1 className="text-2xl font-bold">{job.title}</h1>
             <p className="text-lg default-p-color">{job.company}</p>
           </div>
-          {job.application_link && (
+          {job.application_link ? (
             <Button
               href={job.application_link}
               target="_blank"
@@ -138,6 +142,22 @@ export default function CompanyPage({ job }: { job: Job }) {
             >
               Apply for this position
             </Button>
+          ) : (
+            <>
+              <Button
+                onClick={() => setDialogOpen(true)}
+                variant="primary"
+                size="md"
+                className="hidden sm:flex ml-auto"
+              >
+                Apply for this position
+              </Button>
+              <Dialog
+                open={isDialogOpen}
+                onClose={() => setDialogOpen(false)}
+                email={job.notification_email || ""}
+              />
+            </>
           )}
         </div>
         <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
@@ -170,16 +190,33 @@ export default function CompanyPage({ job }: { job: Job }) {
           {sanitizeAndCleanHtml(job.description)}
         </ReactMarkdown>
       </div>
-      {job.application_link && (
+      {job.application_link ? (
         <Button
           href={job.application_link}
           target="_blank"
           rel="noopener noreferrer"
           variant="primary"
-          className="w-full"
+          size="md"
+          className="w-full sm:hidden"
         >
           Apply for this position
         </Button>
+      ) : (
+        <>
+          <Button
+            onClick={() => setDialogOpen(true)}
+            variant="primary"
+            size="md"
+            className="w-full sm:hidden"
+          >
+            Apply for this position
+          </Button>
+          <Dialog
+            open={isDialogOpen}
+            onClose={() => setDialogOpen(false)}
+            email={job.notification_email || ""}
+          />
+        </>
       )}
     </ContainerTransition>
   );
