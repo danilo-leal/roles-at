@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createSlug } from "@/utils/slugify";
+import { motion } from "motion/react";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +10,7 @@ import { ContainerTransition } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
+import { Kbd } from "@/components/primitives/Keybinding";
 import { formatDate } from "@/utils/data";
 import {
   MapPin,
@@ -16,7 +18,6 @@ import {
   MagnifyingGlass,
   ArrowBendDoubleUpRight,
 } from "@phosphor-icons/react";
-import { motion } from "motion/react";
 
 type Job = {
   id: string;
@@ -38,6 +39,7 @@ export default function JobsPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -74,6 +76,21 @@ export default function JobsPage() {
 
     setFilteredJobs(filtered);
   }, [jobs, searchTerm]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "i") {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const renderLoading = () => (
     <div className="py-2 flex flex-col gap-2">
@@ -159,13 +176,19 @@ export default function JobsPage() {
       <InputGroup data-slot="search" className="mb-3">
         <MagnifyingGlass data-slot="icon" />
         <Input
+          ref={searchInputRef}
           startSlot
+          keybinding
           type="search"
           aria-label="Search"
           placeholder="Search for roles, location, or companies…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <span className="absolute inset-y-0 right-4 flex items-center gap-1">
+          <Kbd char="⌘" />
+          <Kbd char="I" />
+        </span>
       </InputGroup>
       {loading ? renderLoading() : renderContent()}
     </ContainerTransition>

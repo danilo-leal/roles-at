@@ -30,10 +30,12 @@ export const Input = forwardRef(function Input(
   {
     className,
     startSlot,
+    keybinding,
     ...props
   }: {
     className?: string;
     startSlot?: boolean;
+    keybinding?: boolean;
     type?:
       | "email"
       | "number"
@@ -101,6 +103,8 @@ export const Input = forwardRef(function Input(
           "dark:[color-scheme:dark]",
           // Additional padding left if startSlot is true
           startSlot && "pl-10 sm:pl-9",
+          // Additional padding right if keybinding is true
+          keybinding && "pr-10 sm:pr-16",
         ])}
       />
     </span>
