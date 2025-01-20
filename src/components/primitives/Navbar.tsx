@@ -86,12 +86,12 @@ export function Navbar() {
               <div className="absolute bottom-[-5px] w-6 h-[2px] bg-red-500 rounded-b-full" />
             )}
           </Button>
-          <Button variant={pathname === "/" ? "outline" : "ghost"} href="/">
+          {/* <Button variant={pathname === "/" ? "outline" : "ghost"} href="/">
             About
             {pathname === "/" && (
               <div className="absolute bottom-[-5px] w-6 h-[2px] bg-red-500 rounded-b-full" />
             )}
-          </Button>
+          </Button> */}
           <Button
             variant={pathname === "/admin" ? "outline" : "ghost"}
             href="/admin"

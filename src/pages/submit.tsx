@@ -148,7 +148,6 @@ export default function SubmitPage() {
   return (
     <ContainerTransition>
       <Navbar />
-
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Migrate Job Posting</h2>
         <MigrateJobForm />
@@ -156,44 +155,44 @@ export default function SubmitPage() {
       <h1 className="text-2xl font-bold mb-4">Submit a Job Opening</h1>
       {message && <p className="mb-4 text-sm text-zinc-600">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Field>
-          <Label>Full name</Label>
-          <Input name="full_name" />
-        </Field>
-        <Field>
-          <Label>Company</Label>
-          <Input
-            type="text"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-            required
-          />
-        </Field>
-        <Field>
-          <Label>Job Title</Label>
-          <Input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </Field>
-        <Field>
-          <Label>Location</Label>
-          <Input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </Field>
-        <Field>
-          <Label>Company Avatar URL</Label>
-          <Input
-            type="text"
-            value={avatarImg}
-            onChange={(e) => setAvatarImg(e.target.value)}
-          />
-        </Field>
+        <div className="grid grid-cols-2 gap-3">
+          <Field>
+            <Label>Company</Label>
+            <Input
+              type="text"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              required
+            />
+          </Field>
+          <Field>
+            <Label>Job Title</Label>
+            <Input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+          </Field>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <Field>
+            <Label>Location</Label>
+            <Input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Company Avatar URL</Label>
+            <Input
+              type="text"
+              value={avatarImg}
+              onChange={(e) => setAvatarImg(e.target.value)}
+            />
+          </Field>
+        </div>
         <Field>
           <Label>Application Link</Label>
           <Input

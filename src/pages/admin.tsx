@@ -167,22 +167,6 @@ const AdminPage: React.FC = () => {
     );
   }
 
-  if (loading)
-    return (
-      <ContainerTransition>
-        <Navbar />
-        <div className="py-2 flex flex-col gap-2">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <Skeleton key={index} className="h-[78px] w-full" />
-          ))}
-        </div>
-      </ContainerTransition>
-    );
-
-  if (error) {
-    return <div className="text-red-500">{error}</div>;
-  }
-
   const pendingCount = jobPostings.filter(
     (job) => !job.is_approved && !job.is_rejected,
   ).length;
@@ -190,10 +174,16 @@ const AdminPage: React.FC = () => {
   const rejectedCount = jobPostings.filter((job) => job.is_rejected).length;
   const totalCount = jobPostings.length;
 
-  return (
-    <ContainerTransition>
-      <Navbar />
-      <SectionDivider />
+  const renderLoading = () => (
+    <div className="py-2 flex flex-col gap-2">
+      {Array.from({ length: 10 }).map((_, index) => (
+        <Skeleton key={index} className="h-[78px] w-full" />
+      ))}
+    </div>
+  );
+
+  const renderContent = () => (
+    <>
       <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
       <div className="border default-border-color p-4 mb-6 grid grid-cols-4 gap-4">
         <div className="flex-1 min-w-[200px]">
@@ -274,6 +264,18 @@ const AdminPage: React.FC = () => {
           ))}
         </tbody>
       </table>
+    </>
+  );
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  return (
+    <ContainerTransition>
+      <Navbar />
+      <SectionDivider />
+      {loading ? renderLoading() : renderContent()}
     </ContainerTransition>
   );
 };
