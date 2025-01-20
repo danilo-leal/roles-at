@@ -1,7 +1,85 @@
 import { useState } from "react";
-import MigrateJobForm from "@/components/MigrateJobForm";
+import { ContainerTransition } from "@/components/primitives/Container";
 import { Navbar } from "@/components/primitives/Navbar";
-import { Container } from "@/components/primitives/Container";
+import { Button } from "@/components/primitives/Button";
+import { Field, Label } from "@/components/primitives/Fieldset";
+import { Input } from "@/components/primitives/Input";
+import { Textarea } from "@/components/primitives/Textarea";
+
+function MigrateJobForm() {
+  const [url, setUrl] = useState("");
+  const [notificationEmail, setNotificationEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/migrate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url, notification_email: notificationEmail }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage("Job posting migrated successfully!");
+        setUrl("");
+        setNotificationEmail("");
+      } else {
+        setMessage(`Error: ${data.error}`);
+      }
+    } catch (error: unknown) {
+      setMessage(
+        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`,
+      );
+      console.error("Error in job migration:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <Field>
+        <Label htmlFor="url">Job Posting URL</Label>
+        <Input
+          type="url"
+          id="url"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          required
+          placeholder="https://example.com/job-posting"
+        />
+      </Field>
+      <Field>
+        <Label htmlFor="notificationEmail">Notification Email</Label>
+        <Input
+          type="email"
+          id="notificationEmail"
+          value={notificationEmail}
+          onChange={(e) => setNotificationEmail(e.target.value)}
+          required
+          placeholder="your@email.com"
+        />
+      </Field>
+      <Button variant="primary" type="submit" disabled={isLoading}>
+        {isLoading ? "Migrating..." : "Migrate Job Posting"}
+      </Button>
+      {message && <p className="mt-2 text-sm text-zinc-600">{message}</p>}
+    </form>
+  );
+}
 
 export default function SubmitPage() {
   const [company, setCompany] = useState("");
@@ -68,7 +146,7 @@ export default function SubmitPage() {
   };
 
   return (
-    <Container>
+    <ContainerTransition>
       <Navbar />
 
       <section className="mb-8">
@@ -78,107 +156,84 @@ export default function SubmitPage() {
       <h1 className="text-2xl font-bold mb-4">Submit a Job Opening</h1>
       {message && <p className="mb-4 text-sm text-zinc-600">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">
-            Company:
-          </label>
-          <input
+        <Field>
+          <Label>Full name</Label>
+          <Input name="full_name" />
+        </Field>
+        <Field>
+          <Label>Company</Label>
+          <Input
             type="text"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">
-            Job Title:
-          </label>
-          <input
+        </Field>
+        <Field>
+          <Label>Job Title</Label>
+          <Input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">
-            Location:
-          </label>
-          <input
+        </Field>
+        <Field>
+          <Label>Location</Label>
+          <Input
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">
-            Company Avatar URL:
-          </label>
-          <input
+        </Field>
+        <Field>
+          <Label>Company Avatar URL</Label>
+          <Input
             type="text"
             value={avatarImg}
             onChange={(e) => setAvatarImg(e.target.value)}
-            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">
-            Application Link:
-          </label>
-          <input
+        </Field>
+        <Field>
+          <Label>Application Link</Label>
+          <Input
             type="text"
             value={applicationLink}
             onChange={(e) => setApplicationLink(e.target.value)}
-            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="URL or instructions to apply"
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">
-            Description:
-          </label>
-          <textarea
+        </Field>
+        <Field>
+          <Label>Description</Label>
+          <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
             className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             rows={4}
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">
-            Salary Range:
-          </label>
-          <input
+        </Field>
+        <Field>
+          <Label>Salary Range</Label>
+          <Input
             type="text"
             value={salaryRange}
             onChange={(e) => setSalaryRange(e.target.value)}
-            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">
-            Notification Email:
-          </label>
-          <input
+        </Field>
+        <Field>
+          <Label>Notification Email</Label>
+          <Input
             type="email"
             value={notificationEmail}
             onChange={(e) => setNotificationEmail(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
-        </div>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
+        </Field>
+        <Button variant="primary" type="submit" disabled={isLoading}>
           {isLoading ? "Submitting..." : "Submit Job Posting"}
-        </button>
+        </Button>
       </form>
-    </Container>
+    </ContainerTransition>
   );
 }

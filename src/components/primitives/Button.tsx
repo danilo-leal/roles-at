@@ -17,7 +17,10 @@ export const buttonStyle = cva({
   ),
   variants: {
     variant: {
-      primary: "bg-foreground text-background",
+      primary: clsx(
+        "border default-border-color dark:hover:bg-zinc-600",
+        // "dark:focus-visible:ring-zinc-500",
+      ),
       outline: clsx(
         "border default-border-color dark:hover:bg-zinc-600",
         // "dark:focus-visible:ring-zinc-500",
