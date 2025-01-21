@@ -177,21 +177,21 @@ export default function CompanyPage({
             </div>
           )} */}
         </div>
-        {/* <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
           {job.location && (
             <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
-              <MapPin size={12} />
+              {/* <MapPin size={12} /> */}
               {job.location}
             </p>
           )}
           <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
           <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
-            <Clock size={12} />
+            {/* <Clock size={12} /> */}
             {formatDate(job.created_at)}
           </p>
           <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
           <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
-            <Calendar size={12} />
+            {/* <Calendar size={12} /> */}
             {new Date(job.created_at).toLocaleDateString()}
           </p>
           <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
@@ -200,7 +200,7 @@ export default function CompanyPage({
               {job.salary_range}
             </p>
           )}
-        </div> */}
+        </div>
       </div>
       <div className="mb-8">
         <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
