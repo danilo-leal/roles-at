@@ -12,7 +12,7 @@ export const buttonStyle = cva({
     "inline-flex items-center justify-center gap-1.5",
     "text-sm font-medium shadow-xs transition fv-style",
     "disabled:opacity-40 enabled:cursor-pointer",
-    "h-(--button-height) active:scale-98 rounded-full"
+    "h-(--button-height) active:scale-98 rounded-full",
   ),
   variants: {
     variant: {
@@ -21,7 +21,7 @@ export const buttonStyle = cva({
         "dark:from-orange-700 dark:to-orange-800",
         "hover:saturate-150",
         "text-white shadow-[inset_0px_0.5px_0px_rgb(255_255_255_/_0.4)]",
-        "border-transparent"
+        "border-transparent",
         // "dark:focus-visible:ring-zinc-500",
       ),
       secondary: clsx(
@@ -29,18 +29,19 @@ export const buttonStyle = cva({
         "dark:from-zinc-600 dark:to-zinc-700",
         "hover:brightness-120",
         "text-white shadow-[inset_0px_0.5px_0px_rgb(255_255_255_/_0.4)]",
-        "border-transparent"
+        "border-transparent",
         // "dark:focus-visible:ring-zinc-500",
       ),
       outline: clsx(
+        "text-zinc-950 dark:text-zinc-100",
         "border default-border-color",
         "hover:!border-zinc-300 hover:bg-zinc-200/50",
-        "dark:hover:!border-zinc-600/80 dark:hover:bg-zinc-600/20"
+        "dark:hover:!border-zinc-600/80 dark:hover:bg-zinc-600/20",
         // "dark:focus-visible:ring-zinc-500",
       ),
       ghost: clsx(
         "border-transparent default-border-color hover:bg-zinc-100/70 dark:hover:bg-zinc-600/20 shadow-none",
-        "dark:text-zinc-200"
+        "dark:text-zinc-200",
         // "dark:focus-visible:ring-zinc-500",
       ),
       destructive: "bg-red-600 text-white ring-red-600/50 hover:bg-red-700",
@@ -83,11 +84,11 @@ export const Button = forwardRef(function Button(
     isLoading,
     ...props
   }: ButtonProps,
-  ref: React.ForwardedRef<HTMLElement>
+  ref: React.ForwardedRef<HTMLElement>,
 ) {
   const classes = cn(
     buttonStyle({ variant, size, square, className }),
-    isLoading && "text-transparent"
+    isLoading && "text-transparent",
   );
 
   return "href" in props ? (

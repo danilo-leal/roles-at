@@ -6,6 +6,7 @@ export default function AboutPage() {
   return (
     <ContainerTransition>
       <Navbar />
+      <SectionDivider />
       <h2 className="text-xl font-semibold mb-2">How does it work?</h2>
       <p className="text-sm default-p-color mb-1">
         Thank you wanting to submit a job posting to our platform! It&apos;s a
@@ -24,7 +25,6 @@ export default function AboutPage() {
           support@roles.at.
         </li>
       </ul>
-      <SectionDivider />
     </ContainerTransition>
   );
 }

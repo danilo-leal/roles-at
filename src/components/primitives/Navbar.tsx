@@ -88,7 +88,7 @@ export function Navbar() {
         className={clsx(
           "pattern-diagonal-lines [--pattern-color:_#ea580c] pattern-bg-white",
           "pattern-size-1 pattern-opacity-20 dark:[--pattern-bg-color:_transparent]",
-          "[z-index:-1] absolute inset-0 pointer-events-none select-none"
+          "[z-index:-1] absolute inset-0 pointer-events-none select-none",
         )}
       />
     );
@@ -108,8 +108,8 @@ export function Navbar() {
     <header>
       <nav
         className={clsx(
-          "py-8 w-full",
-          "flex justify-between items-center rounded-none sm:rounded-full"
+          "pt-8 w-full",
+          "flex justify-between items-center rounded-none sm:rounded-full",
           // "bg-white/60 dark:bg-black/30",
           // "border-b sm:border border-zinc-300/50 dark:border-zinc-400/10",
         )}
@@ -148,7 +148,6 @@ export function Navbar() {
           <Tooltip
             trigger={
               <Button
-                variant="ghost"
                 square
                 onClick={toggleTheme}
                 aria-label="Toggle Color Mode"

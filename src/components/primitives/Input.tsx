@@ -104,7 +104,7 @@ export const Input = forwardRef(function Input(
           // Additional padding left if startSlot is true
           startSlot && "pl-10 sm:pl-9",
           // Additional padding right if keybinding is true
-          keybinding && "pr-10 sm:pr-16",
+          keybinding && "pr-2 sm:pr-16",
         ])}
       />
     </span>

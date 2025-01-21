@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import clsx from "clsx";
+import { Dialog as BaseDialog } from "@base-ui-components/react/dialog";
 import { GetServerSideProps } from "next";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { Job } from "@/types/job";
-import { Dialog } from "@/components/primitives/Dialog";
 import { Navbar } from "@/components/primitives/Navbar";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
@@ -13,12 +14,14 @@ import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
 import * as cheerio from "cheerio";
-import { MapPin, Clock, Calendar } from "@phosphor-icons/react";
+import { MapPin, Clock, Calendar, Copy, Check } from "@phosphor-icons/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const supabase = createPagesServerClient(context);
     const { company } = context.params as { company: string };
+
+    console.log("Fetching data for company:", company);
 
     const { data, error } = await supabase
       .from("job-postings")
@@ -37,6 +40,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return { notFound: true };
     }
 
+    console.log("Data fetched successfully:", data);
+
     return { props: { job: data[0] } };
   } catch (error) {
     console.error("Unexpected error in getServerSideProps:", error);
@@ -44,9 +49,102 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 };
 
-export default function CompanyPage({ job }: { job: Job }) {
-  const [isDialogOpen, setDialogOpen] = React.useState(false);
+function Dialog({
+  email,
+  fullWidthBtn,
+}: {
+  email: string;
+  fullWidthBtn?: boolean;
+}) {
+  const [copied, setCopied] = useState(false);
 
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(email).then(
+      () => {
+        setCopied(true); // Set the copied state to true
+        setTimeout(() => setCopied(false), 2000); // Reset the icon after 2 seconds
+      },
+      (err) => {
+        console.error("Failed to copy text: ", err);
+      },
+    );
+  };
+
+  return (
+    <BaseDialog.Root dismissible>
+      <BaseDialog.Trigger
+        render={
+          <Button
+            variant="primary"
+            className={clsx("ml-auto", fullWidthBtn ? "w-full" : "w-fit")}
+          >
+            Apply for this position
+          </Button>
+        }
+      />
+      <BaseDialog.Portal>
+        <BaseDialog.Backdrop
+          className={clsx(
+            "fixed inset-0 bg-black/20 dark:bg-zinc-900/10 transition-all duration-150",
+            "backdrop-blur-xs",
+            "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
+          )}
+        />
+        <BaseDialog.Popup
+          className={clsx(
+            "fixed bottom-0 sm:top-1/2 left-1/2 -mt-8",
+            "-translate-x-1/2 sm:-translate-y-1/2 rounded-b-none sm:rounded-b-lg rounded-t-lg",
+            "w-full sm:w-[450px] h-fit overflow-clip",
+            "bg-gray-50 text-gray-900",
+            "dark:bg-neutral-950 text-gray-900",
+            "border default-border-color",
+            "outline-none shadow-2xl",
+            "transition-all duration-100",
+            "data-[ending-style]:scale-90 data-[ending-style]:opacity-0",
+            "data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
+          )}
+        >
+          <BaseDialog.Title className="-mt-1.5 px-4 pt-4 pb-2 dark:text-white font-medium border-b default-border-color">
+            Apply via email
+          </BaseDialog.Title>
+          <div className="grow flex flex-col p-4 gap-3 justify-between">
+            <BaseDialog.Description className="text-sm default-p-color mb-2">
+              Copy the email address and send your application.
+            </BaseDialog.Description>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={handleCopyEmail}
+            >
+              {email}
+              <span className="relative flex items-center">
+                <Copy
+                  size={16}
+                  className={clsx(
+                    "absolute transition-opacity duration-300",
+                    copied ? "opacity-0" : "opacity-100",
+                  )}
+                />
+                <Check
+                  size={16}
+                  className={clsx(
+                    "absolute transition-opacity duration-300 text-green-600 dark:text-green-300",
+                    copied ? "opacity-100" : "opacity-0",
+                  )}
+                />
+              </span>
+            </Button>
+            <BaseDialog.Close
+              render={<Button className="w-full">Close</Button>}
+            />
+          </div>
+        </BaseDialog.Popup>
+      </BaseDialog.Portal>
+    </BaseDialog.Root>
+  );
+}
+
+export default function CompanyPage({ job }: { job: Job }) {
   const components: Components = {
     h1: (props) => (
       <h1 className="text-2xl dark:text-white font-bold my-4" {...props} />
@@ -113,24 +211,25 @@ export default function CompanyPage({ job }: { job: Job }) {
     // Client-side: clean and sanitize
     return DOMPurify.sanitize(cleanHtml(html));
   };
+
   return (
     <ContainerTransition>
       <Navbar />
       <SectionDivider type="alternative" />
       <div className="pb-6 mb-6 border-b default-border-color">
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-6 mb-6">
           {job.avatar_img && (
             <Image
               src={job.avatar_img}
               alt={`${job.company} logo`}
-              width={64}
-              height={64}
+              width={52}
+              height={52}
               className="rounded-full"
             />
           )}
           <div>
-            <h1 className="text-2xl font-bold">{job.title}</h1>
-            <p className="text-lg default-p-color">{job.company}</p>
+            <h1 className="text-xl font-semibold">{job.title}</h1>
+            <p className="default-p-color">{job.company}</p>
           </div>
           {job.application_link ? (
             <Button
@@ -143,21 +242,7 @@ export default function CompanyPage({ job }: { job: Job }) {
               Apply for this position
             </Button>
           ) : (
-            <>
-              <Button
-                onClick={() => setDialogOpen(true)}
-                variant="primary"
-                size="md"
-                className="hidden sm:flex ml-auto"
-              >
-                Apply for this position
-              </Button>
-              <Dialog
-                open={isDialogOpen}
-                onClose={() => setDialogOpen(false)}
-                email={job.notification_email || ""}
-              />
-            </>
+            <Dialog email={job.notification_email || ""} />
           )}
         </div>
         <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
@@ -202,21 +287,7 @@ export default function CompanyPage({ job }: { job: Job }) {
           Apply for this position
         </Button>
       ) : (
-        <>
-          <Button
-            onClick={() => setDialogOpen(true)}
-            variant="primary"
-            size="md"
-            className="w-full sm:hidden"
-          >
-            Apply for this position
-          </Button>
-          <Dialog
-            open={isDialogOpen}
-            onClose={() => setDialogOpen(false)}
-            email={job.notification_email || ""}
-          />
-        </>
+        <Dialog email={job.notification_email || ""} fullWidthBtn />
       )}
     </ContainerTransition>
   );

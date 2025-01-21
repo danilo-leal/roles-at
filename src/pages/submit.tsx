@@ -43,7 +43,7 @@ function MigrateJobForm() {
       }
     } catch (error: unknown) {
       setMessage(
-        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`
+        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`,
       );
       console.error("Error in job migration:", error);
     } finally {
@@ -83,7 +83,6 @@ function MigrateJobForm() {
           variant="primary"
           type="submit"
           disabled={isLoading}
-          size="md"
           className="w-full sm:w-auto"
         >
           {isLoading ? "Migrating..." : "Migrate Opening From Read.cv"}
@@ -137,7 +136,7 @@ export default function SubmitPage() {
 
       setMessage(
         data.message ||
-          "Your submission has been received and is pending approval."
+          "Your submission has been received and is pending approval.",
       );
       // Clear form
       setCompany("");
@@ -151,7 +150,7 @@ export default function SubmitPage() {
     } catch (error) {
       console.error("Error submitting job posting:", error);
       setMessage(
-        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`
+        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`,
       );
     } finally {
       setIsLoading(false);
@@ -161,6 +160,7 @@ export default function SubmitPage() {
   return (
     <ContainerTransition>
       <Navbar />
+      <SectionDivider />
       <h2 className="text-xl font-semibold mb-2">How does it work?</h2>
       <p className="text-sm default-p-color mb-2 leading-6">
         First of all, thank you for wanting to submit a job posting to our
@@ -182,9 +182,9 @@ export default function SubmitPage() {
       <section>
         <h2 className="text-xl font-semibold mb-2">Migration From Read.cv</h2>
         <p className="text-sm default-p-color leading-6 mb-4">
-          To migrate a listing that is opened and active on Read.cv to here,
-          simply provide its URL and add an email so you can be notified about
-          its status.
+          Migrate an active Read.cv listing by providing its URL and your email
+          address so we cam we can notify you about the status of your
+          submission.
         </p>
         <MigrateJobForm />
       </section>
@@ -300,7 +300,6 @@ export default function SubmitPage() {
           <Button
             variant="secondary"
             type="submit"
-            size="md"
             className="w-full sm:w-auto"
             disabled={isLoading}
           >
