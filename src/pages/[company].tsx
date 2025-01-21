@@ -70,7 +70,7 @@ export default function CompanyPage({
 
   return (
     <ContainerTransition>
-      <Navbar />
+      {/* <Navbar /> */}
       <SectionDivider type="alternative" />
       <h1>{job.title}</h1>
       <p>Company: {job.company}</p>
