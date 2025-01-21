@@ -9,33 +9,36 @@ import { Container } from "@/components/primitives/Container";
 import { AuthOnlyRoute } from "@/components/AuthOnlyRoute";
 import { DefaultSeo } from "next-seo";
 import SEO from "../../next-seo.config";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [supabaseClient] = useState(() => createPagesBrowserClient());
   const router = useRouter();
 
   return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
+    <ErrorBoundary>
+      <SessionContextProvider
+        supabaseClient={supabaseClient}
+        initialSession={pageProps.initialSession}
       >
-        <DefaultSeo {...SEO} />
-        <Container>
-          {router.pathname === "/admin" ? (
-            <AuthOnlyRoute>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <DefaultSeo {...SEO} />
+          <Container>
+            {router.pathname === "/admin" ? (
+              <AuthOnlyRoute>
+                <Component {...pageProps} />
+              </AuthOnlyRoute>
+            ) : (
               <Component {...pageProps} />
-            </AuthOnlyRoute>
-          ) : (
-            <Component {...pageProps} />
-          )}
-        </Container>
-      </ThemeProvider>
-    </SessionContextProvider>
+            )}
+          </Container>
+        </ThemeProvider>
+      </SessionContextProvider>
+    </ErrorBoundary>
   );
 }
