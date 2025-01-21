@@ -7,7 +7,6 @@ import { Button } from "@/components/primitives/Button";
 import { Tooltip } from "@/components/primitives/Tooltip";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { useTheme } from "next-themes";
-import { useSession } from "@supabase/auth-helpers-react";
 import { Sun, Moon } from "@phosphor-icons/react";
 
 function Logo() {
@@ -41,7 +40,6 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(true);
   const { pathname } = useRouter();
-  const session = useSession();
   // const supabase = useSupabaseClient();
   // const router = useRouter();
 
@@ -118,16 +116,6 @@ export function Navbar() {
             About
             {pathname === "/about" && <HighlightPattern />}
           </Button>
-          {session && (
-            <Button
-              variant={pathname === "/admin" ? "outline" : "ghost"}
-              href="/admin"
-              className="relative hidden sm:inline-flex"
-            >
-              Admin
-              {pathname === "/admin" && <HighlightPattern />}
-            </Button>
-          )}
         </div>
         <div className="flex items-center gap-2.5">
           <Tooltip
