@@ -1,6 +1,9 @@
 import { GetServerSideProps } from "next";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { Job } from "@/types/job";
+import { Navbar } from "@/components/primitives/Navbar";
+import { ContainerTransition } from "@/components/primitives/Container";
+import { SectionDivider } from "@/components/primitives/Divider";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -41,7 +44,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     console.error("Error in getServerSideProps:", error);
     return {
       props: {
-        error: error instanceof Error ? error.message : "An unexpected error occurred",
+        error:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
       },
     };
   }
@@ -63,12 +69,14 @@ export default function CompanyPage({
   }
 
   return (
-    <div>
+    <ContainerTransition>
+      <Navbar />
+      <SectionDivider type="alternative" />
       <h1>{job.title}</h1>
       <p>Company: {job.company}</p>
       <p>Location: {job.location}</p>
       <p>Salary Range: {job.salary_range}</p>
       <p>Description: {job.description}</p>
-    </div>
+    </ContainerTransition>
   );
 }
