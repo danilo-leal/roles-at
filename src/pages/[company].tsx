@@ -17,16 +17,19 @@ import * as cheerio from "cheerio";
 import { MapPin, Clock, Calendar, Copy, Check } from "@phosphor-icons/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log("getServerSideProps started for [company]");
-
   try {
     const supabase = createPagesServerClient(context);
-    console.log("Supabase client created");
+    
+    if (!supabase) {
+      throw new Error("Failed to initialize Supabase client");
+    }
 
     const { company } = context.params as { company: string };
-    console.log("Company slug:", company);
+    
+    if (!company) {
+      return { notFound: true };
+    }
 
-    console.log("Fetching data from Supabase...");
     const { data, error } = await supabase
       .from("job-postings")
       .select("*")
@@ -34,30 +37,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .order("created_at", { ascending: false })
       .limit(1);
 
-    console.log("Supabase query completed");
-
     if (error) {
       console.error("Supabase error:", error);
       throw error;
     }
 
     if (!data || data.length === 0) {
-      console.log("Job not found for company slug:", company);
       return { notFound: true };
     }
 
-    console.log("Data fetched successfully:", data);
-
-    return { props: { job: data[0] } };
+    return { 
+      props: { 
+        job: JSON.parse(JSON.stringify(data[0])) // Ensure serializable
+      } 
+    };
   } catch (error) {
-    console.error("Unexpected error in getServerSideProps:", error);
+    console.error("Error in getServerSideProps:", error);
     return {
       props: {
-        error:
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred",
-      },
+        error: error instanceof Error 
+          ? error.message 
+          : "An unexpected error occurred"
+      }
     };
   }
 };
