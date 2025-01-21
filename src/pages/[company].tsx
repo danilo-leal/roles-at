@@ -19,13 +19,13 @@ import { MapPin, Clock, Calendar, Copy, Check } from "@phosphor-icons/react";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const supabase = createPagesServerClient(context);
-    
+
     if (!supabase) {
       throw new Error("Failed to initialize Supabase client");
     }
 
     const { company } = context.params as { company: string };
-    
+
     if (!company) {
       return { notFound: true };
     }
@@ -46,19 +46,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return { notFound: true };
     }
 
-    return { 
-      props: { 
-        job: JSON.parse(JSON.stringify(data[0])) // Ensure serializable
-      } 
+    return {
+      props: {
+        job: JSON.parse(JSON.stringify(data[0])), // Ensure serializable
+      },
     };
   } catch (error) {
     console.error("Error in getServerSideProps:", error);
     return {
       props: {
-        error: error instanceof Error 
-          ? error.message 
-          : "An unexpected error occurred"
-      }
+        error:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+      },
     };
   }
 };
@@ -259,7 +260,7 @@ export default function CompanyPage({
             <h1 className="text-xl font-semibold">{job.title}</h1>
             <p className="default-p-color">{job.company}</p>
           </div>
-          {job.application_link ? (
+          {/* {job.application_link ? (
             <Button
               href={job.application_link}
               target="_blank"
@@ -271,7 +272,7 @@ export default function CompanyPage({
             </Button>
           ) : (
             <Dialog email={job.notification_email || ""} />
-          )}
+          )} */}
         </div>
         <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
           {job.location && (
@@ -303,7 +304,7 @@ export default function CompanyPage({
           {sanitizeAndCleanHtml(job.description)}
         </ReactMarkdown>
       </div>
-      {job.application_link ? (
+      {/* {job.application_link ? (
         <Button
           href={job.application_link}
           target="_blank"
@@ -316,7 +317,7 @@ export default function CompanyPage({
         </Button>
       ) : (
         <Dialog email={job.notification_email || ""} fullWidthBtn />
-      )}
+      )} */}
     </ContainerTransition>
   );
 }
