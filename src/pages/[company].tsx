@@ -5,8 +5,8 @@ import { Job } from "@/types/job";
 // import { Navbar } from "@/components/primitives/Navbar";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
-import { formatDate } from "@/utils/date";
-import { MapPin, Clock, Calendar } from "@phosphor-icons/react";
+// import { formatDate } from "@/utils/date";
+// import { MapPin, Clock, Calendar } from "@phosphor-icons/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -106,7 +106,7 @@ export default function CompanyPage({
             </div>
           )} */}
         </div>
-        <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+        {/* <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
           {job.location && (
             <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
               <MapPin size={12} />
@@ -129,7 +129,7 @@ export default function CompanyPage({
               {job.salary_range}
             </p>
           )}
-        </div>
+        </div> */}
       </div>
       <h1>{job.title}</h1>
       <p>Company: {job.company}</p>
