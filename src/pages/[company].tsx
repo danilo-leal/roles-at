@@ -81,7 +81,7 @@ function Dialog({
       },
       (err) => {
         console.error("Failed to copy text: ", err);
-      },
+      }
     );
   };
 
@@ -102,7 +102,7 @@ function Dialog({
           className={clsx(
             "fixed inset-0 bg-black/20 dark:bg-zinc-900/10 transition-all duration-150",
             "backdrop-blur-xs",
-            "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
+            "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0"
           )}
         />
         <BaseDialog.Popup
@@ -116,7 +116,7 @@ function Dialog({
             "outline-none shadow-2xl",
             "transition-all duration-100",
             "data-[ending-style]:scale-90 data-[ending-style]:opacity-0",
-            "data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
+            "data-[starting-style]:scale-90 data-[starting-style]:opacity-0"
           )}
         >
           <BaseDialog.Title className="-mt-1.5 px-4 pt-4 pb-2 dark:text-white font-medium border-b default-border-color">
@@ -137,14 +137,14 @@ function Dialog({
                   size={16}
                   className={clsx(
                     "absolute transition-opacity duration-300",
-                    copied ? "opacity-0" : "opacity-100",
+                    copied ? "opacity-0" : "opacity-100"
                   )}
                 />
                 <Check
                   size={16}
                   className={clsx(
                     "absolute transition-opacity duration-300 text-green-600 dark:text-green-300",
-                    copied ? "opacity-100" : "opacity-0",
+                    copied ? "opacity-100" : "opacity-0"
                   )}
                 />
               </span>
@@ -260,7 +260,7 @@ export default function CompanyPage({
             <h1 className="text-xl font-semibold">{job.title}</h1>
             <p className="default-p-color">{job.company}</p>
           </div>
-          {/* {job.application_link ? (
+          {job.application_link ? (
             <Button
               href={job.application_link}
               target="_blank"
@@ -271,8 +271,10 @@ export default function CompanyPage({
               Apply for this position
             </Button>
           ) : (
-            <Dialog email={job.notification_email || ""} />
-          )} */}
+            <div className="hidden sm:flex ml-auto">
+              <Dialog email={job.notification_email || ""} />
+            </div>
+          )}
         </div>
         <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
           {job.location && (
@@ -304,7 +306,7 @@ export default function CompanyPage({
           {sanitizeAndCleanHtml(job.description)}
         </ReactMarkdown>
       </div>
-      {/* {job.application_link ? (
+      {job.application_link ? (
         <Button
           href={job.application_link}
           target="_blank"
@@ -316,8 +318,10 @@ export default function CompanyPage({
           Apply for this position
         </Button>
       ) : (
-        <Dialog email={job.notification_email || ""} fullWidthBtn />
-      )} */}
+        <div className="w-full sm:hidden">
+          <Dialog email={job.notification_email || ""} fullWidthBtn />
+        </div>
+      )}
     </ContainerTransition>
   );
 }
