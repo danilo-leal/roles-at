@@ -68,9 +68,9 @@ export default async function handler(
         );
         try {
           const data = await resend.emails.send({
-            from: "Your Name <onboarding@resend.dev>", // Use your verified domain
+            from: "Danilo from Roles.at <onboarding@resend.dev>",
             to: jobPosting.notification_email,
-            subject: "Your Job Listing Has Been Rejected",
+            subject: "Roles.at: Job Listing Rejected",
             react: RejectionEmail({
               company: jobPosting.company,
               title: jobPosting.title,
