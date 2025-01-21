@@ -6,6 +6,10 @@ import { Job } from "@/types/job";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
 // import { formatDate } from "@/utils/date";
+import ReactMarkdown, { Components } from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import DOMPurify from "isomorphic-dompurify";
+import * as cheerio from "cheerio";
 // import { MapPin, Clock, Calendar } from "@phosphor-icons/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -71,6 +75,73 @@ export default function CompanyPage({
     return <div>Job not found</div>;
   }
 
+  const components: Components = {
+    h1: (props) => (
+      <h1 className="text-2xl dark:text-white font-bold my-4" {...props} />
+    ),
+    h2: (props) => (
+      <h2
+        className="pt-6 text-xl dark:text-white font-semibold my-3"
+        {...props}
+      />
+    ),
+    h3: (props) => (
+      <h3
+        className="pt-4 text-xl dark:text-white font-semibold my-3"
+        {...props}
+      />
+    ),
+    p: (props) => <p className="default-p-color my-2 leading-7" {...props} />,
+    ul: (props) => (
+      <ul
+        className="list-disc pl-6 default-p-color flex flex-col gap-0.5 leading-7"
+        {...props}
+      />
+    ),
+    ol: (props) => (
+      <ol
+        className="list-decimal pl-6 default-p-color flex flex-col gap-0.5 leading-7"
+        {...props}
+      />
+    ),
+    li: (props) => <li className="" {...props} />,
+  };
+
+  const cleanHtml = (html: string) => {
+    const $ = cheerio.load(html);
+
+    // Remove <p> tags inside <li> tags
+    $("li p").each((_, elem) => {
+      const $elem = $(elem);
+      $elem.replaceWith($elem.html() || "");
+    });
+
+    // Remove empty paragraphs
+    $("p:empty").remove();
+
+    // Remove specific classes
+    $(".unwanted-class").removeClass("unwanted-class");
+
+    // Convert <b> tags to <strong>
+    $("b").each((_, elem) => {
+      const $elem = $(elem);
+      $elem.replaceWith(`<strong>${$elem.html() || ""}</strong>`);
+    });
+
+    // Add more rules as needed
+
+    return $.html();
+  };
+
+  const sanitizeAndCleanHtml = (html: string) => {
+    if (typeof window === "undefined") {
+      // Server-side: just clean the HTML
+      return cleanHtml(html);
+    }
+    // Client-side: clean and sanitize
+    return DOMPurify.sanitize(cleanHtml(html));
+  };
+
   return (
     <ContainerTransition>
       {/* <Navbar /> */}
@@ -130,6 +201,11 @@ export default function CompanyPage({
             </p>
           )}
         </div> */}
+      </div>
+      <div className="mb-8">
+        <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
+          {sanitizeAndCleanHtml(job.description)}
+        </ReactMarkdown>
       </div>
       <h1>{job.title}</h1>
       <p>Company: {job.company}</p>
