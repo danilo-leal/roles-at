@@ -6,7 +6,7 @@ import { SectionDivider } from "@/components/primitives/Divider";
 import { Description, Field, Label } from "@/components/primitives/Fieldset";
 import { Input } from "@/components/primitives/Input";
 import { Textarea } from "@/components/primitives/Textarea";
-import { Asterisk } from "@phosphor-icons/react";
+import { Asterisk } from "lucide-react";
 
 function MigrateJobForm() {
   const [url, setUrl] = useState("");
@@ -43,7 +43,7 @@ function MigrateJobForm() {
       }
     } catch (error: unknown) {
       setMessage(
-        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`
+        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`,
       );
       console.error("Error in job migration:", error);
     } finally {
@@ -136,7 +136,7 @@ export default function SubmitPage() {
 
       setMessage(
         data.message ||
-          "Your submission has been received and is pending approval."
+          "Your submission has been received and is pending approval.",
       );
       // Clear form
       setCompany("");
@@ -150,7 +150,7 @@ export default function SubmitPage() {
     } catch (error) {
       console.error("Error submitting job posting:", error);
       setMessage(
-        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`
+        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`,
       );
     } finally {
       setIsLoading(false);

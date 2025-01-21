@@ -14,7 +14,7 @@ import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
 import * as cheerio from "cheerio";
-import { MapPin, Clock, Calendar } from "@phosphor-icons/react/dist/ssr";
+import { MapPin, Clock, Calendar } from "lucide-react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {

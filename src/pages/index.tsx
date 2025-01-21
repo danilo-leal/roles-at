@@ -11,7 +11,7 @@ import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { formatDate } from "@/utils/date";
-import { MapPin, Clock, MagnifyingGlass } from "@phosphor-icons/react";
+import { MapPin, Clock, Search } from "lucide-react";
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -149,7 +149,7 @@ export default function JobsPage() {
         </p>
       </hgroup>
       <InputGroup data-slot="search" className="mb-3">
-        <MagnifyingGlass data-slot="icon" />
+        <Search data-slot="icon" />
         <Input
           ref={searchInputRef}
           startSlot

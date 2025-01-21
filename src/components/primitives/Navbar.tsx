@@ -7,7 +7,7 @@ import { Button } from "@/components/primitives/Button";
 import { Tooltip } from "@/components/primitives/Tooltip";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { useTheme } from "next-themes";
-// import { Sun, Moon } from "@phosphor-icons/react";
+import { Sun, Moon } from "lucide-react";
 
 function Logo() {
   return (
@@ -38,15 +38,12 @@ function Logo() {
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(true);
+  const [mounted, setMounted] = React.useState(false);
   const { pathname } = useRouter();
-  // const supabase = useSupabaseClient();
-  // const router = useRouter();
 
   const toggleTheme = React.useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark");
-    setMounted(!mounted);
-  }, [theme, setTheme, mounted, setMounted]);
+  }, [theme, setTheme]);
 
   React.useEffect(() => {
     setMounted(true);
@@ -77,27 +74,14 @@ export function Navbar() {
     );
   }
 
-  // const handleLogout = async () => {
-  //   await supabase.auth.signOut();
-  //   router.push("/");
-  // };
-
-  // const handleLogin = () => {
-  //   // Redirect to login page or open login modal
-  //   router.push("/login"); // Adjust this based on your login implementation
-  // };
-
   return (
     <header>
       <nav
         className={clsx(
           "pt-8 w-full",
           "flex justify-between items-center rounded-none sm:rounded-full",
-          // "bg-white/60 dark:bg-black/30",
-          // "border-b sm:border border-zinc-300/50 dark:border-zinc-400/10",
         )}
       >
-        {/* <JumpToContent /> */}
         <div className="flex items-center gap-1">
           <Logo />
           <Button
@@ -125,8 +109,7 @@ export function Navbar() {
                 onClick={toggleTheme}
                 aria-label="Toggle Color Mode"
               >
-                hello
-                {/* {theme === "dark" ? <Sun /> : <Moon />} */}
+                {mounted && (theme === "dark" ? <Sun /> : <Moon />)}
               </Button>
             }
             content={
