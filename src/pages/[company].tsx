@@ -5,7 +5,7 @@ import { Job } from "@/types/job";
 import { Navbar } from "@/components/primitives/Navbar";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
-// import { formatDate } from "@/utils/date";
+import { formatDate } from "@/utils/date";
 import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
