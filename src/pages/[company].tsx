@@ -17,13 +17,16 @@ import * as cheerio from "cheerio";
 import { MapPin, Clock, Calendar, Copy, Check } from "@phosphor-icons/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log("getServerSideProps started for [company]");
+
   try {
-    console.log("Starting getServerSideProps");
     const supabase = createPagesServerClient(context);
+    console.log("Supabase client created");
+
     const { company } = context.params as { company: string };
+    console.log("Company slug:", company);
 
-    console.log("Fetching data for company:", company);
-
+    console.log("Fetching data from Supabase...");
     const { data, error } = await supabase
       .from("job-postings")
       .select("*")
@@ -31,16 +34,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .order("created_at", { ascending: false })
       .limit(1);
 
-    console.log("Query completed. Data:", data, "Error:", error);
+    console.log("Supabase query completed");
 
     if (error) {
       console.error("Supabase error:", error);
-      return { props: { error: error.message } };
+      throw error;
     }
 
     if (!data || data.length === 0) {
       console.log("Job not found for company slug:", company);
-      return { props: { error: "Job not found" } };
+      return { notFound: true };
     }
 
     console.log("Data fetched successfully:", data);
