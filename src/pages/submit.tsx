@@ -194,10 +194,13 @@ export default function SubmitPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Field>
-            <Label className="flex items-center gap-1">
+            <Label className="flex items-start gap-0.5">
               Company{" "}
               <span>
-                <Asterisk size={10} className="opacity-70" />
+                <Asterisk
+                  size={10}
+                  className="mt-1 opacity-70 text-red-500 dark:text-red-300"
+                />
               </span>
             </Label>
             <Input
@@ -209,10 +212,13 @@ export default function SubmitPage() {
             />
           </Field>
           <Field>
-            <Label className="flex items-center gap-1">
+            <Label className="flex items-start gap-0.5">
               Job Title{" "}
               <span>
-                <Asterisk size={10} className="opacity-70" />
+                <Asterisk
+                  size={10}
+                  className="mt-1 opacity-70 text-red-500 dark:text-red-300"
+                />
               </span>
             </Label>
             <Input
@@ -254,10 +260,13 @@ export default function SubmitPage() {
           />
         </Field>
         <Field>
-          <Label className="flex items-center gap-1">
+          <Label className="flex items-start gap-0.5">
             Description{" "}
             <span>
-              <Asterisk size={10} className="opacity-70" />
+              <Asterisk
+                size={10}
+                className="mt-1 opacity-70 text-red-500 dark:text-red-300"
+              />
             </span>
           </Label>
           <Textarea
@@ -283,7 +292,10 @@ export default function SubmitPage() {
           >
             Contact Email{" "}
             <span>
-              <Asterisk size={10} className="opacity-70" />
+              <Asterisk
+                size={10}
+                className="mt-1 opacity-70 text-red-500 dark:text-red-300"
+              />
             </span>
           </Label>
           <Description>

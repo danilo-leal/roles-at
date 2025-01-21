@@ -122,7 +122,7 @@ export default function JobsPage() {
                 </p>
                 {job.location && (
                   <Chip color="zinc" className="gap-1">
-                    <MapPin />
+                    <MapPin size={12} className="opacity-50" />
                     <span className="">{job.location}</span>
                   </Chip>
                 )}

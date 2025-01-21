@@ -40,7 +40,7 @@ export const buttonStyle = cva({
         // "dark:focus-visible:ring-zinc-500",
       ),
       ghost: clsx(
-        "border-transparent default-border-color hover:bg-zinc-100/70 dark:hover:bg-zinc-600/20 shadow-none",
+        "border border-transparent hover:bg-zinc-100/70 dark:hover:bg-zinc-600/20 shadow-none",
         "dark:text-zinc-200",
         // "dark:focus-visible:ring-zinc-500",
       ),
