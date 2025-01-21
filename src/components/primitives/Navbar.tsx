@@ -7,7 +7,7 @@ import { Button } from "@/components/primitives/Button";
 import { Tooltip } from "@/components/primitives/Tooltip";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { useTheme } from "next-themes";
-import { Sun, Moon } from "@phosphor-icons/react";
+// import { Sun, Moon } from "@phosphor-icons/react";
 
 function Logo() {
   return (
@@ -125,7 +125,8 @@ export function Navbar() {
                 onClick={toggleTheme}
                 aria-label="Toggle Color Mode"
               >
-                {theme === "dark" ? <Sun /> : <Moon />}
+                hello
+                {/* {theme === "dark" ? <Sun /> : <Moon />} */}
               </Button>
             }
             content={

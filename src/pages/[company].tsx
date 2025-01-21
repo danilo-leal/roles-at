@@ -144,7 +144,7 @@ export default function CompanyPage({
 
   return (
     <ContainerTransition>
-      {/* <Navbar /> */}
+      <Navbar />
       <SectionDivider type="alternative" />
       <div className="pb-6 mb-6 border-b default-border-color">
         <div className="flex items-center gap-6 mb-6">
@@ -207,11 +207,6 @@ export default function CompanyPage({
           {sanitizeAndCleanHtml(job.description)}
         </ReactMarkdown>
       </div>
-      <h1>{job.title}</h1>
-      <p>Company: {job.company}</p>
-      <p>Location: {job.location}</p>
-      <p>Salary Range: {job.salary_range}</p>
-      <p>Description: {job.description}</p>
     </ContainerTransition>
   );
 }
