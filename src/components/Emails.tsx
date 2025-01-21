@@ -65,13 +65,14 @@ export function SubmissionConfirmationEmail({ company, title }: EmailProps) {
       </Preview>
       <Body style={main}>
         <Container style={container}>
-          <Img src="/logo.png" width="24" height="25" alt="Roles.at Logo" />
+          <Img src="logo.png" width="24" height="25" alt="Roles.at Logo" />
           <Section style={section}>
-            <Text style={text}>Hello!</Text>
+            <Text style={text}>Hello! 👋</Text>
             <Text style={text}>
-              Thanks for submitting your job listing for{" "}
-              <strong>{title}</strong> at <strong>{company}</strong>. We will
-              review it soon and get back to you whenever it is live.
+              Thank you so much for choosing to submit your job listing for{" "}
+              <strong>{title}</strong> at <strong>{company}</strong> on
+              Roles.at. We will review it soon and get back to you whenever it
+              is live.
             </Text>
           </Section>
           <Text style={links}>
@@ -92,16 +93,27 @@ export function ApprovalEmail({ company, title }: EmailProps) {
   return (
     <Html>
       <Head />
-      <Body>
-        <Container>
-          <Text>
-            Great news! Your job listing for {title} at {company} has been
-            approved.
+      <Preview>
+        Your submission for {title} at {company} has been received.
+      </Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Img src="logo.png" width="24" height="25" alt="Roles.at Logo" />
+          <Section style={section}>
+            <Text style={text}>Hello! 👋</Text>
+            <Text style={text}>
+              We&apos;ve got awesome news. Your job listing for{" "}
+              <strong>{title}</strong> at <strong>{company}</strong> on Roles.at
+              is now live on our platform and visible to potential candidates.
+            </Text>
+          </Section>
+          <Text style={links}>
+            <Link style={link}>Roles.at</Link> ・{" "}
+            <Link style={link}>Contact support</Link>
           </Text>
-          <Text>
-            It is now live on our platform and visible to potential candidates.
+          <Text style={footer}>
+            Roles.at・Proudly a single-purpose software・Made by designers
           </Text>
-          <Link href="https://yourwebsite.com/jobs">View your listing</Link>
         </Container>
       </Body>
     </Html>
@@ -112,15 +124,26 @@ export function RejectionEmail({ company, title }: EmailProps) {
   return (
     <Html>
       <Head />
-      <Body>
-        <Container>
-          <Text>
-            We regret to inform you that your job listing for {title} at{" "}
-            {company} has not been approved.
+      <Preview>
+        Your submission for {title} at {company} has been received.
+      </Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Img src="logo.png" width="24" height="25" alt="Roles.at Logo" />
+          <Section style={section}>
+            <Text style={text}>Hello! 👋</Text>
+            <Text style={text}>
+              Unfortunately, your job listing for <strong>{title}</strong> at{" "}
+              <strong>{company}</strong> on Roles.at has been rejected. Contact
+              us at <Link style={link}>support@roles.at</Link> to resolve it.
+            </Text>
+          </Section>
+          <Text style={links}>
+            <Link style={link}>Roles.at</Link> ・{" "}
+            <Link style={link}>Contact support</Link>
           </Text>
-          <Text>
-            If you believe this is an error or would like more information,
-            please contact our support team.
+          <Text style={footer}>
+            Roles.at・Proudly a single-purpose software・Made by designers
           </Text>
         </Container>
       </Body>
