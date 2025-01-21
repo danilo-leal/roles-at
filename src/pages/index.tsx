@@ -26,7 +26,10 @@ export default function JobsPage() {
       try {
         const response = await fetch("/api/");
         if (!response.ok) {
-          throw new Error("Failed to fetch jobs");
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(
+            errorData.message || `HTTP error! status: ${response.status}`,
+          );
         }
         const data = await response.json();
         const approvedJobs = data.filter((job: Job) => job.is_approved);
@@ -34,7 +37,9 @@ export default function JobsPage() {
         setFilteredJobs(approvedJobs);
       } catch (error) {
         console.error("Error fetching jobs:", error);
-        setError("Failed to fetch jobs. Please try again later.");
+        setError(
+          `Failed to fetch jobs: ${error instanceof Error ? error.message : "Unknown error"}`,
+        );
       } finally {
         setLoading(false);
       }
@@ -88,10 +93,10 @@ export default function JobsPage() {
             href={job.company_slug}
             className={clsx(
               "group cursor-pointer rounded-lg p-4 flex items-center gap-4",
-              "border default-border-color dark:hover:!border-orange-300/40",
-              "hover:bg-zinc-50/70 dark:hover:bg-zinc-800/20",
+              "border default-border-color hover:!border-orange-300 dark:hover:!border-orange-300/20",
+              "hover:bg-zinc-50 dark:hover:bg-zinc-800/40",
               "hover:[box-shadow:5px_5px_0_hsla(26,_90%,_40%,_0.1)]",
-              "transition-all duration-100 fv-style"
+              "transition-all duration-100 fv-style",
             )}
           >
             {job.avatar_img && (

@@ -8,22 +8,7 @@ import { Tooltip } from "@/components/primitives/Tooltip";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { useTheme } from "next-themes";
 import { useSession } from "@supabase/auth-helpers-react";
-// import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Sun, Moon } from "@phosphor-icons/react";
-
-// function JumpToContent() {
-//   return (
-//     <Button
-//       external="true"
-//       href="#selfie"
-//       variant="plain"
-//       color="neutral"
-//       className="absolute left-16 translate-y-[-300%] transition-transform focus:translate-y-0"
-//     >
-//       Jump to content
-//     </Button>
-//   );
-// }
 
 function Logo() {
   return (

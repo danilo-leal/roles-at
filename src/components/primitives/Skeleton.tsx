@@ -6,7 +6,10 @@ export const Skeleton = ({
 }: React.ComponentPropsWithRef<"div">) => {
   return (
     <div
-      className={cn("dark:bg-zinc-800/10 animate-pulse rounded-md", className)}
+      className={cn(
+        "bg-zinc-50 dark:bg-zinc-800/10 animate-pulse rounded-md",
+        className,
+      )}
       {...props}
     />
   );
