@@ -18,6 +18,7 @@ import { MapPin, Clock, Calendar, Copy, Check } from "@phosphor-icons/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
+    console.log("Starting getServerSideProps");
     const supabase = createPagesServerClient(context);
     const { company } = context.params as { company: string };
 
@@ -30,14 +31,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .order("created_at", { ascending: false })
       .limit(1);
 
+    console.log("Query completed. Data:", data, "Error:", error);
+
     if (error) {
       console.error("Supabase error:", error);
-      return { notFound: true };
+      return { props: { error: error.message } };
     }
 
     if (!data || data.length === 0) {
       console.log("Job not found for company slug:", company);
-      return { notFound: true };
+      return { props: { error: "Job not found" } };
     }
 
     console.log("Data fetched successfully:", data);
@@ -45,7 +48,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: { job: data[0] } };
   } catch (error) {
     console.error("Unexpected error in getServerSideProps:", error);
-    return { props: { error: "An unexpected error occurred" } };
+    return {
+      props: {
+        error:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+      },
+    };
   }
 };
 
@@ -144,7 +154,21 @@ function Dialog({
   );
 }
 
-export default function CompanyPage({ job }: { job: Job }) {
+export default function CompanyPage({
+  job,
+  error,
+}: {
+  job?: Job;
+  error?: string;
+}) {
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!job) {
+    return <div>Job not found</div>;
+  }
+
   const components: Components = {
     h1: (props) => (
       <h1 className="text-2xl dark:text-white font-bold my-4" {...props} />
