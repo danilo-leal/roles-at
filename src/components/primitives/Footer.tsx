@@ -19,7 +19,7 @@ export function Footer() {
       >
         <p className="text-xs">
           Roles.at © {currentYear}
-          <span className="hidden sm:inline-flex gap-0.5">
+          <span className="inline-flex gap-0.5">
             <span className="opacity-50">&nbsp;/&nbsp;</span>
             <span className="opacity-60">Single-purpose Software</span>
             <span className="opacity-50">&nbsp;/&nbsp;</span>
