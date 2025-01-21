@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { Job } from "@/types/job";
-import { Navbar } from "@/components/primitives/Navbar";
+// import { Navbar } from "@/components/primitives/Navbar";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
 
@@ -76,7 +76,7 @@ export default function CompanyPage({
       <p>Company: {job.company}</p>
       <p>Location: {job.location}</p>
       <p>Salary Range: {job.salary_range}</p>
-      <p>Description: {job.description}</p>
+      {/* <p>Description: {job.description}</p> */}
     </ContainerTransition>
   );
 }
