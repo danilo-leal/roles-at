@@ -43,7 +43,7 @@ function MigrateJobForm() {
       }
     } catch (error: unknown) {
       setMessage(
-        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`,
+        `An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`
       );
       console.error("Error in job migration:", error);
     } finally {
@@ -80,7 +80,7 @@ function MigrateJobForm() {
       </Field>
       <div className="flex justify-end">
         <Button
-          variant="primary"
+          variant="outline"
           type="submit"
           disabled={isLoading}
           className="w-full sm:w-auto"
@@ -136,7 +136,7 @@ export default function SubmitPage() {
 
       setMessage(
         data.message ||
-          "Your submission has been received and is pending approval.",
+          "Your submission has been received and is pending approval."
       );
       // Clear form
       setCompany("");
@@ -150,7 +150,7 @@ export default function SubmitPage() {
     } catch (error) {
       console.error("Error submitting job posting:", error);
       setMessage(
-        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`,
+        `Error: ${error instanceof Error ? error.message : "An unexpected error occurred"}`
       );
     } finally {
       setIsLoading(false);
@@ -298,7 +298,7 @@ export default function SubmitPage() {
         </Field>
         <div className="flex justify-end">
           <Button
-            variant="secondary"
+            variant="primary"
             type="submit"
             className="w-full sm:w-auto"
             disabled={isLoading}
