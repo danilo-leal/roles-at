@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import Image from "next/image";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { Job } from "@/types/job";
-// import { Navbar } from "@/components/primitives/Navbar";
+import { Navbar } from "@/components/primitives/Navbar";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
 // import { formatDate } from "@/utils/date";
