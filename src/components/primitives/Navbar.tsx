@@ -121,7 +121,7 @@ export function Navbar() {
               toggleTheme();
             }
             break;
-          case "o":
+          case "r":
             event.preventDefault();
             push("/");
             break;
