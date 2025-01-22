@@ -80,7 +80,7 @@ function MobileMenu() {
           )}
         >
           <div className="mx-auto w-8 h-1 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-500/30 my-4" />
-          <Link href="/my-world/thinking" className={linkStyles}>
+          <Link href="/" className={linkStyles}>
             See All Roles
             <ChevronRight className={iconStyles} />
           </Link>
@@ -219,6 +219,7 @@ export function Navbar() {
           />
           <Button href="/submit">
             Submit Role <Kbd char="S" />
+            {pathname === "/submit" && <HighlightPattern />}
           </Button>
           <MobileMenu />
         </div>

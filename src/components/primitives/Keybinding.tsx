@@ -7,8 +7,8 @@ export function Kbd({ char }: { char: string }) {
         "hidden sm:flex",
         "items-center justify-center",
         "size-3.5 p-0.5 rounded-sm",
-        "font-mono text-[10px]",
-        "bg-zinc-100 dark:bg-zinc-500/20",
+        "font-mono font-bold text-[10px]",
+        "bg-zinc-100 dark:bg-zinc-900",
         "border border-zinc-300 dark:border-zinc-600/50",
       )}
     >

@@ -13,6 +13,7 @@ import { Kbd } from "@/components/primitives/Keybinding";
 import { formatDate } from "@/utils/date";
 import { MapPin, Clock, Search } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { NoRoles } from "@/components/primitives/Illustrations";
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -95,7 +96,7 @@ export default function JobsPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="py-2 flex flex-col gap-3"
+      className="py-2 size-full flex flex-col gap-3"
     >
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
@@ -143,7 +144,12 @@ export default function JobsPage() {
           </Link>
         ))
       ) : (
-        <p>No matching jobs found</p>
+        <div className="py-16 size-full flex flex-col items-center gap-4">
+          <NoRoles className="max-w-56" />
+          <span className="text-xs default-p-color font-mono">
+            No matching jobs found
+          </span>
+        </div>
       )}
     </motion.div>
   );

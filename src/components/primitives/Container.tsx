@@ -55,14 +55,17 @@ export function Container({
 
 export function ContainerTransition({
   children,
+  className,
 }: {
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}
+      className={className}
     >
       {children}
     </motion.div>
