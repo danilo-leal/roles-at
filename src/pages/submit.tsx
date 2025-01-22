@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { Navbar } from "@/components/primitives/Navbar";
 import { Button } from "@/components/primitives/Button";
@@ -7,12 +7,24 @@ import { Description, Field, Label } from "@/components/primitives/Fieldset";
 import { Input } from "@/components/primitives/Input";
 import { Textarea } from "@/components/primitives/Textarea";
 import { Asterisk } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 function MigrateJobForm() {
   const [url, setUrl] = useState("");
   const [notificationEmail, setNotificationEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    if (message) {
+      setShowMessage(true);
+      const timer = setTimeout(() => {
+        setShowMessage(false);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,9 +90,24 @@ function MigrateJobForm() {
           placeholder="your@email.com"
         />
       </Field>
-      <div className="flex justify-end">
+      <div className="flex w-full justify-between">
+        <span>
+          <AnimatePresence>
+            {showMessage && (
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.2 }}
+                className="mt-2 text-sm text-zinc-600"
+              >
+                {message}
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </span>
         <Button
-          variant="outline"
+          variant="primary"
           type="submit"
           disabled={isLoading}
           className="w-full sm:w-auto"
@@ -88,7 +115,6 @@ function MigrateJobForm() {
           {isLoading ? "Migrating..." : "Migrate Opening From Read.cv"}
         </Button>
       </div>
-      {message && <p className="mt-2 text-sm text-zinc-600">{message}</p>}
     </form>
   );
 }
@@ -104,6 +130,17 @@ export default function SubmitPage() {
   const [notificationEmail, setNotificationEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    if (message) {
+      setShowMessage(true);
+      const timer = setTimeout(() => {
+        setShowMessage(false);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,6 +194,15 @@ export default function SubmitPage() {
     }
   };
 
+  const renderAsterisk = () => {
+    return (
+      <Asterisk
+        size={10}
+        className="mt-1 opacity-70 text-red-500 dark:text-red-300"
+      />
+    );
+  };
+
   return (
     <ContainerTransition>
       <Navbar />
@@ -192,16 +238,10 @@ export default function SubmitPage() {
       <h2 className="text-xl font-semibold mb-2">Direct Form</h2>
       {message && <p className="mb-4 text-sm text-zinc-600">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field>
             <Label className="flex items-start gap-0.5">
-              Company{" "}
-              <span>
-                <Asterisk
-                  size={10}
-                  className="mt-1 opacity-70 text-red-500 dark:text-red-300"
-                />
-              </span>
+              Company {renderAsterisk()}
             </Label>
             <Input
               type="text"
@@ -213,13 +253,7 @@ export default function SubmitPage() {
           </Field>
           <Field>
             <Label className="flex items-start gap-0.5">
-              Job Title{" "}
-              <span>
-                <Asterisk
-                  size={10}
-                  className="mt-1 opacity-70 text-red-500 dark:text-red-300"
-                />
-              </span>
+              Job Title {renderAsterisk()}
             </Label>
             <Input
               type="text"
@@ -230,7 +264,7 @@ export default function SubmitPage() {
             />
           </Field>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field>
             <Label>Location</Label>
             <Input
@@ -261,13 +295,7 @@ export default function SubmitPage() {
         </Field>
         <Field>
           <Label className="flex items-start gap-0.5">
-            Description{" "}
-            <span>
-              <Asterisk
-                size={10}
-                className="mt-1 opacity-70 text-red-500 dark:text-red-300"
-              />
-            </span>
+            Description {renderAsterisk()}
           </Label>
           <Textarea
             value={description}
@@ -288,15 +316,9 @@ export default function SubmitPage() {
         <Field>
           <Label
             htmlFor="notificationEmail"
-            className="flex items-center gap-1"
+            className="flex items-start gap-0.5"
           >
-            Contact Email{" "}
-            <span>
-              <Asterisk
-                size={10}
-                className="mt-1 opacity-70 text-red-500 dark:text-red-300"
-              />
-            </span>
+            Contact Email {renderAsterisk()}
           </Label>
           <Description>
             Where to send notifications about the job posting.
@@ -308,7 +330,22 @@ export default function SubmitPage() {
             required
           />
         </Field>
-        <div className="flex justify-end">
+        <div className="flex w-full justify-between">
+          <span>
+            <AnimatePresence>
+              {showMessage && (
+                <motion.p
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.2 }}
+                  className="mt-2 text-sm text-zinc-600"
+                >
+                  {message}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </span>
           <Button
             variant="primary"
             type="submit"

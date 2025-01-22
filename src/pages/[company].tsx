@@ -7,6 +7,7 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { Job } from "@/types/job";
 import { Button } from "@/components/primitives/Button";
 import { Navbar } from "@/components/primitives/Navbar";
+import { Link } from "@/components/primitives/Link";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { formatDate } from "@/utils/date";
@@ -14,7 +15,7 @@ import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
 import * as cheerio from "cheerio";
-import { MapPin, Clock, Calendar } from "lucide-react";
+import { MapPin, Clock, Calendar, Copy, Check } from "lucide-react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -124,7 +125,7 @@ function Dialog({
           </BaseDialog.Title>
           <div className="grow flex flex-col p-4 gap-3 justify-between">
             <BaseDialog.Description className="text-sm default-p-color mb-2">
-              Copy the email address and send your application.
+              Copy the email to send your application. Good luck!
             </BaseDialog.Description>
             <Button
               variant="outline"
@@ -133,21 +134,20 @@ function Dialog({
             >
               {email}
               <span className="relative flex items-center">
-                {copied ? "Copied!" : "Copy"}
-                {/* <Copy
-                  size={16}
+                <Copy
+                  size={14}
                   className={clsx(
                     "absolute transition-opacity duration-300",
-                    copied ? "opacity-0" : "opacity-100"
+                    copied ? "opacity-0" : "opacity-50",
                   )}
                 />
                 <Check
-                  size={16}
+                  size={14}
                   className={clsx(
                     "absolute transition-opacity duration-300 text-green-600 dark:text-green-300",
-                    copied ? "opacity-100" : "opacity-0"
+                    copied ? "opacity-100" : "opacity-0",
                   )}
-                /> */}
+                />
               </span>
             </Button>
             <BaseDialog.Close
@@ -191,7 +191,11 @@ export default function CompanyPage({
         {...props}
       />
     ),
+    h5: (props) => (
+      <h3 className="text-sm dark:text-zinc-400 my-3" {...props} />
+    ),
     p: (props) => <p className="default-p-color my-2 leading-7" {...props} />,
+    a: (props) => <Link {...props} />,
     ul: (props) => (
       <ul
         className="list-disc pl-6 default-p-color flex flex-col gap-0.5 leading-7"
@@ -258,7 +262,7 @@ export default function CompanyPage({
             />
           )}
           <div>
-            <h1 className="text-xl font-semibold">{job.title}</h1>
+            <h1 className="text-xl font-semibold capitalize">{job.title}</h1>
             <p className="default-p-color">{job.company}</p>
           </div>
           {job.application_link ? (

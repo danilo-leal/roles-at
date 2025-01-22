@@ -1,5 +1,6 @@
 import * as React from "react";
 import clsx from "clsx";
+import { Link } from "@/components/primitives/Link";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -26,7 +27,11 @@ export function Footer() {
             <span className="opacity-60">Made by designers</span>
           </span>
         </p>
-        {/* <IconsSocial /> */}
+        <div className="text-xs inline-flex items-center gap-2">
+          <Link className="">Contact Us</Link>
+          <span className="opacity-50">&nbsp;/&nbsp;</span>
+          <Link className="">Buy Us Coffee</Link>
+        </div>
       </div>
     </footer>
   );

@@ -12,6 +12,7 @@ import { Input, InputGroup } from "@/components/primitives/Input";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { formatDate } from "@/utils/date";
 import { MapPin, Clock, Search } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -77,15 +78,25 @@ export default function JobsPage() {
   }, []);
 
   const renderLoading = () => (
-    <div className="py-2 flex flex-col gap-2">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="py-2 flex flex-col gap-2"
+    >
       {Array.from({ length: 10 }).map((_, index) => (
         <Skeleton key={index} className="h-[78px] w-full" />
       ))}
-    </div>
+    </motion.div>
   );
 
   const renderContent = () => (
-    <div className="py-2 flex flex-col gap-3">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="py-2 flex flex-col gap-3"
+    >
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
           <Link
@@ -93,10 +104,11 @@ export default function JobsPage() {
             href={job.company_slug}
             className={clsx(
               "group cursor-pointer rounded-lg p-4 flex items-center gap-4",
-              "border default-border-color hover:!border-orange-300 dark:hover:!border-orange-300/20",
+              "border border-zinc-200/60 dark:border-zinc-600/20",
+              "hover:border-orange-300 dark:hover:border-orange-300/40",
               "hover:bg-zinc-50 dark:hover:bg-zinc-800/40",
               "hover:[box-shadow:5px_5px_0_hsla(26,_90%,_40%,_0.1)]",
-              "transition-all duration-100 fv-style",
+              "transition-colors duration-100 fv-style",
             )}
           >
             {job.avatar_img && (
@@ -110,7 +122,7 @@ export default function JobsPage() {
             )}
             <div className="w-full flex flex-col">
               <div className="w-full flex items-center justify-between">
-                <h2 className="font-medium">{job.title}</h2>
+                <h2 className="capitalize font-medium">{job.title}</h2>
                 <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
                   <Clock size={12} />
                   {formatDate(job.created_at)}
@@ -133,7 +145,7 @@ export default function JobsPage() {
       ) : (
         <p>No matching jobs found</p>
       )}
-    </div>
+    </motion.div>
   );
 
   if (error) return <div className="text-red-500">{error}</div>;
@@ -165,7 +177,9 @@ export default function JobsPage() {
           <Kbd char="I" />
         </span>
       </InputGroup>
-      {loading ? renderLoading() : renderContent()}
+      <AnimatePresence mode="wait">
+        {loading ? renderLoading() : renderContent()}
+      </AnimatePresence>
     </ContainerTransition>
   );
 }

@@ -40,7 +40,7 @@ function Logo() {
 export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
   const session = useSession();
 
   const toggleTheme = React.useCallback(() => {
@@ -51,9 +51,27 @@ export function Navbar() {
     setMounted(true);
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.metaKey && event.key === "j") {
-        event.preventDefault();
-        toggleTheme();
+      if (event.key) {
+        switch (event.key.toLowerCase()) {
+          case "j":
+            if (event.metaKey) {
+              event.preventDefault();
+              toggleTheme();
+            }
+            break;
+          case "o":
+            event.preventDefault();
+            push("/");
+            break;
+          case "a":
+            event.preventDefault();
+            push("/about");
+            break;
+          case "s":
+            event.preventDefault();
+            push("/submit");
+            break;
+        }
       }
     };
 
@@ -62,7 +80,7 @@ export function Navbar() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [toggleTheme]);
+  }, [toggleTheme, push]);
 
   function HighlightPattern() {
     return (
@@ -92,6 +110,7 @@ export function Navbar() {
             className="relative overflow-clip"
           >
             Openings
+            <Kbd char="O" />
             {pathname === "/" && <HighlightPattern />}
           </Button>
           <Button
@@ -100,6 +119,7 @@ export function Navbar() {
             className="relative"
           >
             About
+            <Kbd char="A" />
             {pathname === "/about" && <HighlightPattern />}
           </Button>
           {session && (
@@ -135,7 +155,9 @@ export function Navbar() {
               </div>
             }
           />
-          <Button href="/submit">Submit Opening</Button>
+          <Button href="/submit">
+            Submit Opening <Kbd char="S" />
+          </Button>
         </div>
       </nav>
     </header>
