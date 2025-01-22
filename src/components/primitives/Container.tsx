@@ -16,11 +16,7 @@ export function Container({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}
-      className={clsx(
-        "min-h-screen relative isolate flex flex-col",
-        "bg-white dark:bg-black/50",
-        className,
-      )}
+      className={clsx("min-h-screen relative isolate flex flex-col", className)}
     >
       <MeshGradient
         color1="#fb923c"

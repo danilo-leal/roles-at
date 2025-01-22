@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import clsx from "clsx";
+import { Drawer } from "vaul";
 import { motion } from "motion/react";
 import { useRouter } from "next/router";
 import { Button } from "@/components/primitives/Button";
@@ -8,7 +9,7 @@ import { Tooltip } from "@/components/primitives/Tooltip";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { useTheme } from "next-themes";
 import { useSession } from "@supabase/auth-helpers-react";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, ChevronRight } from "lucide-react";
 
 function Logo() {
   return (
@@ -34,6 +35,67 @@ function Logo() {
         </svg>
       </motion.div>
     </Link>
+  );
+}
+
+function MobileMenu() {
+  const linkStyles =
+    "font-medium p-4 border-b flex items-center justify-between dark:border-zinc-600/20";
+  const iconStyles = "size-4 text-orange-500 dark:text-orange-400";
+
+  return (
+    <Drawer.Root shouldScaleBackground>
+      <Drawer.Trigger asChild>
+        <Button
+          square
+          aria-label="Toggle Color Mode"
+          className="flex sm:hidden"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="size-3.5 text-gray-600 dark:text-gray-300"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </Button>
+      </Drawer.Trigger>
+      <Drawer.Portal>
+        <Drawer.Overlay className="fixed inset-0 bg-black/40 dark:bg-black/80 z-[110]" />
+        <Drawer.Content
+          className={clsx(
+            "mt-24 fixed bottom-0 left-0 right-0 z-[120]",
+            "shadow-[0_-4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.6)]",
+            "focus-visible:outline-none focus:outline-none",
+            "bg-white dark:bg-zinc-950",
+            "rounded-t-[12px] flex-1",
+            "border dark:border-gray-500/10",
+          )}
+        >
+          <div className="mx-auto w-8 h-1 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-500/30 my-4" />
+          <Link href="/my-world/thinking" className={linkStyles}>
+            See All Roles
+            <ChevronRight className={iconStyles} />
+          </Link>
+          <Link href="/about" className={clsx(linkStyles, "border-b-0")}>
+            Learn About Us
+            <ChevronRight className={iconStyles} />
+          </Link>
+          <span className="p-4 flex">
+            <Button href="/submit" variant="primary" className="w-full">
+              Submit Role
+            </Button>
+          </span>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
   );
 }
 
@@ -107,16 +169,16 @@ export function Navbar() {
           <Button
             variant={pathname === "/" ? "outline" : "ghost"}
             href="/"
-            className="relative overflow-clip"
+            className="hidden sm:inline-flex relative overflow-clip"
           >
-            Openings
-            <Kbd char="O" />
+            Roles
+            <Kbd char="R" />
             {pathname === "/" && <HighlightPattern />}
           </Button>
           <Button
             variant={pathname === "/about" ? "outline" : "ghost"}
             href="/about"
-            className="relative"
+            className="hidden sm:inline-flex relative"
           >
             About
             <Kbd char="A" />
@@ -126,7 +188,7 @@ export function Navbar() {
             <Button
               variant={pathname === "/admin" ? "outline" : "ghost"}
               href="/admin"
-              className="relative hidden sm:inline-flex"
+              className="hidden sm:inline-flex relative"
             >
               Admin
               {pathname === "/admin" && <HighlightPattern />}
@@ -156,8 +218,9 @@ export function Navbar() {
             }
           />
           <Button href="/submit">
-            Submit Opening <Kbd char="S" />
+            Submit Role <Kbd char="S" />
           </Button>
+          <MobileMenu />
         </div>
       </nav>
     </header>

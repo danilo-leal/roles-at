@@ -11,7 +11,7 @@ export default function Document() {
           key="title"
         />
       </Head>
-      <body className="antialiased">
+      <body className="antialiased bg-white dark:bg-black/50">
         <Main />
         <NextScript />
       </body>
