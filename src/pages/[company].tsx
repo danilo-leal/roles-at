@@ -251,19 +251,21 @@ export default function CompanyPage({
       <Navbar />
       <SectionDivider type="alternative" />
       <div className="pb-6 mb-6 border-b default-border-color">
-        <div className="flex items-center gap-6 mb-6">
-          {job.avatar_img && (
-            <Image
-              src={job.avatar_img}
-              alt={`${job.company} logo`}
-              width={52}
-              height={52}
-              className="rounded-full"
-            />
-          )}
-          <div>
-            <h1 className="text-xl font-semibold capitalize">{job.title}</h1>
-            <p className="default-p-color">{job.company}</p>
+        <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
+          <div className="w-full flex items-center gap-6">
+            {job.avatar_img && (
+              <Image
+                src={job.avatar_img}
+                alt={`${job.company} logo`}
+                width={52}
+                height={52}
+                className="rounded-full"
+              />
+            )}
+            <div>
+              <h1 className="text-xl font-semibold capitalize">{job.title}</h1>
+              <p className="default-p-color">{job.company}</p>
+            </div>
           </div>
           {job.application_link ? (
             <Button
@@ -271,7 +273,7 @@ export default function CompanyPage({
               target="_blank"
               rel="noopener noreferrer"
               variant="primary"
-              className="hidden sm:flex ml-auto"
+              className="flex w-full sm:w-fit ml-auto"
             >
               Apply for this position
             </Button>
