@@ -8,6 +8,7 @@ import { Input } from "@/components/primitives/Input";
 import { Textarea } from "@/components/primitives/Textarea";
 import { Asterisk } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { Link } from "@/components/primitives/Link";
 
 function MigrateJobForm() {
   const [url, setUrl] = useState("");
@@ -87,7 +88,7 @@ function MigrateJobForm() {
           value={notificationEmail}
           onChange={(e) => setNotificationEmail(e.target.value)}
           required
-          placeholder="your@email.com"
+          placeholder="your-email@email.com"
         />
       </Field>
       <div className="flex w-full justify-between">
@@ -211,17 +212,17 @@ export default function SubmitPage() {
       <p className="default-p-style mb-2">
         First of all, thank you for wanting to submit a job posting to our
         platform! We&apos;re hoping it breeds into a thriving place to find good
-        work. Our opening submission flow is quite simple:
+        work. Submitting a role here is quite simple:
       </p>
       <ul className="default-ul-style">
-        <li>Choose the method: via direct form or via Read.cv migration.</li>
+        <li>Choose the method: either via direct form or Read.cv migration.</li>
         <li>
-          We&apos;ll review your entry and notify you via email about whether it
-          has been approved or rejected.
+          We&apos;ll review your entry and notify you via email about whether
+          it&apos;s been approved or rejected.
         </li>
         <li>
-          For any desired changes or updates, please contact us at
-          support@roles.at.
+          For any desired changes or updates, please contact us at{" "}
+          <Link href="mailto:support@roles.at">support@roles.at</Link>.
         </li>
       </ul>
       <SectionDivider />
@@ -229,8 +230,7 @@ export default function SubmitPage() {
         <h2 className="text-xl font-semibold mb-2">Migration From Read.cv</h2>
         <p className="default-p-style mb-4">
           Migrate an active Read.cv listing by providing its URL and your email
-          address so we cam we can notify you about the status of your
-          submission.
+          address so we can notify you about the status of your submission.
         </p>
         <MigrateJobForm />
       </section>
@@ -309,6 +309,7 @@ export default function SubmitPage() {
           <Label>Salary Range</Label>
           <Input
             type="text"
+            placeholder="From 80k USD to 200k USD"
             value={salaryRange}
             onChange={(e) => setSalaryRange(e.target.value)}
           />
@@ -325,6 +326,7 @@ export default function SubmitPage() {
           </Description>
           <Input
             type="email"
+            placeholder="your-email@email.com"
             value={notificationEmail}
             onChange={(e) => setNotificationEmail(e.target.value)}
             required
