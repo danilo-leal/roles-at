@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 import { Dialog as BaseDialog } from "@base-ui-components/react/dialog";
-import { GetServerSideProps } from "next";
+import { GetStaticProps, GetStaticPaths } from "next";
 import Image from "next/image";
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+// import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/supabase-js";
 import { Job } from "@/types/job";
 import { Button } from "@/components/primitives/Button";
 import { Navbar } from "@/components/primitives/Navbar";
@@ -17,14 +18,13 @@ import DOMPurify from "isomorphic-dompurify";
 import * as cheerio from "cheerio";
 import { MapPin, Clock, Calendar, Copy, Check } from "lucide-react";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
+
+export const getStaticProps: GetStaticProps = async (context) => {
   try {
-    const supabase = createPagesServerClient(context);
-
-    if (!supabase) {
-      throw new Error("Failed to initialize Supabase client");
-    }
-
     const { company } = context.params as { company: string };
 
     if (!company) {
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if (error) {
       console.error("Supabase error:", error);
-      throw error;
+      return { notFound: true };
     }
 
     if (!data || data.length === 0) {
@@ -49,20 +49,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
       props: {
-        job: JSON.parse(JSON.stringify(data[0])), // Ensure serializable
+        job: data[0],
       },
+      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
-    console.error("Error in getServerSideProps:", error);
-    return {
-      props: {
-        error:
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred",
-      },
-    };
+    console.error("Error in getStaticProps:", error);
+    return { notFound: true };
   }
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return { paths: [], fallback: "blocking" };
 };
 
 function Dialog({
@@ -77,8 +75,8 @@ function Dialog({
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email).then(
       () => {
-        setCopied(true); // Set the copied state to true
-        setTimeout(() => setCopied(false), 2000); // Reset the icon after 2 seconds
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
       },
       (err) => {
         console.error("Failed to copy text: ", err);
