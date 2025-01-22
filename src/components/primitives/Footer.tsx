@@ -15,23 +15,20 @@ export function Footer() {
       <div
         className={clsx(
           "max-w-[740px] pt-1 pb-4 px-4 m-auto",
-          "flex flex-col sm:flex-row justify-between items-center gap-4",
+          "flex flex-col sm:flex-row justify-center items-center gap-4",
         )}
       >
-        <p className="text-xs">
+        <p className="text-xs text-center">
           Roles.at © {currentYear}
-          <span className="inline-flex gap-0.5">
+          <span className="inline gap-0.5">
             <span className="opacity-50">&nbsp;/&nbsp;</span>
             <span className="opacity-60">Single-purpose Software</span>
             <span className="opacity-50">&nbsp;/&nbsp;</span>
-            <span className="opacity-60">Made by designers</span>
+            <Link href="/about">Made by designers</Link>
+            <span className="opacity-50">&nbsp;/&nbsp;</span>
+            <Link className="">Buy Us Coffee</Link>
           </span>
         </p>
-        <div className="text-xs inline-flex items-center gap-2">
-          <Link className="">Contact Us</Link>
-          <span className="opacity-50">&nbsp;/&nbsp;</span>
-          <Link className="">Buy Us Coffee</Link>
-        </div>
       </div>
     </footer>
   );

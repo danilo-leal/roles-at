@@ -174,7 +174,7 @@ export default function JobsPage() {
           keybinding
           type="search"
           aria-label="Search"
-          placeholder="Search for roles, location, or companies…"
+          placeholder="Roles, location, or companies…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
