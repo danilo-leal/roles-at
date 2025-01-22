@@ -145,7 +145,7 @@ export default function JobsPage() {
         ))
       ) : (
         <div className="py-16 size-full flex flex-col items-center gap-4">
-          <NoRoles className="max-w-56" />
+          <NoRoles className="max-w-56 dark:opacity-90" />
           <span className="text-xs default-p-color font-mono">
             No matching jobs found
           </span>
