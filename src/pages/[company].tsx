@@ -195,6 +195,9 @@ export default function CompanyPage({
       <h3 className="text-sm dark:text-zinc-400 my-3" {...props} />
     ),
     p: (props) => <p className="default-p-color my-2 leading-7" {...props} />,
+    strong: (props) => (
+      <strong className="text-black dark:text-white" {...props} />
+    ),
     a: (props) => <Link {...props} />,
     ul: (props) => (
       <ul
