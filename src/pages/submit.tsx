@@ -208,12 +208,12 @@ export default function SubmitPage() {
       <Navbar />
       <SectionDivider />
       <h2 className="text-xl font-semibold mb-2">How does it work?</h2>
-      <p className="text-sm default-p-color mb-2 leading-6">
+      <p className="default-p-style mb-2">
         First of all, thank you for wanting to submit a job posting to our
         platform! We&apos;re hoping it breeds into a thriving place to find good
         work. Our opening submission flow is quite simple:
       </p>
-      <ul className="list-disc pl-6 default-p-color text-sm flex flex-col gap-0.5 leading-6">
+      <ul className="default-ul-style">
         <li>Choose the method: via direct form or via Read.cv migration.</li>
         <li>
           We&apos;ll review your entry and notify you via email about whether it
@@ -227,7 +227,7 @@ export default function SubmitPage() {
       <SectionDivider />
       <section>
         <h2 className="text-xl font-semibold mb-2">Migration From Read.cv</h2>
-        <p className="text-sm default-p-color leading-6 mb-4">
+        <p className="default-p-style mb-4">
           Migrate an active Read.cv listing by providing its URL and your email
           address so we cam we can notify you about the status of your
           submission.

@@ -22,8 +22,8 @@ export function Link({
     <NextLink
       className={clsx(
         "fv-style inline",
-        "text-orange-600 dark:text-orange-300",
-        "hover:text-orange-700 dark:hover:text-orange-400",
+        "text-orange-800 dark:text-orange-300",
+        "hover:text-orange-900 dark:hover:text-orange-400",
         primaryDecorationStyles,
         className,
       )}
