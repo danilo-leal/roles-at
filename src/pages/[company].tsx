@@ -94,7 +94,7 @@ function Dialog({
             variant="primary"
             className={clsx("ml-auto", fullWidthBtn ? "w-full" : "w-fit")}
           >
-            Apply for this position
+            Apply For Role
           </Button>
         }
       />
@@ -275,7 +275,7 @@ export default function CompanyPage({
               variant="primary"
               className="flex w-full sm:w-fit ml-auto"
             >
-              Apply for this position
+              Apply For Role
             </Button>
           ) : (
             <div className="hidden sm:flex ml-auto">
