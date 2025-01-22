@@ -63,13 +63,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths: [], fallback: "blocking" };
 };
 
-function Dialog({
-  email,
-  fullWidthBtn,
-}: {
-  email: string;
-  fullWidthBtn?: boolean;
-}) {
+function Dialog({ email }: { email: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopyEmail = () => {
