@@ -46,7 +46,7 @@ export const buttonStyle = cva({
     },
     size: {
       xs: "px-2 [--button-height:theme(spacing.8)] sm:[--button-height:theme(spacing.6)]",
-      sm: "px-3 [--button-height:theme(spacing.10)] sm:[--button-height:theme(spacing.8)]",
+      sm: "px-3 [--button-height:theme(spacing.10)] sm:[--button-height:theme(spacing.9)]",
       md: "px-4 [--button-height:theme(spacing.12)] sm:[--button-height:theme(spacing.10)]",
     },
     square: {
