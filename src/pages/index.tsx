@@ -89,7 +89,7 @@ export default function JobsPage() {
       ))}
     </motion.div>
   );
-  
+
   const renderContent = () => (
     <motion.div
       initial={{ opacity: 0 }}
@@ -99,50 +99,54 @@ export default function JobsPage() {
     >
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
-          <div className="p-1 border-b last:border-0 default-border-color">
-          <Link
+          <div
             key={job.id}
-            href={job.company_slug}
-            className={clsx(
-              "group cursor-pointer rounded-xl",
-              "-mx-5 px-4 py-3",
-              "flex items-start sm:items-center gap-4",
-              "border border-transparent",
-              "hover:border-orange-300 dark:hover:border-orange-300/40",
-              "hover:bg-zinc-50 dark:hover:bg-zinc-800/40",
-              "transition-colors duration-100 fv-style",
-            )}
+            className="p-1 border-b last:border-0 default-border-color"
           >
-            {job.avatar_img && (
-              <Image
-                src={job.avatar_img}
-                alt={`${job.company} logo`}
-                width={44}
-                height={44}
-                className="rounded-full mt-1 sm:mt-0 size-8 grow-0 shrink-0 object-cover border default-border-color"
-              />
-            )}
-            <div className="w-full flex flex-col">
-              <div className="w-full flex items-center justify-between">
-                <h2 className="capitalize font-medium text-[0.9375rem]">{job.title}</h2>
-                <p className="shrink-0 flex items-center gap-2 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
-                <Clock size={9} className="opacity-80" />
-                  {formatDate(job.created_at)}
-                </p>
-              </div>
-              <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <p className="text-sm text-zinc-700 dark:text-zinc-500">
-                  {job.company}
-                </p>
-                {job.location && (
+            <Link
+              href={job.company_slug}
+              className={clsx(
+                "group cursor-pointer rounded-xl",
+                "-mx-5 px-4 py-3",
+                "flex items-start sm:items-center gap-4",
+                "border border-transparent",
+                "hover:border-orange-300 dark:hover:border-orange-300/40",
+                "hover:bg-zinc-50 dark:hover:bg-zinc-800/40",
+                "transition-colors duration-100 fv-style",
+              )}
+            >
+              {job.avatar_img && (
+                <Image
+                  src={job.avatar_img}
+                  alt={`${job.company} logo`}
+                  width={44}
+                  height={44}
+                  className="rounded-full mt-1 sm:mt-0 size-8 grow-0 shrink-0 object-cover border default-border-color"
+                />
+              )}
+              <div className="w-full flex flex-col">
+                <div className="w-full flex items-center justify-between">
+                  <h2 className="capitalize font-medium text-[0.9375rem]">
+                    {job.title}
+                  </h2>
                   <p className="shrink-0 flex items-center gap-2 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
-                      <MapPin size={9} className="opacity-80" />
-                    {job.location}
+                    <Clock size={9} className="opacity-80" />
+                    {formatDate(job.created_at)}
                   </p>
-                )}
+                </div>
+                <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <p className="text-sm text-zinc-700 dark:text-zinc-500">
+                    {job.company}
+                  </p>
+                  {job.location && (
+                    <p className="shrink-0 flex items-center gap-2 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
+                      <MapPin size={9} className="opacity-80" />
+                      {job.location}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
           </div>
         ))
       ) : (
