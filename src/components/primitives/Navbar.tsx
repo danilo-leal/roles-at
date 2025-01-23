@@ -113,6 +113,12 @@ export function Navbar() {
     setMounted(true);
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      // Don't run the keybindings when focused on editable surfaces
+      const isEditableElement = 
+        ['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName) ||
+        (event.target as HTMLElement).getAttribute('contenteditable') === 'true' ||
+        (event.target as HTMLElement).closest('[contenteditable="true"]') !== null;
+
       if (event.key) {
         switch (event.key.toLowerCase()) {
           case "j":
@@ -122,16 +128,22 @@ export function Navbar() {
             }
             break;
           case "r":
-            event.preventDefault();
-            push("/");
+            if (!isEditableElement) {
+              event.preventDefault();
+              push("/");
+            }
             break;
           case "a":
-            event.preventDefault();
-            push("/about");
+            if (!isEditableElement) {
+              event.preventDefault();
+              push("/about");
+            }
             break;
           case "s":
-            event.preventDefault();
-            push("/submit");
+            if (!isEditableElement) {
+              event.preventDefault();
+              push("/submit");
+            }
             break;
         }
       }
