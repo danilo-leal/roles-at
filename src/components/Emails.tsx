@@ -15,47 +15,6 @@ type EmailProps = {
   title: string;
 };
 
-const main = {
-  backgroundColor: "#ffffff",
-  color: "#24292e",
-  fontFamily:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"',
-};
-
-const container = {
-  maxWidth: "480px",
-  margin: "0 auto",
-  padding: "20px 0 48px",
-};
-
-const section = {
-  padding: "24px",
-  border: "solid 1px #dedede",
-  borderRadius: "5px",
-  textAlign: "center" as const,
-};
-
-const text = {
-  margin: "0 0 10px 0",
-  textAlign: "left" as const,
-};
-
-const links = {
-  textAlign: "center" as const,
-};
-
-const link = {
-  color: "#0366d6",
-  fontSize: "12px",
-};
-
-const footer = {
-  color: "#6a737d",
-  fontSize: "12px",
-  textAlign: "center" as const,
-  marginTop: "60px",
-};
-
 export function SubmissionConfirmationEmail({ company, title }: EmailProps) {
   return (
     <Html>
@@ -63,24 +22,29 @@ export function SubmissionConfirmationEmail({ company, title }: EmailProps) {
       <Preview>
         Your submission for {title} at {company} has been received.
       </Preview>
-      <Body style={main}>
-        <Container style={container}>
-          <Img src="logo.png" width="24" height="25" alt="Roles.at Logo" />
-          <Section style={section}>
-            <Text style={text}>Hello! 👋</Text>
-            <Text style={text}>
+      <Body className="bg-white text-[#24292e] font-sans">
+        <Container className="max-w-[480px] mx-auto py-[20px] pb-[48px]">
+          <Img
+            src="https://i.ibb.co/LtKJhWN/logo.png"
+            width="24"
+            height="24"
+            alt="Roles.at Logo"
+          />
+          <Section className="p-[24px] border border-solid border-[#dedede] rounded-[5px] text-center">
+            <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
+            <Text className="m-0 mb-[10px] text-left">
               Thank you so much for choosing to submit your job listing for{" "}
               <strong>{title}</strong> at <strong>{company}</strong> on
               Roles.at. We will review it soon and get back to you whenever it
               is live.
             </Text>
           </Section>
-          <Text style={links}>
-            <Link style={link}>Roles.at</Link> ・{" "}
-            <Link style={link}>Contact support</Link>
+          <Text className="text-center">
+            <Link className="text-[#0366d6] text-[12px]">Roles.at</Link> ・{" "}
+            <Link className="text-[#0366d6] text-[12px]">Contact support</Link>
           </Text>
 
-          <Text style={footer}>
+          <Text className="text-[#6a737d] text-[12px] text-center mt-[60px]">
             Roles.at・Proudly a single-purpose software・Made by designers
           </Text>
         </Container>
@@ -96,22 +60,27 @@ export function ApprovalEmail({ company, title }: EmailProps) {
       <Preview>
         Your submission for {title} at {company} has been received.
       </Preview>
-      <Body style={main}>
-        <Container style={container}>
-          <Img src="logo.png" width="24" height="25" alt="Roles.at Logo" />
-          <Section style={section}>
-            <Text style={text}>Hello! 👋</Text>
-            <Text style={text}>
+      <Body className="bg-white text-[#24292e] font-sans">
+        <Container className="max-w-[480px] mx-auto py-[20px] pb-[48px]">
+          <Img
+            src="https://i.ibb.co/LtKJhWN/logo.png"
+            width="24"
+            height="25"
+            alt="Roles.at Logo"
+          />
+          <Section className="p-[24px] border border-solid border-[#dedede] rounded-[5px] text-center">
+            <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
+            <Text className="m-0 mb-[10px] text-left">
               We&apos;ve got awesome news. Your job listing for{" "}
               <strong>{title}</strong> at <strong>{company}</strong> on Roles.at
               is now live on our platform and visible to potential candidates.
             </Text>
           </Section>
-          <Text style={links}>
-            <Link style={link}>Roles.at</Link> ・{" "}
-            <Link style={link}>Contact support</Link>
+          <Text className="text-center">
+            <Link className="text-[#0366d6] text-[12px]">Roles.at</Link> ・{" "}
+            <Link className="text-[#0366d6] text-[12px]">Contact support</Link>
           </Text>
-          <Text style={footer}>
+          <Text className="text-[#6a737d] text-[12px] text-center mt-[60px]">
             Roles.at・Proudly a single-purpose software・Made by designers
           </Text>
         </Container>
@@ -127,22 +96,31 @@ export function RejectionEmail({ company, title }: EmailProps) {
       <Preview>
         Your submission for {title} at {company} has been received.
       </Preview>
-      <Body style={main}>
-        <Container style={container}>
-          <Img src="logo.png" width="24" height="25" alt="Roles.at Logo" />
-          <Section style={section}>
-            <Text style={text}>Hello! 👋</Text>
-            <Text style={text}>
+      <Body className="bg-white text-[#24292e] font-sans">
+        <Container className="max-w-[480px] mx-auto py-[20px] pb-[48px]">
+          <Img
+            src="https://i.ibb.co/LtKJhWN/logo.png"
+            width="24"
+            height="25"
+            alt="Roles.at Logo"
+          />
+          <Section className="p-[24px] border border-solid border-[#dedede] rounded-[5px] text-center">
+            <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
+            <Text className="m-0 mb-[10px] text-left">
               Unfortunately, your job listing for <strong>{title}</strong> at{" "}
               <strong>{company}</strong> on Roles.at has been rejected. Contact
-              us at <Link style={link}>support@roles.at</Link> to resolve it.
+              us at{" "}
+              <Link className="text-[#0366d6] text-[12px]">
+                support@roles.at
+              </Link>{" "}
+              to resolve it.
             </Text>
           </Section>
-          <Text style={links}>
-            <Link style={link}>Roles.at</Link> ・{" "}
-            <Link style={link}>Contact support</Link>
+          <Text className="text-center">
+            <Link className="text-[#0366d6] text-[12px]">Roles.at</Link> ・{" "}
+            <Link className="text-[#0366d6] text-[12px]">Contact support</Link>
           </Text>
-          <Text style={footer}>
+          <Text className="text-[#6a737d] text-[12px] text-center mt-[60px]">
             Roles.at・Proudly a single-purpose software・Made by designers
           </Text>
         </Container>
