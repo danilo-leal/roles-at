@@ -63,6 +63,10 @@ body {
   .fv-style {
     @apply focus:outline-hidden focus-visible:[outline:3px_solid_hsl(26,_90%,_40%,_.5)] focus-within:[outline:3px_solid_hsl(26,_90%,_40%,_.5)] focus-visible:outline-offset-2;
   }
+
+  .fv-style-inside {
+    @apply focus:outline-hidden focus-visible:[outline:3px_solid_hsl(26,_90%,_40%,_.5)] focus-within:[outline:3px_solid_hsl(26,_90%,_40%,_.5)] focus-visible:[outline-offset:-4px];
+  }
 }
 
 @plugin "tailwindcss-bg-patterns";

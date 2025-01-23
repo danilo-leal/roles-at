@@ -5,10 +5,10 @@ import { Button } from "@/components/primitives/Button";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Description, Field, Label } from "@/components/primitives/Fieldset";
 import { Input } from "@/components/primitives/Input";
-import { Textarea } from "@/components/primitives/Textarea";
 import { Asterisk } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "@/components/primitives/Link";
+import { RichTextEditor } from "@/components/primitives/RichTextEditor";
 
 function MigrateJobForm() {
   const [url, setUrl] = useState("");
@@ -297,12 +297,10 @@ export default function SubmitPage() {
           <Label className="flex items-start gap-0.5">
             Description {renderAsterisk()}
           </Label>
-          <Textarea
+          <RichTextEditor
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            className="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            rows={4}
+            onChange={setDescription}
+            className="mt-2"
           />
         </Field>
         <Field>
