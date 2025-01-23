@@ -4,7 +4,6 @@ import Link from "next/link";
 import clsx from "clsx";
 import Image from "next/image";
 import { Navbar } from "@/components/primitives/Navbar";
-import { Chip } from "@/components/primitives/Chip";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
 import { SectionDivider } from "@/components/primitives/Divider";
@@ -90,25 +89,27 @@ export default function JobsPage() {
       ))}
     </motion.div>
   );
-
+  
   const renderContent = () => (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="py-2 size-full flex flex-col gap-3"
+      className="py-2 size-full flex flex-col"
     >
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
+          <div className="p-1 border-b last:border-0 default-border-color">
           <Link
             key={job.id}
             href={job.company_slug}
             className={clsx(
-              "group cursor-pointer rounded-lg p-4 flex items-center gap-4",
-              "border border-zinc-200/60 dark:border-zinc-600/20",
+              "group cursor-pointer rounded-xl",
+              "-mx-5 px-4 py-3",
+              "flex items-start sm:items-center gap-4",
+              "border border-transparent",
               "hover:border-orange-300 dark:hover:border-orange-300/40",
               "hover:bg-zinc-50 dark:hover:bg-zinc-800/40",
-              "hover:[box-shadow:5px_5px_0_hsla(26,_90%,_40%,_0.1)]",
               "transition-colors duration-100 fv-style",
             )}
           >
@@ -118,14 +119,14 @@ export default function JobsPage() {
                 alt={`${job.company} logo`}
                 width={44}
                 height={44}
-                className="rounded-full size-8 grow-0 shrink-0 object-cover border default-border-color"
+                className="rounded-full mt-1 sm:mt-0 size-8 grow-0 shrink-0 object-cover border default-border-color"
               />
             )}
             <div className="w-full flex flex-col">
               <div className="w-full flex items-center justify-between">
-                <h2 className="capitalize font-medium">{job.title}</h2>
-                <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
-                  <Clock size={12} />
+                <h2 className="capitalize font-medium text-[0.9375rem]">{job.title}</h2>
+                <p className="shrink-0 flex items-center gap-2 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
+                <Clock size={9} className="opacity-80" />
                   {formatDate(job.created_at)}
                 </p>
               </div>
@@ -134,14 +135,15 @@ export default function JobsPage() {
                   {job.company}
                 </p>
                 {job.location && (
-                  <Chip color="zinc" className="gap-1">
-                    <MapPin size={12} className="opacity-50" />
-                    <span className="">{job.location}</span>
-                  </Chip>
+                  <p className="shrink-0 flex items-center gap-2 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
+                      <MapPin size={9} className="opacity-80" />
+                    {job.location}
+                  </p>
                 )}
               </div>
             </div>
           </Link>
+          </div>
         ))
       ) : (
         <div className="py-16 size-full flex flex-col items-center gap-4">

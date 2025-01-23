@@ -22,7 +22,7 @@ function MigrateJobForm() {
       setShowMessage(true);
       const timer = setTimeout(() => {
         setShowMessage(false);
-      }, 4000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [message]);
@@ -138,7 +138,7 @@ export default function SubmitPage() {
       setShowMessage(true);
       const timer = setTimeout(() => {
         setShowMessage(false);
-      }, 4000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [message]);

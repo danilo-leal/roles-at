@@ -14,7 +14,7 @@ export function Footer() {
     >
       <div
         className={clsx(
-          "max-w-[740px] pt-1 pb-4 px-4 m-auto",
+          "max-w-[740px] pt-1 pb-6 px-4 m-auto",
           "flex flex-col sm:flex-row justify-center items-center gap-4",
         )}
       >
