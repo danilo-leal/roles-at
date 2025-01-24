@@ -29,7 +29,7 @@ export default function JobsPage() {
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
           throw new Error(
-            errorData.message || `HTTP error! status: ${response.status}`
+            errorData.message || `HTTP error! status: ${response.status}`,
           );
         }
         const data = await response.json();
@@ -39,7 +39,7 @@ export default function JobsPage() {
       } catch (error) {
         console.error("Error fetching jobs:", error);
         setError(
-          `Failed to fetch jobs: ${error instanceof Error ? error.message : "Unknown error"}`
+          `Failed to fetch jobs: ${error instanceof Error ? error.message : "Unknown error"}`,
         );
       } finally {
         setLoading(false);
@@ -112,7 +112,7 @@ export default function JobsPage() {
                 "border border-transparent",
                 "hover:border-orange-300 dark:hover:border-orange-300/40",
                 "hover:bg-zinc-50 dark:hover:bg-zinc-800/40",
-                "transition-colors duration-100 fv-style"
+                "transition-colors duration-100 fv-style",
               )}
             >
               {job.avatar_img && (
@@ -151,7 +151,7 @@ export default function JobsPage() {
         ))
       ) : (
         <div className="py-16 size-full flex flex-col items-center gap-4">
-          <EmptyBox className="max-w-56 max-h-56 opacity-60" />
+          <EmptyBox className="size-56 opacity-60" />
           <span className="text-xs default-p-color font-mono">
             No matching jobs found
           </span>
