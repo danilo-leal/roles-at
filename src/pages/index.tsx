@@ -12,7 +12,7 @@ import { Kbd } from "@/components/primitives/Keybinding";
 import { formatDate } from "@/utils/date";
 import { MapPin, Clock, Search } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { NoRoles } from "@/components/primitives/Illustrations";
+import { EmptyBox } from "@/components/primitives/Illustrations";
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -151,7 +151,7 @@ export default function JobsPage() {
         ))
       ) : (
         <div className="py-16 size-full flex flex-col items-center gap-4">
-          <NoRoles className="max-w-56 dark:opacity-90" />
+          <EmptyBox className="size-56 opacity-60" />
           <span className="text-xs default-p-color font-mono">
             No matching jobs found
           </span>

@@ -1,7 +1,55 @@
+import clsx from "clsx";
+import { SiX, SiBluesky } from "@icons-pack/react-simple-icons";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { Navbar } from "@/components/primitives/Navbar";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Link } from "@/components/primitives/Link";
+import { Button } from "@/components/primitives/Button";
+import { DanAvatar, VictorAvatar } from "@/components/primitives/Illustrations";
+
+function AvatarBlock({ type }: { type: "dan" | "zani" }) {
+  const twitter =
+    type === "dan"
+      ? "https://twitter.com/danilobleal"
+      : "https://twitter.com/victorzanivan";
+  const personal =
+    type === "dan" ? "https://daniloleal.co" : "https://www.vzanivan.com/";
+  const bluesky =
+    type === "dan"
+      ? "https://bsky.app/profile/daniloleal.co"
+      : "https://bsky.app/profile/victorzanivan.bsky.social";
+
+  return (
+    <div className={clsx("flex items-center gap-3 py-3")}>
+      {type === "dan" && <DanAvatar className="size-10" />}
+      {type === "zani" && <VictorAvatar className="size-10" />}
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-black dark:text-white font-medium">
+          {type === "dan" && "Danilo Leal"}
+          {type === "zani" && "Victor Zanivan"}
+        </p>
+        <div className="flex gap-2">
+          <Button
+            size="xs"
+            href={personal}
+            className="text-orange-700 dark:text-orange-300"
+          >
+            Personal Site
+          </Button>
+          <Button square href={twitter} size="xs">
+            <SiX size={12} className="text-orange-700 dark:text-orange-300" />
+          </Button>
+          <Button square href={bluesky} size="xs">
+            <SiBluesky
+              size={14}
+              className="text-orange-700 dark:text-orange-300"
+            />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function AboutPage() {
   return (
@@ -12,13 +60,13 @@ export default function AboutPage() {
       <p className="default-p-style mb-1">
         We&apos;re big fans of{" "}
         <Link href="https://read.cv/a-new-chapter">Read.cv</Link> and got sad
-        with the news that it&apos;d wind down. Paired with that, we always 
+        with the news that it&apos;d wind down. Paired with that, we always
         wanted to build something. Really, <i>anything</i>.{" "}
-        <Link href="https://read.cv/">Read.cv</Link> has provided a lot of value for
-        us, so why not give it a shot at building a simple, single-purpose,
-        nicely-designed, job posting site, where folks could migrate their 
+        <Link href="https://read.cv/">Read.cv</Link> has provided a lot of value
+        for us, so why not give it a shot at building a simple, single-purpose,
+        nicely-designed, job posting site, where folks could migrate their
         openings from Read.cv? Here we are. It definitely won&apos;t be the most
-        famous or used one out of the many out there, but if it helps at least 
+        famous or used one out of the many out there, but if it helps at least
         one person find a job, it is a success!
       </p>
       <SectionDivider />
@@ -38,7 +86,8 @@ export default function AboutPage() {
           (Pages Router, mind you!).
         </li>
         <li>
-          Styled with <Link href="https://tailwindcss.com/">Tailwind CSS</Link> (v4, baby).
+          Styled with <Link href="https://tailwindcss.com/">Tailwind CSS</Link>{" "}
+          (v4, baby).
         </li>
         <li>
           Components provided mainly by{" "}
@@ -68,35 +117,15 @@ export default function AboutPage() {
       </ul>
       <SectionDivider type="alternative" />
       <h2 className="text-xl font-semibold mb-2">Got any feedback?</h2>
-      <p className="text-sm default-p-color mb-1">
-        Any cool ideas and/or fix requests are welcome. Here&apos;s how to reach
-        us:
+      <p className="text-sm default-p-color mb-4">
+        Any cool ideas and/or fix requests are welcome. Reach us at:{" "}
+        <Link href="mailto:support@roles.at">support@roles.at</Link>. Or, get
+        ahold of us personally via our channels.
       </p>
-      <ul className="default-ul-style">
-        <li>
-          Project email:{" "}
-          <Link href="mailto:support@roles.at">support@roles.at</Link>
-        </li>
-        <li>
-          Creators:
-          <ul className="default-ul-style">
-            <li>
-              Danilo Leal —{" "}
-              <Link href="https://daniloleal.co/">Personal Site</Link> /{" "}
-              <Link href="https://twitter.com/danilobleal">Twitter</Link> /{" "}
-              <Link href="https://bsky.app/profile/daniloleal.co">Bluesky</Link>
-            </li>
-            <li>
-              Victor Zanivan —{" "}
-              <Link href="https://www.vzanivan.com/">Personal Site</Link> /{" "}
-              <Link href="https://twitter.com/victorzanivan">Twitter</Link> /{" "}
-              <Link href="https://bsky.app/profile/victorzanivan.bsky.social">
-                Bluesky
-              </Link>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 divide-x dark:divide-zinc-800/50">
+        <AvatarBlock type="dan" />
+        <AvatarBlock type="zani" />
+      </div>
     </ContainerTransition>
   );
 }
