@@ -15,6 +15,28 @@ type EmailProps = {
   title: string;
 };
 
+function Footer() {
+  return (
+    <>
+      <Text className="text-center">
+        <Link className="text-[#0366d6] text-[12px]" href="https://roles.at/">
+          Roles.at
+        </Link>{" "}
+        ・{" "}
+        <Link
+          className="text-[#0366d6] text-[12px]"
+          href="mailto:support@roles.at"
+        >
+          Contact support
+        </Link>
+      </Text>
+      <Text className="text-[#6a737d] text-[12px] text-center mt-[60px]">
+        Proudly a single-purpose software・Made by designers
+      </Text>
+    </>
+  );
+}
+
 export function SubmissionConfirmationEmail({ company, title }: EmailProps) {
   return (
     <Html>
@@ -33,20 +55,13 @@ export function SubmissionConfirmationEmail({ company, title }: EmailProps) {
           <Section className="p-[24px] border border-solid border-[#dedede] rounded-[5px] text-center">
             <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
             <Text className="m-0 mb-[10px] text-left">
-              Thank you so much for choosing to submit your job listing for{" "}
+              Thank you so much for choosing to submit your opening for{" "}
               <strong>{title}</strong> at <strong>{company}</strong> on
-              Roles.at. We will review it soon and get back to you whenever it
+              Roles.at. We&apos;ll review it and get back to you as soon as it
               is live.
             </Text>
           </Section>
-          <Text className="text-center">
-            <Link className="text-[#0366d6] text-[12px]">Roles.at</Link> ・{" "}
-            <Link className="text-[#0366d6] text-[12px]">Contact support</Link>
-          </Text>
-
-          <Text className="text-[#6a737d] text-[12px] text-center mt-[60px]">
-            Roles.at・Proudly a single-purpose software・Made by designers
-          </Text>
+          <Footer />
         </Container>
       </Body>
     </Html>
@@ -71,18 +86,12 @@ export function ApprovalEmail({ company, title }: EmailProps) {
           <Section className="p-[24px] border border-solid border-[#dedede] rounded-[5px] text-center">
             <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
             <Text className="m-0 mb-[10px] text-left">
-              We&apos;ve got awesome news. Your job listing for{" "}
+              We&apos;ve got great news! Your opening for{" "}
               <strong>{title}</strong> at <strong>{company}</strong> on Roles.at
-              is now live on our platform and visible to potential candidates.
+              is now live and visible to potential candidates.
             </Text>
           </Section>
-          <Text className="text-center">
-            <Link className="text-[#0366d6] text-[12px]">Roles.at</Link> ・{" "}
-            <Link className="text-[#0366d6] text-[12px]">Contact support</Link>
-          </Text>
-          <Text className="text-[#6a737d] text-[12px] text-center mt-[60px]">
-            Roles.at・Proudly a single-purpose software・Made by designers
-          </Text>
+          <Footer />
         </Container>
       </Body>
     </Html>
@@ -107,7 +116,7 @@ export function RejectionEmail({ company, title }: EmailProps) {
           <Section className="p-[24px] border border-solid border-[#dedede] rounded-[5px] text-center">
             <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
             <Text className="m-0 mb-[10px] text-left">
-              Unfortunately, your job listing for <strong>{title}</strong> at{" "}
+              Unfortunately, your opening for <strong>{title}</strong> at{" "}
               <strong>{company}</strong> on Roles.at has been rejected. Contact
               us at{" "}
               <Link className="text-[#0366d6] text-[12px]">
@@ -116,13 +125,7 @@ export function RejectionEmail({ company, title }: EmailProps) {
               to resolve it.
             </Text>
           </Section>
-          <Text className="text-center">
-            <Link className="text-[#0366d6] text-[12px]">Roles.at</Link> ・{" "}
-            <Link className="text-[#0366d6] text-[12px]">Contact support</Link>
-          </Text>
-          <Text className="text-[#6a737d] text-[12px] text-center mt-[60px]">
-            Roles.at・Proudly a single-purpose software・Made by designers
-          </Text>
+          <Footer />
         </Container>
       </Body>
     </Html>
