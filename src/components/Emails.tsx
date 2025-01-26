@@ -92,7 +92,7 @@ export function ApprovalEmail({ company, title }: EmailProps) {
             <Text className="m-0 mb-[10px] text-left">
               Great news: Your opening for <strong>{title}</strong> at{" "}
               <strong>{company}</strong>
-              is now live on Roles.at, and visible to potential candidates.
+              is now live on Roles.at and visible to potential candidates.
             </Text>
           </Section>
           <Footer />
@@ -160,9 +160,6 @@ export function JobNotificationEmail({
             <Text className="m-0 mb-[10px] text-left">
               New <strong>{title}</strong> job opening at{" "}
               <strong>{company}</strong> is available on Roles.at.
-            </Text>
-            <Text className="m-0 mb-[10px] text-left">
-              <strong>{title}</strong> at <strong>{company}</strong>
             </Text>
             <Link
               href={`https://roles.at/${companySlug}`}
