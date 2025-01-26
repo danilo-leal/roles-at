@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import * as React from "react";
 import { Job } from "@/types/job";
 import Link from "next/link";
 import clsx from "clsx";
@@ -16,14 +16,14 @@ import { motion, AnimatePresence } from "motion/react";
 import { EmptyBox } from "@/components/primitives/Illustrations";
 
 export default function JobsPage() {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [jobs, setJobs] = React.useState<Job[]>([]);
+  const [filteredJobs, setFilteredJobs] = React.useState<Job[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchJobs = async () => {
       try {
         const response = await fetch("/api/");
@@ -50,7 +50,7 @@ export default function JobsPage() {
     fetchJobs();
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const filtered = jobs.filter((job) => {
       const searchMatch =
         job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -63,7 +63,7 @@ export default function JobsPage() {
     setFilteredJobs(filtered);
   }, [jobs, searchTerm]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "i") {
         event.preventDefault();
@@ -111,8 +111,8 @@ export default function JobsPage() {
                 "-mx-5 px-4 py-3",
                 "flex items-start sm:items-center gap-4",
                 "border border-transparent",
-                "hover:border-orange-300 dark:hover:border-orange-300/40",
-                "hover:bg-zinc-50 dark:hover:bg-zinc-800/40",
+                "hover:border-orange-300 dark:hover:border-orange-300/20",
+                "hover:bg-orange-50/50 dark:hover:bg-orange-800/8",
                 "transition-colors duration-100 fv-style",
               )}
             >
@@ -130,7 +130,7 @@ export default function JobsPage() {
                   <h2 className="capitalize font-medium text-[0.9375rem]">
                     {job.title}
                   </h2>
-                  <p className="shrink-0 flex items-center gap-2 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
+                  <p className="shrink-0 flex items-center gap-1 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
                     <Clock size={9} className="opacity-80" />
                     {formatDate(job.created_at)}
                   </p>
@@ -140,7 +140,7 @@ export default function JobsPage() {
                     {job.company}
                   </p>
                   {job.location && (
-                    <p className="shrink-0 flex items-center gap-2 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
+                    <p className="shrink-0 flex items-center gap-1 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
                       <MapPin size={9} className="opacity-80" />
                       {job.location}
                     </p>
@@ -169,9 +169,15 @@ export default function JobsPage() {
       <SectionDivider />
       <hgroup className="w-full flex items-center justify-between mb-3">
         <h1 className="text-xl font-bold">Find Your Next Role</h1>
-        <p className="text-xs font-mono dark:text-zinc-500">
-          {filteredJobs.length} Open Roles
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="hidden sm:inline text-xs font-mono dark:text-zinc-500">
+            {filteredJobs.length} Open Roles
+          </p>
+          <p className="inline sm:hidden text-xs font-mono dark:text-zinc-500">
+            {filteredJobs.length} Open
+          </p>
+          <SubscribeForm />
+        </div>
       </hgroup>
       <InputGroup data-slot="search">
         <Search data-slot="icon" />
@@ -190,7 +196,6 @@ export default function JobsPage() {
           <Kbd char="I" />
         </span>
       </InputGroup>
-      <SubscribeForm />
       <AnimatePresence mode="wait">
         {loading ? renderLoading() : renderContent()}
       </AnimatePresence>

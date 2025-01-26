@@ -45,7 +45,7 @@ export const buttonStyle = cva({
       destructive: "bg-red-600 text-white ring-red-600/50 hover:bg-red-700",
     },
     size: {
-      xs: "px-2 [--button-height:theme(spacing.8)] sm:[--button-height:theme(spacing.6)]",
+      xs: "px-2 [--button-height:theme(spacing.8)] sm:[--button-height:theme(spacing.6)] text-xs",
       sm: "px-3 [--button-height:theme(spacing.10)] sm:[--button-height:theme(spacing.9)]",
       md: "px-4 [--button-height:theme(spacing.12)] sm:[--button-height:theme(spacing.10)]",
     },

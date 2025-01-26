@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { Dialog as BaseDialog } from "@base-ui-components/react/dialog";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Image from "next/image";
-// import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { createClient } from "@supabase/supabase-js";
 import { Job } from "@/types/job";
 import { Button } from "@/components/primitives/Button";

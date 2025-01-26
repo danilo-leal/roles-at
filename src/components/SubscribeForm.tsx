@@ -1,27 +1,24 @@
-import { useState, useRef, useEffect } from "react";
-import { Input, InputGroup } from "./primitives/Input";
-import { Mail } from "lucide-react";
-import { Kbd } from "./primitives/Keybinding";
+import * as React from "react";
 import clsx from "clsx";
+import { motion, AnimatePresence } from "motion/react";
+import { Dialog as BaseDialog } from "@base-ui-components/react/dialog";
+import { Button } from "@/components/primitives/Button";
+import { Field, Label } from "@/components/primitives/Fieldset";
+import { Input, InputGroup } from "@/components/primitives/Input";
+import { Kbd } from "@/components/primitives/Keybinding";
+import { Mail, Bell } from "lucide-react";
 
 export function SubscribeForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<
+  const [email, setEmail] = React.useState("");
+  const [status, setStatus] = React.useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
-  const [errorMessage, setErrorMessage] = useState("");
-  const emailInputRef = useRef<HTMLInputElement>(null);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const emailInputRef = React.useRef<HTMLInputElement>(null);
+  const dialogTriggerRef = React.useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Ignore if any input/textarea is focused
-      if (
-        document.activeElement?.tagName === "INPUT" ||
-        document.activeElement?.tagName === "TEXTAREA"
-      ) {
-        return;
-      }
-
       if (
         event.key.toLowerCase() === "n" &&
         !event.metaKey &&
@@ -29,7 +26,7 @@ export function SubscribeForm() {
         !event.altKey
       ) {
         event.preventDefault();
-        emailInputRef.current?.focus();
+        dialogTriggerRef.current?.click();
       }
     };
 
@@ -66,54 +63,117 @@ export function SubscribeForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
-      <div className="flex flex-col gap-2">
-        <InputGroup data-slot="subscribe" className="w-full">
-          <Mail data-slot="icon" className="size-4" />
-          <Input
-            ref={emailInputRef}
-            startSlot
-            keybinding
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={status === "loading" || status === "success"}
-            required
-            className="w-full"
-          />
-          <div className="hidden absolute inset-y-0 right-20 sm:flex items-center gap-1">
-            <Kbd char="N" />
-          </div>
-          <button
-            type="submit"
-            disabled={status === "loading" || status === "success"}
-            className={clsx(
-              "shrink-0 px-4 py-2 text-sm font-medium rounded-md",
-              "transition-colors duration-150",
-              status === "success"
-                ? "bg-green-500 text-white"
-                : "bg-orange-500 hover:bg-orange-600 text-white",
-              (status === "loading" || status === "success") &&
-                "opacity-50 cursor-not-allowed",
-            )}
+    <BaseDialog.Root dismissible>
+      <BaseDialog.Trigger
+        ref={dialogTriggerRef}
+        render={
+          <Button
+            size="xs"
+            variant="outline"
+            aria-label="Be Notified About New Roles"
+            className="w-8 sm:w-auto"
           >
-            {status === "loading"
-              ? "Subscribing..."
-              : status === "success"
-                ? "Subscribed!"
-                : "Subscribe"}
-          </button>
-        </InputGroup>
-        {status === "error" && (
-          <p className="text-red-500 text-sm">{errorMessage}</p>
-        )}
-        {status === "success" && (
-          <p className="text-green-600 dark:text-green-400 text-sm">
-            Thanks for subscribing! Youll receive updates about new roles.
-          </p>
-        )}
-      </div>
-    </form>
+            <Bell size={10} fill="currentColor" className="hidden sm:block" />
+            <Bell size={12} fill="currentColor" className="block sm:hidden" />
+            <Kbd char="N" />
+          </Button>
+        }
+      />
+      <BaseDialog.Portal>
+        <BaseDialog.Backdrop
+          className={clsx(
+            "fixed inset-0 bg-black/20 dark:bg-zinc-900/10 transition-all duration-150",
+            "backdrop-blur-xs",
+            "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
+          )}
+        />
+        <BaseDialog.Popup
+          className={clsx(
+            "fixed bottom-0 sm:top-1/2 left-1/2 -mt-8",
+            "-translate-x-1/2 sm:-translate-y-1/2 rounded-b-none sm:rounded-b-lg rounded-t-lg",
+            "w-full sm:w-[450px] h-fit overflow-clip",
+            "bg-gray-50 text-gray-900",
+            "dark:bg-neutral-950 text-gray-900",
+            "border default-border-color",
+            "outline-none shadow-2xl",
+            "transition-all duration-100",
+            "data-[ending-style]:scale-90 data-[ending-style]:opacity-0",
+            "data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
+          )}
+        >
+          <BaseDialog.Title className="-mt-1.5 px-4 pt-4 pb-2 dark:text-white font-medium border-b default-border-color">
+            Be notified about new roles
+          </BaseDialog.Title>
+          <div className="grow flex flex-col p-4 gap-2 justify-between">
+            <BaseDialog.Description className="text-sm default-p-color mb-2">
+              Every time a company adds a new role, you&apos;ll receive an email
+              notification.
+            </BaseDialog.Description>
+            <form onSubmit={handleSubmit} className="w-full">
+              <Field>
+                <Label className="flex items-center justify-between gap-0.5">
+                  Your Email
+                  <span>
+                    <AnimatePresence>
+                      {status === "error" && (
+                        <motion.p
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 8 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-sm text-red-700 dark:text-red-300"
+                        >
+                          {errorMessage}
+                        </motion.p>
+                      )}
+                      {status === "success" && (
+                        <motion.p
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 8 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-sm text-green-700 dark:text-green-400"
+                        >
+                          You&apos;re in! Thanks for subscribing.
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+                  </span>
+                </Label>
+                <InputGroup data-slot="icon" className="w-full">
+                  <Mail data-slot="icon" className="size-4" />
+                  <Input
+                    ref={emailInputRef}
+                    startSlot
+                    keybinding
+                    type="email"
+                    placeholder="your-email@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={status === "loading" || status === "success"}
+                    className="w-full"
+                  />
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    disabled={status === "loading" || status === "success"}
+                    className="mt-2 w-full"
+                  >
+                    {status === "loading"
+                      ? "Subscribing..."
+                      : status === "success"
+                        ? "Subscribed!"
+                        : "Subscribe"}
+                  </Button>
+                </InputGroup>
+              </Field>
+            </form>
+            <BaseDialog.Close
+              render={<Button className="w-full">Close</Button>}
+            />
+          </div>
+        </BaseDialog.Popup>
+      </BaseDialog.Portal>
+    </BaseDialog.Root>
   );
 }
