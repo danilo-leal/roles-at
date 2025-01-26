@@ -11,6 +11,6 @@ pnpm dev
 - [x] Make rich text writeable in the description field
 - [ ] Properly adjust OG images
 - [ ] Set up `hello@roles.at` email correctly
-- [ ] Add "get notified about new roles" email flow
-- [ ] Add "Buy Me Coffee" actual link
+- [x] Add "get notified about new roles" email flow
+- [x] Add "Buy Me Coffee" actual link
 - [ ] Figure out how to start (get roles from Read.cv vs. from 0)
