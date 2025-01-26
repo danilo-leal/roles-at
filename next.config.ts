@@ -3,10 +3,11 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      process.env.NEXT_PUBLIC_SUPABASE_URL?.replace("https://", "") || "",
-      "res.cloudinary.com",
-      "pbs.twimg.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
 };
