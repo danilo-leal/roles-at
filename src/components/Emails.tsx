@@ -20,18 +20,21 @@ function Footer() {
   return (
     <>
       <Text className="text-center">
-        <Link className="text-[#0366d6] text-[12px]" href="https://roles.at/">
+        <Link
+          className="text-[#0366d6] text-[12px] underline"
+          href="https://roles.at/"
+        >
           Roles.at
         </Link>{" "}
         ・{" "}
         <Link
-          className="text-[#0366d6] text-[12px]"
+          className="text-[#0366d6] text-[12px] underline"
           href="mailto:support@roles.at"
         >
           Contact support
         </Link>
       </Text>
-      <Text className="text-[#6a737d] text-[12px] text-center mt-[60px]">
+      <Text className="text-[#6a737d] text-[10px] italics text-center mt-[40px]">
         Proudly a single-purpose software・Made by designers
       </Text>
     </>
@@ -87,9 +90,9 @@ export function ApprovalEmail({ company, title }: EmailProps) {
           <Section className="p-[24px] border border-solid border-[#dedede] rounded-[5px] text-center">
             <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
             <Text className="m-0 mb-[10px] text-left">
-              We&apos;ve got great news! Your opening for{" "}
-              <strong>{title}</strong> at <strong>{company}</strong> on Roles.at
-              is now live and visible to potential candidates.
+              Great news: Your opening for <strong>{title}</strong> at{" "}
+              <strong>{company}</strong>
+              is now live on Roles.at, and visible to potential candidates.
             </Text>
           </Section>
           <Footer />
@@ -155,22 +158,22 @@ export function JobNotificationEmail({
           <Section className="p-[24px] border border-solid border-[#dedede] rounded-[5px] text-center">
             <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
             <Text className="m-0 mb-[10px] text-left">
-              A new role has been added to Role.at:
+              New <strong>{title}</strong> job opening at{" "}
+              <strong>{company}</strong> is available on Roles.at.
             </Text>
             <Text className="m-0 mb-[10px] text-left">
               <strong>{title}</strong> at <strong>{company}</strong>
             </Text>
             <Link
-              href={`/${companySlug}`}
+              href={`https://roles.at/${companySlug}`}
               className="bg-[#ff7e33] text-white px-[24px] py-[12px] rounded-[6px] no-underline inline-block mt-[16px]"
             >
-              View Role
+              Check it out &rarr;
             </Link>
           </Section>
-          <Text className="text-[#6a737d] text-[12px] text-center mt-[24px]">
+          <Text className="bg-gray-50/50 rounded text-[#6a737d] text-[10px] text-center mt-[24px]">
             You received this email because you subscribed to job notifications
             from Roles.at.
-            <br />
             <Link
               href={`${process.env.NEXT_PUBLIC_BASE_URL}/unsubscribe`}
               className="text-[#0366d6]"
