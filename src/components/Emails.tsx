@@ -74,7 +74,7 @@ export function ApprovalEmail({ company, title }: EmailProps) {
     <Html>
       <Head />
       <Preview>
-        Your submission for {title} at {company} has been received.
+        Your submission for {title} at {company} is live now!
       </Preview>
       <Body className="bg-white text-[#24292e] font-sans">
         <Container className="max-w-[480px] mx-auto py-[20px] pb-[48px]">
@@ -104,7 +104,7 @@ export function RejectionEmail({ company, title }: EmailProps) {
     <Html>
       <Head />
       <Preview>
-        Your submission for {title} at {company} has been received.
+        Your submission for {title} at {company} has been rejected.
       </Preview>
       <Body className="bg-white text-[#24292e] font-sans">
         <Container className="max-w-[480px] mx-auto py-[20px] pb-[48px]">

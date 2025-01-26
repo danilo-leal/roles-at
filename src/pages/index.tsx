@@ -8,7 +8,7 @@ import { ContainerTransition } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
-import { SubscribeForm } from "@/components/primitives/SubscribeForm";
+import { SubscribeForm } from "@/components/SubscribeForm";
 import { Kbd } from "@/components/primitives/Keybinding";
 import { formatDate } from "@/utils/date";
 import { MapPin, Clock, Search } from "lucide-react";

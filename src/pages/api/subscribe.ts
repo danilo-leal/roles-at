@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { Job } from "@/types/job";
 import { supabase } from "@/lib/supabaseClient";
 import { JobNotificationEmail } from "@/components/Emails";
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 
 if (!process.env.RESEND_API_KEY) {
   throw new Error("Missing RESEND_API_KEY environment variable");
@@ -35,13 +36,17 @@ async function sendJobNotification(email: string, job: Job) {
 }
 
 // Function to notify all subscribers about a new job
-export async function notifySubscribers(job: Job) {
+export async function notifySubscribers(job: Job, req?: NextApiRequest, res?: NextApiResponse) {
   console.log('Starting notification process for job:', job.title);
   
   try {
-    const { data: subscribers, error } = await supabase
+    console.log('Querying subscribers table...');
+    const client = req && res ? createPagesServerClient({ req, res }) : supabase;
+    const { data: subscribers, error } = await client
       .from("subscribers")
       .select("email");
+
+    console.log('Query response:', { subscribers, error });
 
     if (error) {
       console.error('Failed to fetch subscribers:', error);
@@ -49,11 +54,11 @@ export async function notifySubscribers(job: Job) {
     }
     
     if (!subscribers || subscribers.length === 0) {
-      console.log('No subscribers found to notify');
+      console.log('No subscribers found to notify. Query returned:', { subscribers });
       return;
     }
 
-    console.log(`Found ${subscribers.length} subscribers to notify`);
+    console.log(`Found ${subscribers.length} subscribers to notify:`, subscribers);
 
     const results = await Promise.all(
       subscribers.map((subscriber) =>
@@ -86,11 +91,11 @@ export default async function handler(
 
     // Try to insert the subscriber
     const { error: insertError } = await supabase.from("subscribers").insert([
-      {
-        email,
-        created_at: new Date().toISOString(),
-      },
-    ]);
+        {
+          email,
+          created_at: new Date().toISOString(),
+        },
+      ]);
 
     // Handle duplicate email error specifically
     if (insertError?.code === '23505') {

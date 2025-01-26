@@ -95,7 +95,7 @@ export default async function handler(
       // Send notifications to all subscribers
       try {
         console.log("Starting subscriber notifications");
-        await notifySubscribers(jobPosting);
+        await notifySubscribers(jobPosting, req, res);
         console.log("Subscriber notifications completed successfully");
       } catch (error) {
         console.error("Error sending subscriber notifications:", error);

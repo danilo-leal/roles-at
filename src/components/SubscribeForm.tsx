@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from "react";
-import { Input, InputGroup } from "./Input";
+import { Input, InputGroup } from "./primitives/Input";
 import { Mail } from "lucide-react";
-import { Kbd } from "./Keybinding";
+import { Kbd } from "./primitives/Keybinding";
 import clsx from "clsx";
 
 export function SubscribeForm() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const emailInputRef = useRef<HTMLInputElement>(null);
 
@@ -20,7 +22,12 @@ export function SubscribeForm() {
         return;
       }
 
-      if (event.key.toLowerCase() === "n" && !event.metaKey && !event.ctrlKey && !event.altKey) {
+      if (
+        event.key.toLowerCase() === "n" &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.altKey
+      ) {
         event.preventDefault();
         emailInputRef.current?.focus();
       }
@@ -52,7 +59,9 @@ export function SubscribeForm() {
       setEmail("");
     } catch (error) {
       setStatus("error");
-      setErrorMessage(error instanceof Error ? error.message : "Failed to subscribe");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Failed to subscribe",
+      );
     }
   };
 
@@ -85,14 +94,15 @@ export function SubscribeForm() {
               status === "success"
                 ? "bg-green-500 text-white"
                 : "bg-orange-500 hover:bg-orange-600 text-white",
-              (status === "loading" || status === "success") && "opacity-50 cursor-not-allowed"
+              (status === "loading" || status === "success") &&
+                "opacity-50 cursor-not-allowed",
             )}
           >
             {status === "loading"
               ? "Subscribing..."
               : status === "success"
-              ? "Subscribed!"
-              : "Subscribe"}
+                ? "Subscribed!"
+                : "Subscribe"}
           </button>
         </InputGroup>
         {status === "error" && (
@@ -100,10 +110,10 @@ export function SubscribeForm() {
         )}
         {status === "success" && (
           <p className="text-green-600 dark:text-green-400 text-sm">
-            Thanks for subscribing! You'll receive updates about new roles.
+            Thanks for subscribing! Youll receive updates about new roles.
           </p>
         )}
       </div>
     </form>
   );
-} 
+}
