@@ -22,8 +22,6 @@ export function Footer() {
           Roles.at © {currentYear}
           <span className="inline gap-0.5">
             <span className="opacity-50">&nbsp;/&nbsp;</span>
-            <span className="opacity-60">Single-purpose Software</span>
-            <span className="opacity-50">&nbsp;/&nbsp;</span>
             <Link href="/about">Made by designers</Link>
             <span className="opacity-50">&nbsp;/&nbsp;</span>
             <Link href="https://buy.stripe.com/8wM17b2ak1AN6YMcMM" className="">
