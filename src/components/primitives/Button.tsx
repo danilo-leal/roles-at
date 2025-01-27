@@ -34,7 +34,7 @@ export const buttonStyle = cva({
         "text-zinc-950 dark:text-zinc-100",
         "bg-gradient-to-b from-zinc-100/10 to-zinc-300/10",
         "dark:from-zinc-600/10 dark:to-zinc-500/10",
-        "border default-border-color",
+        "border border-zinc-200 dark:border-zinc-600/30",
         "hover:!border-zinc-300 hover:bg-zinc-200/50",
         "dark:hover:!border-zinc-600/80 dark:hover:bg-zinc-600/20",
       ),

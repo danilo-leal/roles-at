@@ -164,7 +164,7 @@ export default function JobsPage() {
         ))
       ) : (
         <div className="py-16 size-full flex flex-col items-center gap-4">
-          <EmptyBox className="size-56 opacity-60" />
+          <EmptyBox className="size-48 opacity-60" />
           <span className="text-xs default-p-color font-mono">
             No matching jobs found
           </span>

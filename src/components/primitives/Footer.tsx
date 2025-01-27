@@ -22,10 +22,10 @@ export function Footer() {
           roles.at © {currentYear}
           <span className="inline gap-0.5">
             <span className="opacity-50">&nbsp;/&nbsp;</span>
-            <Link href="/about">Made by designers</Link>
+            <Link href="/about">Made by Designers</Link>
             <span className="opacity-50">&nbsp;/&nbsp;</span>
             <Link href="https://buy.stripe.com/8wM17b2ak1AN6YMcMM" className="">
-              Buy Us Coffee
+              Support Us
             </Link>
           </span>
         </p>
