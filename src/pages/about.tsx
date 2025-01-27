@@ -118,9 +118,9 @@ export default function AboutPage() {
       <SectionDivider type="alternative" />
       <h2 className="text-xl font-semibold mb-2">Got any feedback?</h2>
       <p className="text-sm default-p-color mb-4">
-        Any cool ideas and/or fix requests are welcome. Reach us at:{" "}
-        <Link href="mailto:support@roles.at">support@roles.at</Link>. Or, get
-        ahold of us personally via our channels.
+        Any cool ideas and/or fix requests are welcome. Reach us at via{" "}
+        <Link href="mailto:support@roles.at">support@roles.at</Link>, or get
+        ahold of us via any of our personal channels.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 divide-x dark:divide-zinc-800/50">
         <AvatarBlock type="dan" />

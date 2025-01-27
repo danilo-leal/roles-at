@@ -1,4 +1,4 @@
-export const title = "Roles.at";
+export const title = "roles.at";
 export const description =
   "High-quality software design roles. Alternative to Read.cv.";
 export const descriptionOg =

@@ -19,7 +19,7 @@ export function Footer() {
         )}
       >
         <p className="text-xs text-center">
-          Roles.at © {currentYear}
+          roles.at © {currentYear}
           <span className="inline gap-0.5">
             <span className="opacity-50">&nbsp;/&nbsp;</span>
             <Link href="/about">Made by designers</Link>
