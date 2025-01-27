@@ -80,22 +80,34 @@ export default function JobsPage() {
 
   const renderLoading = () => (
     <motion.div
+      key="loading"
+      layout
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{
+        opacity: { duration: 0.2 },
+        layout: { duration: 0.2 },
+      }}
       className="py-2 flex flex-col gap-2"
     >
       {Array.from({ length: 10 }).map((_, index) => (
-        <Skeleton key={index} className="h-[78px] w-full" />
+        <Skeleton key={index} className="h-[97px] sm:h-[69px] w-full" />
       ))}
     </motion.div>
   );
 
   const renderContent = () => (
     <motion.div
+      key="content"
+      layout
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{
+        opacity: { duration: 0.2 },
+        layout: { duration: 0.2 },
+      }}
       className="py-2 size-full flex flex-col"
     >
       {filteredJobs.length > 0 ? (
