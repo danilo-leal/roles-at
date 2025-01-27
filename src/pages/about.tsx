@@ -70,7 +70,7 @@ export default function AboutPage() {
         it helps at least one person find a new role, it is for sure a success!
       </p>
       <SectionDivider />
-      <h2 className="text-xl font-semibold mb-2">What we used to build</h2>
+      <h2 className="text-xl font-semibold mb-2">The tech stack</h2>
       <p className="default-p-style mb-1">
         Building roles.at has been a very cool experience at exploring different
         pieces of technology. We&apos;re thankful for all the open-source
@@ -78,8 +78,8 @@ export default function AboutPage() {
       </p>
       <ul className="default-ul-style">
         <li>
-          Everything written with <Link href="https://zed.dev/">Zed</Link> as
-          the code editor.
+          Everything written in <Link href="https://zed.dev/">Zed</Link> as the
+          code editor.
         </li>
         <li>
           Framework of choice is <Link href="https://nextjs.org/">Next.js</Link>{" "}
@@ -87,11 +87,11 @@ export default function AboutPage() {
         </li>
         <li>
           Styled with <Link href="https://tailwindcss.com/">Tailwind CSS</Link>{" "}
-          (v4, baby).
+          (v4 already, baby).
         </li>
         <li>
-          Components provided mainly by{" "}
-          <Link href="https://base-ui.com/">Base UI</Link>. With other bits from{" "}
+          Components powered mainly by{" "}
+          <Link href="https://base-ui.com/">Base UI</Link>. Other bits from{" "}
           <Link href="https://vaul.emilkowal.ski/">Vaul</Link> and{" "}
           <Link href="https://catalyst.tailwindui.com/">Catalyst UI</Link>.
         </li>
@@ -106,13 +106,11 @@ export default function AboutPage() {
           .
         </li>
         <li>
-          Icons provided by <Link href="https://lucide.dev/">Lucide React</Link>
-          .
+          Icons from <Link href="https://lucide.dev/">Lucide React</Link>.
         </li>
         <li>
-          Email infrastructure powered by{" "}
-          <Link href="https://resend.com/">Resend</Link> &{" "}
-          <Link href="https://react.email/">React Email</Link>.
+          Email infrastructure by <Link href="https://resend.com/">Resend</Link>{" "}
+          & <Link href="https://react.email/">React Email</Link>.
         </li>
       </ul>
       <SectionDivider type="alternative" />
