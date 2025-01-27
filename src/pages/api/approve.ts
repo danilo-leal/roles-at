@@ -40,7 +40,7 @@ export default async function handler(
       console.log("Job posting ID:", id);
 
       if (!id) {
-        return res.status(400).json({ error: 'Job ID is required' });
+        return res.status(400).json({ error: "Job ID is required" });
       }
 
       // Fetch the job posting before updating
@@ -78,7 +78,7 @@ export default async function handler(
         );
         try {
           const approvalEmailResult = await resend.emails.send({
-            from: "Danilo from Roles.at <onboarding@resend.dev>",
+            from: "Victor from Roles.at <hello@roles.at>",
             to: jobPosting.notification_email,
             subject: "Roles.at: Job Listing Approved",
             react: ApprovalEmail({
@@ -103,7 +103,9 @@ export default async function handler(
       }
 
       console.log("Sending success response");
-      res.status(200).json({ message: "Job posting approved and notifications sent" });
+      res
+        .status(200)
+        .json({ message: "Job posting approved and notifications sent" });
     } catch (error) {
       console.error("Approval error:", error);
       res.status(500).json({

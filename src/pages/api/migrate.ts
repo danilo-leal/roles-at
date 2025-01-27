@@ -110,7 +110,7 @@ export default async function handler(
       if (jobDetails.notification_email) {
         try {
           const emailData = await resend.emails.send({
-            from: "Danilo from Roles.at <onboarding@resend.dev>",
+            from: "Danilo from Roles.at <hello@roles.at>",
             to: jobDetails.notification_email,
             subject: "Roles.at: Job Listing Submitted",
             react: SubmissionConfirmationEmail({

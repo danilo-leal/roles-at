@@ -170,7 +170,7 @@ export function JobNotificationEmail({
           </Section>
           <Text className="bg-gray-50/50 rounded text-[#6a737d] text-[10px] text-center mt-[24px]">
             You received this email because you subscribed to job notifications
-            from Roles.at.
+            from Roles.at.{" "}
             <Link
               href={`${process.env.NEXT_PUBLIC_BASE_URL}/unsubscribe`}
               className="text-[#0366d6]"

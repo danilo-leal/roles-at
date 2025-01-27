@@ -13,11 +13,13 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Helper function to send job notification to a single subscriber
 async function sendJobNotification(email: string, job: Job) {
-  console.log(`Attempting to send notification email to ${email} for job: ${job.title}`);
-  
+  console.log(
+    `Attempting to send notification email to ${email} for job: ${job.title}`,
+  );
+
   try {
     const data = await resend.emails.send({
-      from: "Danilo from Roles.at <onboarding@resend.dev>",
+      from: "Victor from Roles.at <hello@roles.at>",
       to: email,
       subject: `Roles.at: ${job.title} at ${job.company}`,
       react: JobNotificationEmail({
@@ -26,7 +28,7 @@ async function sendJobNotification(email: string, job: Job) {
         companySlug: job.company_slug,
       }),
     });
-    
+
     console.log(`Email sent successfully to ${email}:`, data);
     return data;
   } catch (error) {
@@ -36,29 +38,39 @@ async function sendJobNotification(email: string, job: Job) {
 }
 
 // Function to notify all subscribers about a new job
-export async function notifySubscribers(job: Job, req?: NextApiRequest, res?: NextApiResponse) {
-  console.log('Starting notification process for job:', job.title);
-  
+export async function notifySubscribers(
+  job: Job,
+  req?: NextApiRequest,
+  res?: NextApiResponse,
+) {
+  console.log("Starting notification process for job:", job.title);
+
   try {
-    console.log('Querying subscribers table...');
-    const client = req && res ? createPagesServerClient({ req, res }) : supabase;
+    console.log("Querying subscribers table...");
+    const client =
+      req && res ? createPagesServerClient({ req, res }) : supabase;
     const { data: subscribers, error } = await client
       .from("subscribers")
       .select("email");
 
-    console.log('Query response:', { subscribers, error });
+    console.log("Query response:", { subscribers, error });
 
     if (error) {
-      console.error('Failed to fetch subscribers:', error);
+      console.error("Failed to fetch subscribers:", error);
       throw error;
     }
-    
+
     if (!subscribers || subscribers.length === 0) {
-      console.log('No subscribers found to notify. Query returned:', { subscribers });
+      console.log("No subscribers found to notify. Query returned:", {
+        subscribers,
+      });
       return;
     }
 
-    console.log(`Found ${subscribers.length} subscribers to notify:`, subscribers);
+    console.log(
+      `Found ${subscribers.length} subscribers to notify:`,
+      subscribers,
+    );
 
     const results = await Promise.all(
       subscribers.map((subscriber) =>
@@ -91,14 +103,14 @@ export default async function handler(
 
     // Try to insert the subscriber
     const { error: insertError } = await supabase.from("subscribers").insert([
-        {
-          email,
-          created_at: new Date().toISOString(),
-        },
-      ]);
+      {
+        email,
+        created_at: new Date().toISOString(),
+      },
+    ]);
 
     // Handle duplicate email error specifically
-    if (insertError?.code === '23505') {
+    if (insertError?.code === "23505") {
       return res.status(400).json({ error: "Email already subscribed" });
     }
 
@@ -111,9 +123,9 @@ export default async function handler(
     return res.status(200).json({ message: "Successfully subscribed" });
   } catch (error) {
     console.error("Subscription error:", error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: "Failed to subscribe",
-      details: error instanceof Error ? error.message : "Unknown error"
+      details: error instanceof Error ? error.message : "Unknown error",
     });
   }
 }
