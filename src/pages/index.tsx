@@ -113,7 +113,7 @@ export default function JobsPage() {
                 "border border-transparent",
                 "hover:border-orange-300 dark:hover:border-orange-300/20",
                 "hover:bg-orange-50/50 dark:hover:bg-orange-800/8",
-                "transition-colors duration-100 fv-style",
+                "transition-colors duration-70 fv-style",
               )}
             >
               {job.avatar_img && (
@@ -130,7 +130,7 @@ export default function JobsPage() {
                   <h2 className="capitalize font-medium text-[0.9375rem]">
                     {job.title}
                   </h2>
-                  <p className="shrink-0 flex items-center gap-1 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
+                  <p className="shrink-0 flex items-center gap-1 text-[0.6875rem] font-mono pb-1 dark:text-zinc-500">
                     <Clock size={9} className="opacity-80" />
                     {formatDate(job.created_at)}
                   </p>
@@ -140,7 +140,7 @@ export default function JobsPage() {
                     {job.company}
                   </p>
                   {job.location && (
-                    <p className="shrink-0 flex items-center gap-1 text-[0.625rem] font-mono pb-1 dark:text-zinc-500">
+                    <p className="shrink-0 flex items-center gap-1 text-[0.6875rem] font-mono pb-1 dark:text-zinc-500">
                       <MapPin size={9} className="opacity-80" />
                       {job.location}
                     </p>

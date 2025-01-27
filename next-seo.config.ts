@@ -1,6 +1,8 @@
-import { description } from "@/utils/seo";
-
-const title = "Roles.at";
+export const title = "Roles.at";
+export const description =
+  "High-quality software design roles. Alternative to Read.cv.";
+export const descriptionOg =
+  "Find high-quality software design and engineering roles.";
 
 const SEO = {
   title,

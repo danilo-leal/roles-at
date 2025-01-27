@@ -1,4 +1,5 @@
 import { ImageResponse } from "@vercel/og";
+import { descriptionOg } from "../../../next-seo.config";
 
 export const config = {
   runtime: "edge",
@@ -57,7 +58,7 @@ export default async function handler(request: Request): Promise<Response> {
                 color: "#737373",
               }}
             >
-              Find high-quality software design and engineering roles.
+              {descriptionOg}
             </p>
           </div>
         </div>
