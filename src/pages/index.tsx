@@ -178,6 +178,23 @@ export default function JobsPage() {
 
   if (error) return <div className="text-red-500">{error}</div>;
 
+  const renderOpenRolesLabel = () => {
+    if (filteredJobs.length === 1) {
+      return (
+        <>
+          <p className="hidden sm:inline text-xs font-mono dark:text-zinc-500">
+            {filteredJobs.length} Open Role
+          </p>
+          <p className="inline sm:hidden text-xs font-mono dark:text-zinc-500">
+            {filteredJobs.length} Open
+          </p>
+        </>
+      );
+    } else {
+      return;
+    }
+  };
+
   return (
     <ContainerTransition>
       <Navbar />
@@ -185,12 +202,7 @@ export default function JobsPage() {
       <hgroup className="w-full flex items-center justify-between mb-3">
         <h1 className="text-xl font-bold">Find Your Next Role</h1>
         <div className="flex items-center gap-2">
-          <p className="hidden sm:inline text-xs font-mono dark:text-zinc-500">
-            {filteredJobs.length} Open Roles
-          </p>
-          <p className="inline sm:hidden text-xs font-mono dark:text-zinc-500">
-            {filteredJobs.length} Open
-          </p>
+          {renderOpenRolesLabel()}
           <SubscribeForm />
         </div>
       </hgroup>
