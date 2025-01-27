@@ -98,79 +98,82 @@ export default function JobsPage() {
   );
 
   const renderContent = () => (
-    <motion.div
-      key="content"
-      layout
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{
-        opacity: { duration: 0.2 },
-        layout: { duration: 0.2 },
-      }}
-      className="py-2 size-full flex flex-col"
-    >
+    <div className="py-2 size-full flex flex-col">
       {filteredJobs.length > 0 ? (
-        filteredJobs.map((job) => (
-          <div
-            key={job.id}
-            className="p-1 border-b last:border-0 default-border-color"
-          >
-            <Link
-              href={job.company_slug}
-              className={clsx(
-                "group cursor-pointer rounded-xl",
-                "-mx-5 px-4 py-3",
-                "flex items-start sm:items-center gap-4",
-                "border border-transparent",
-                "hover:border-orange-300 dark:hover:border-orange-300/20",
-                "hover:bg-orange-50/50 dark:hover:bg-orange-800/8",
-                "transition-colors duration-70 fv-style",
-              )}
+        <motion.div
+          key="content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {filteredJobs.map((job) => (
+            <div
+              key={job.id}
+              className="p-1 border-b last:border-0 default-border-color"
             >
-              {job.avatar_img && (
-                <Image
-                  src={job.avatar_img}
-                  alt={`${job.company} logo`}
-                  width={44}
-                  height={44}
-                  className="rounded-full mt-1 sm:mt-0 size-8 grow-0 shrink-0 object-cover border default-border-color"
-                />
-              )}
-              <div className="w-full flex flex-col">
-                <div className="w-full flex items-center justify-between">
-                  <h2 className="capitalize font-medium text-[0.9375rem]">
-                    {job.title}
-                  </h2>
-                  <p className="shrink-0 flex items-center gap-1 text-[0.6875rem] font-mono pb-1 dark:text-zinc-500">
-                    <Clock size={9} className="opacity-80" />
-                    {formatDate(job.created_at)}
-                  </p>
-                </div>
-                <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <p className="text-sm text-zinc-700 dark:text-zinc-500">
-                    {job.company}
-                  </p>
-                  {job.location && (
+              <Link
+                href={job.company_slug}
+                className={clsx(
+                  "group cursor-pointer rounded-xl",
+                  "-mx-5 px-4 py-3",
+                  "flex items-start sm:items-center gap-4",
+                  "border border-transparent",
+                  "hover:border-orange-300 dark:hover:border-orange-300/20",
+                  "hover:bg-orange-50/50 dark:hover:bg-orange-800/8",
+                  "transition-colors duration-70 fv-style",
+                )}
+              >
+                {job.avatar_img && (
+                  <Image
+                    src={job.avatar_img}
+                    alt={`${job.company} logo`}
+                    width={44}
+                    height={44}
+                    className="rounded-full mt-1 sm:mt-0 size-8 grow-0 shrink-0 object-cover border default-border-color"
+                  />
+                )}
+                <div className="w-full flex flex-col">
+                  <div className="w-full flex items-center justify-between">
+                    <h2 className="capitalize font-medium text-[0.9375rem]">
+                      {job.title}
+                    </h2>
                     <p className="shrink-0 flex items-center gap-1 text-[0.6875rem] font-mono pb-1 dark:text-zinc-500">
-                      <MapPin size={9} className="opacity-80" />
-                      {job.location}
+                      <Clock size={9} className="opacity-80" />
+                      {formatDate(job.created_at)}
                     </p>
-                  )}
+                  </div>
+                  <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <p className="text-sm text-zinc-700 dark:text-zinc-500">
+                      {job.company}
+                    </p>
+                    {job.location && (
+                      <p className="shrink-0 flex items-center gap-1 text-[0.6875rem] font-mono pb-1 dark:text-zinc-500">
+                        <MapPin size={9} className="opacity-80" />
+                        {job.location}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </div>
-        ))
+              </Link>
+            </div>
+          ))}
+        </motion.div>
       ) : (
-        <div className="flex-none py-16 size-full flex flex-col items-center gap-4">
+        <motion.div
+          key="empty"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="flex-none py-16 size-full flex flex-col items-center gap-4"
+        >
           <EmptyBox className="size-48 opacity-60" />
           <span className="text-xs default-p-color font-mono">
             No matching jobs found
           </span>
-        </div>
+        </motion.div>
       )}
-    </motion.div>
+    </div>
   );
 
   if (error) return <div className="text-red-500">{error}</div>;
