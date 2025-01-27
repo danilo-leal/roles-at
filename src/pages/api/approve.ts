@@ -80,7 +80,7 @@ export default async function handler(
           const approvalEmailResult = await resend.emails.send({
             from: "Victor from Roles.at <hello@roles.at>",
             to: jobPosting.notification_email,
-            subject: "Roles.at: Job Listing Approved",
+            subject: "Job Listing Approved",
             react: ApprovalEmail({
               company: jobPosting.company,
               title: jobPosting.title,

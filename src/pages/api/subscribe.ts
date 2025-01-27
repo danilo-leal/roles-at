@@ -21,7 +21,7 @@ async function sendJobNotification(email: string, job: Job) {
     const data = await resend.emails.send({
       from: "Victor from Roles.at <hello@roles.at>",
       to: email,
-      subject: `Roles.at: ${job.title} at ${job.company}`,
+      subject: `New role: ${job.title} at ${job.company}`,
       react: JobNotificationEmail({
         company: job.company,
         title: job.title,

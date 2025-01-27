@@ -59,7 +59,7 @@ export default async function handler(
         await resend.emails.send({
           from: "Danilo from Roles.at <hello@roles.at>",
           to: notification_email,
-          subject: "Roles.at: Job Listing Submitted",
+          subject: "Job Listing Submitted",
           react: SubmissionConfirmationEmail({ company, title }),
         });
       } catch (emailError) {

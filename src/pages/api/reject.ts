@@ -70,7 +70,7 @@ export default async function handler(
           const data = await resend.emails.send({
             from: "Roles.at <hello@roles.at>",
             to: jobPosting.notification_email,
-            subject: "Roles.at: Job Listing Rejected",
+            subject: "Job Listing Rejected",
             react: RejectionEmail({
               company: jobPosting.company,
               title: jobPosting.title,
