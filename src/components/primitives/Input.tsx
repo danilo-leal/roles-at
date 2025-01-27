@@ -105,6 +105,7 @@ export const Input = forwardRef(function Input(
           startSlot && "pl-10 sm:pl-9",
           // Additional padding right if keybinding is true
           keybinding && "pr-2 sm:pr-16",
+          "[&::-webkit-search-cancel-button]:hidden",
         ])}
       />
     </span>
