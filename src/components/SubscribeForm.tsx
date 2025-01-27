@@ -16,23 +16,31 @@ export function SubscribeForm() {
   const [errorMessage, setErrorMessage] = React.useState("");
   const emailInputRef = React.useRef<HTMLInputElement>(null);
   const dialogTriggerRef = React.useRef<HTMLButtonElement>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.key.toLowerCase() === "n" &&
-        !event.metaKey &&
-        !event.ctrlKey &&
-        !event.altKey
-      ) {
+      // Don't run the keybindings when focused on editable surfaces
+      const isEditableElement =
+        ["INPUT", "TEXTAREA"].includes((event.target as HTMLElement).tagName) ||
+        (event.target as HTMLElement).getAttribute("contenteditable") ===
+          "true" ||
+        (event.target as HTMLElement).closest('[contenteditable="true"]') !==
+          null;
+
+      if (isEditableElement) {
+        return;
+      }
+
+      if (event.key === "b" || event.key === "B") {
         event.preventDefault();
-        dialogTriggerRef.current?.click();
+        setIsOpen(true);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [setIsOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +71,7 @@ export function SubscribeForm() {
   };
 
   return (
-    <BaseDialog.Root dismissible>
+    <BaseDialog.Root dismissible open={isOpen} onOpenChange={setIsOpen}>
       <BaseDialog.Trigger
         ref={dialogTriggerRef}
         render={
@@ -75,7 +83,7 @@ export function SubscribeForm() {
           >
             <Bell size={10} fill="currentColor" className="hidden sm:block" />
             <Bell size={12} fill="currentColor" className="block sm:hidden" />
-            <Kbd char="N" />
+            <Kbd char="B" />
           </Button>
         }
       />

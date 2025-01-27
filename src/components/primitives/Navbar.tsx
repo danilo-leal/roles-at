@@ -114,9 +114,9 @@ export function Navbar() {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       // Don't run the keybindings when focused on editable surfaces
-      const isEditableElement = 
-        ['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName) ||
-        (event.target as HTMLElement).getAttribute('contenteditable') === 'true' ||
+      const isEditableElement =
+        ["INPUT", "TEXTAREA"].includes((event.target as HTMLElement).tagName) ||
+        (event.target as HTMLElement).getAttribute("contenteditable") === "true" ||
         (event.target as HTMLElement).closest('[contenteditable="true"]') !== null;
 
       if (event.key) {
@@ -128,19 +128,20 @@ export function Navbar() {
             }
             break;
           case "r":
-            if (!isEditableElement) {
+            // Only trigger if no modifier keys are pressed
+            if (!isEditableElement && !event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey) {
               event.preventDefault();
               push("/");
             }
             break;
           case "a":
-            if (!isEditableElement) {
+            if (!isEditableElement && !event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey) {
               event.preventDefault();
               push("/about");
             }
             break;
           case "s":
-            if (!isEditableElement) {
+            if (!isEditableElement && !event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey) {
               event.preventDefault();
               push("/submit");
             }
