@@ -218,11 +218,11 @@ export default function SubmitPage() {
         <li>Choose the method: either via direct form or Read.cv migration.</li>
         <li>
           We&apos;ll review your entry and notify you via email about whether
-          it&apos;s been approved or rejected.
+          it&apos;s been approved or not.
         </li>
         <li>
           For any desired changes or updates, please contact us at{" "}
-          <Link href="mailto:support@roles.at">support@roles.at</Link>.
+          <Link href="mailto:hello@roles.at">hello@roles.at</Link>.
         </li>
       </ul>
       <SectionDivider />
@@ -271,7 +271,7 @@ export default function SubmitPage() {
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder="Byron Bay, Australia"
+              placeholder="Byron Bay, Australia or Remote"
             />
           </Field>
           <Field>

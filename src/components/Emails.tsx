@@ -29,7 +29,7 @@ function Footer() {
         ・{" "}
         <Link
           className="text-[#0366d6] text-[12px] underline"
-          href="mailto:support@roles.at"
+          href="mailto:hello@roles.at"
         >
           Contact support
         </Link>
@@ -61,7 +61,7 @@ export function SubmissionConfirmationEmail({ company, title }: EmailProps) {
             <Text className="m-0 mb-[10px] text-left">
               Thank you so much for choosing to submit your opening for{" "}
               <strong>{title}</strong> at <strong>{company}</strong> on
-              Roles.at. We&apos;ll review it and get back to you as soon as it
+              roles.at. We&apos;ll review it and get back to you as soon as it
               is live.
             </Text>
           </Section>
@@ -92,7 +92,7 @@ export function ApprovalEmail({ company, title }: EmailProps) {
             <Text className="m-0 mb-[10px] text-left">
               Great news: Your opening for <strong>{title}</strong> at{" "}
               <strong>{company}</strong>
-              is now live on Roles.at and visible to potential candidates.
+              is now live on roles.at and visible to potential candidates.
             </Text>
           </Section>
           <Footer />
@@ -121,11 +121,9 @@ export function RejectionEmail({ company, title }: EmailProps) {
             <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
             <Text className="m-0 mb-[10px] text-left">
               Unfortunately, your opening for <strong>{title}</strong> at{" "}
-              <strong>{company}</strong> on Roles.at has been rejected. Contact
+              <strong>{company}</strong> on roles.at has been rejected. Contact
               us at{" "}
-              <Link className="text-[#0366d6] text-[12px]">
-                support@roles.at
-              </Link>{" "}
+              <Link className="text-[#0366d6] text-[12px]">hello@roles.at</Link>{" "}
               to resolve it.
             </Text>
           </Section>
@@ -159,7 +157,7 @@ export function JobNotificationEmail({
             <Text className="m-0 mb-[10px] text-left">Hello! 👋</Text>
             <Text className="m-0 mb-[10px] text-left">
               New <strong>{title}</strong> job opening at{" "}
-              <strong>{company}</strong> is available on Roles.at.
+              <strong>{company}</strong> is available on roles.at.
             </Text>
             <Link
               href={`https://roles.at/${companySlug}`}

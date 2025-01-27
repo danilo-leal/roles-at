@@ -58,21 +58,21 @@ export default function AboutPage() {
       <SectionDivider type="alternative" />
       <h2 className="text-xl font-semibold mb-2">Why build this?</h2>
       <p className="default-p-style mb-1">
-        We&apos;re big fans of{" "}
-        <Link href="https://read.cv/a-new-chapter">Read.cv</Link> and got sad
-        with the news that it&apos;d wind down. Paired with that, we always
+        It started off, on the one hand, by being big fans of{" "}
+        <Link href="https://read.cv/a-new-chapter">Read.cv</Link> and getting
+        sad with the news that it&apos;d wind down. On the other, we always
         wanted to build something. Really, <i>anything</i>.{" "}
-        <Link href="https://read.cv/">Read.cv</Link> has provided a lot of value
-        for us, so why not give it a shot at building a simple, single-purpose,
+        <Link href="https://read.cv/">Read.cv</Link> has provided so much value
+        for us, so why not experiment with building a simple, single-purpose,
         nicely-designed, job posting site, where folks could migrate their
-        openings from Read.cv? Here we are. It definitely won&apos;t be the most
-        famous or used one out of the many out there, but if it helps at least
-        one person find a job, it is a success!
+        openings from Read.cv? So... here we are. It definitely won&apos;t be
+        the most famous or used one out of the many job boards out there, but if
+        it helps at least one person find a new role, it is for sure a success!
       </p>
       <SectionDivider />
       <h2 className="text-xl font-semibold mb-2">What we used to build</h2>
       <p className="default-p-style mb-1">
-        Building Roles.at has been a very cool experience at exploring different
+        Building roles.at has been a very cool experience at exploring different
         pieces of technology. We&apos;re thankful for all the open-source
         software out there that allows us to build things like this so easily.
       </p>
@@ -118,9 +118,8 @@ export default function AboutPage() {
       <SectionDivider type="alternative" />
       <h2 className="text-xl font-semibold mb-2">Got any feedback?</h2>
       <p className="text-sm default-p-color mb-4">
-        Any cool ideas and/or fix requests are welcome. Reach us at via{" "}
-        <Link href="mailto:support@roles.at">support@roles.at</Link>, or get
-        ahold of us via any of our personal channels.
+        Any cool ideas and/or fix requests are welcome. Email us at{" "}
+        <Link href="mailto:hello@roles.at">hello@roles.at</Link>, or:
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 divide-x dark:divide-zinc-800/50">
         <AvatarBlock type="dan" />
