@@ -4,21 +4,21 @@ export const config = {
   runtime: "edge",
 };
 
-// Preload and cache the font file
-const fontDataPromise = fetch(
-  new URL("/assets/WorkSans-Medium.ttf", import.meta.url),
-).then((res) => res.arrayBuffer());
+// Uncomment this for local testing
+// const fontDataPromise = fetch("http://localhost:3000/WorkSans-Medium.ttf").then(
+//   (res) => res.arrayBuffer(),
+// );
 
-export default async function handler(request: Request) {
+// Use site domain for production
+const fontDataPromise = fetch("https://roles.at/WorkSans-Medium.ttf").then(
+  (res) => res.arrayBuffer(),
+);
+
+export default async function handler(request: Request): Promise<Response> {
   try {
     const { searchParams } = new URL(request.url);
 
-    // Input sanitization
-    const title =
-      decodeURIComponent(searchParams.get("title") || "")
-        .slice(0, 100)
-        .trim() || "Danilo Leal";
-    const bgColor = searchParams.get("bgColor") || "#0C0C0D";
+    const bgColor = searchParams.get("bgColor") || "#281101";
     const textColor = searchParams.get("textColor") || "#FFF";
 
     // Await font loading
@@ -34,22 +34,21 @@ export default async function handler(request: Request) {
             width: "100%",
             flexDirection: "column",
             backgroundColor: bgColor,
-            backgroundImage: `linear-gradient(30deg, ${bgColor}, #000, ${bgColor}, #281101)`,
+            backgroundImage: `linear-gradient(180deg, #000, #000, #101010, #000)`,
           }}
         >
-          <p style={{ fontSize: 60, color: textColor, fontWeight: 700 }}>
-            {title}
-          </p>
           <div
             style={{
-              marginTop: "auto",
+              height: "100%",
               display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               flexDirection: "column",
               gap: "8px",
             }}
           >
-            <p style={{ margin: 0, fontSize: 40, color: textColor }}>
-              Danilo Leal
+            <p style={{ fontSize: 60, color: textColor, fontWeight: 700 }}>
+              roles.at
             </p>
             <p
               style={{
@@ -58,7 +57,7 @@ export default async function handler(request: Request) {
                 color: "#737373",
               }}
             >
-              Software Designer
+              Find high-quality software design and engineering roles.
             </p>
           </div>
         </div>
@@ -75,18 +74,20 @@ export default async function handler(request: Request) {
         ],
       },
     );
-  } catch (e: unknown) {
+  } catch (e) {
     if (e instanceof Error) {
       console.error(`Error generating image: ${e.message}`);
-      // Return a fallback image or a more informative error response
       return new Response(`Failed to generate the image: ${e.message}`, {
         status: 500,
       });
+    } else {
+      console.error("Unknown error occurred");
+      return new Response(
+        "Failed to generate the image due to an unknown error",
+        {
+          status: 500,
+        },
+      );
     }
-    // Handle non-Error objects
-    console.error(`Unknown error occurred: ${String(e)}`);
-    return new Response(`An unknown error occurred`, {
-      status: 500,
-    });
   }
 }

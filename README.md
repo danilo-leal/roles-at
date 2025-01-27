@@ -9,7 +9,7 @@ pnpm dev
 ## Launch To Dos
 
 - [x] Make rich text writeable in the description field
-- [ ] Properly adjust OG images
+- [x] Properly adjust OG images
 - [ ] Set up `hello@roles.at` email correctly
 - [x] Add "get notified about new roles" email flow
 - [x] Add "Buy Me Coffee" actual link

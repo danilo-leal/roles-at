@@ -18,18 +18,13 @@ const SEO = {
     description,
     images: [
       {
-        url: "https://i.postimg.cc/63378CMd/og.png",
+        url: "https://roles.at/api/og",
         alt: title,
-        width: 1280,
-        height: 720,
+        width: 1200,
+        height: 630,
       },
     ],
   },
-  // twitter: {
-  //   handle: "@danilobleal",
-  //   site: "@danilobleal",
-  //   cardType: "summary_large_image",
-  // },
 };
 
 export default SEO;
