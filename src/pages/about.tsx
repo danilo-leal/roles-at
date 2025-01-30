@@ -36,10 +36,22 @@ function AvatarBlock({ type }: { type: "dan" | "zani" }) {
           >
             Personal Site
           </Button>
-          <Button square href={twitter} size="xs">
+          <Button
+            square
+            href={twitter}
+            size="xs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <SiX size={12} className="text-orange-700 dark:text-orange-300" />
           </Button>
-          <Button square href={bluesky} size="xs">
+          <Button
+            square
+            href={bluesky}
+            size="xs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <SiBluesky
               size={14}
               className="text-orange-700 dark:text-orange-300"
@@ -61,13 +73,13 @@ export default function AboutPage() {
         It started off, on the one hand, by being big fans of{" "}
         <Link href="https://read.cv/a-new-chapter">Read.cv</Link> and getting
         sad with the news that it&apos;d wind down. On the other, we always
-        wanted to build something. Really, <i>anything</i>.{" "}
+        wanted to build something. Really, <i>anything</i>. Given that{" "}
         <Link href="https://read.cv/">Read.cv</Link> has provided so much value
-        for us, so why not experiment with building a simple, single-purpose,
+        for us, why not experiment with building a single-purpose,
         nicely-designed, job posting site, where folks could migrate their
         openings from Read.cv? So... here we are. It definitely won&apos;t be
         the most famous or used one out of the many job boards out there, but if
-        it helps at least one person find a new role, it is for sure a success!
+        it helps at least one person find a new role, that is a success.
       </p>
       <SectionDivider />
       <h2 className="text-xl font-semibold mb-2">The tech stack</h2>
@@ -119,7 +131,7 @@ export default function AboutPage() {
         Any cool ideas and/or fix requests are welcome. Email us at{" "}
         <Link href="mailto:hello@roles.at">hello@roles.at</Link>, or:
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 divide-x dark:divide-zinc-800/50">
+      <div className="flex flex-col sm:flex-row gap-8 sm:gap-16">
         <AvatarBlock type="dan" />
         <AvatarBlock type="zani" />
       </div>
