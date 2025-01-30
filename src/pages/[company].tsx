@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { Dialog as BaseDialog } from "@base-ui-components/react/dialog";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
+import { Dialog as BaseDialog } from "@base-ui-components/react/dialog";
+import {
+  DialogBackdrop,
+  DialogWrap,
+  DialogDescription,
+} from "@/components/primitives/Dialog";
 import { Job } from "@/types/job";
 import { Button } from "@/components/primitives/Button";
 import { Navbar } from "@/components/primitives/Navbar";
@@ -87,62 +92,35 @@ function Dialog({ email }: { email: string }) {
         }
       />
       <BaseDialog.Portal>
-        <BaseDialog.Backdrop
-          className={clsx(
-            "fixed inset-0 bg-black/20 dark:bg-zinc-900/10 transition-all duration-150",
-            "backdrop-blur-xs",
-            "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
-          )}
-        />
-        <BaseDialog.Popup
-          className={clsx(
-            "fixed bottom-0 sm:top-1/2 left-1/2 -mt-8",
-            "-translate-x-1/2 sm:-translate-y-1/2 rounded-b-none sm:rounded-b-lg rounded-t-lg",
-            "w-full sm:w-[450px] h-fit overflow-clip",
-            "bg-gray-50 text-gray-900",
-            "dark:bg-neutral-950 text-gray-900",
-            "border default-border-color",
-            "outline-none shadow-2xl",
-            "transition-all duration-100",
-            "data-[ending-style]:scale-90 data-[ending-style]:opacity-0",
-            "data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
-          )}
-        >
-          <BaseDialog.Title className="-mt-1.5 px-4 pt-4 pb-2 dark:text-white font-medium border-b default-border-color">
-            Apply via email
-          </BaseDialog.Title>
-          <div className="grow flex flex-col p-4 gap-3 justify-between">
-            <BaseDialog.Description className="text-sm default-p-color mb-2">
-              Copy the email to send your application. Good luck!
-            </BaseDialog.Description>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={handleCopyEmail}
-            >
-              {email}
-              <span className="relative flex items-center">
-                <Copy
-                  size={14}
-                  className={clsx(
-                    "absolute transition-opacity duration-300",
-                    copied ? "opacity-0" : "opacity-50",
-                  )}
-                />
-                <Check
-                  size={14}
-                  className={clsx(
-                    "absolute transition-opacity duration-300 text-green-600 dark:text-green-300",
-                    copied ? "opacity-100" : "opacity-0",
-                  )}
-                />
-              </span>
-            </Button>
-            <BaseDialog.Close
-              render={<Button className="w-full">Close</Button>}
-            />
-          </div>
-        </BaseDialog.Popup>
+        <DialogBackdrop />
+        <DialogWrap title="Apply via email">
+          <DialogDescription>
+            Copy the email to send your application. Good luck!
+          </DialogDescription>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleCopyEmail}
+          >
+            {email}
+            <span className="relative flex items-center">
+              <Copy
+                size={14}
+                className={clsx(
+                  "absolute transition-opacity duration-300",
+                  copied ? "opacity-0" : "opacity-50",
+                )}
+              />
+              <Check
+                size={14}
+                className={clsx(
+                  "absolute transition-opacity duration-300 text-green-600 dark:text-green-300",
+                  copied ? "opacity-100" : "opacity-0",
+                )}
+              />
+            </span>
+          </Button>
+        </DialogWrap>
       </BaseDialog.Portal>
     </BaseDialog.Root>
   );
