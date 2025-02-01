@@ -1,6 +1,5 @@
 import * as React from "react";
-import { ContainerTransition } from "@/components/primitives/Container";
-import { Navbar } from "@/components/primitives/Navbar";
+import { PageContainer } from "@/components/primitives/Container";
 import { Button } from "@/components/primitives/Button";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Description, Field, Label } from "@/components/primitives/Fieldset";
@@ -207,8 +206,7 @@ export default function SubmitPage() {
   };
 
   return (
-    <ContainerTransition>
-      <Navbar />
+    <PageContainer title="Submit Role">
       <SectionDivider />
       <h2 className="text-xl font-semibold mb-2">How does it work?</h2>
       <p className="default-p-style mb-2">
@@ -359,6 +357,6 @@ export default function SubmitPage() {
           </Button>
         </div>
       </form>
-    </ContainerTransition>
+    </PageContainer>
   );
 }

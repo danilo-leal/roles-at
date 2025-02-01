@@ -1,5 +1,7 @@
 import React from "react";
 import clsx from "clsx";
+import { NextSeo } from "next-seo";
+import { Navbar } from "@/components/primitives/Navbar";
 import { motion } from "motion/react";
 import { Footer } from "@/components/primitives/Footer";
 import { MeshGradient } from "@paper-design/shaders-react";
@@ -69,5 +71,28 @@ export function ContainerTransition({
     >
       {children}
     </motion.div>
+  );
+}
+
+export function PageContainer({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <NextSeo
+        title={`${title} | roles.at`}
+        openGraph={{
+          title: `${title} | roles.at`,
+        }}
+      />
+      <ContainerTransition>
+        <Navbar />
+        {children}
+      </ContainerTransition>
+    </>
   );
 }

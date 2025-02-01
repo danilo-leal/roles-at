@@ -11,9 +11,8 @@ import {
 } from "@/components/primitives/Dialog";
 import { Job } from "@/types/job";
 import { Button } from "@/components/primitives/Button";
-import { Navbar } from "@/components/primitives/Navbar";
 import { Link } from "@/components/primitives/Link";
-import { ContainerTransition } from "@/components/primitives/Container";
+import { PageContainer } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { formatDate } from "@/utils/date";
 import ReactMarkdown, { Components } from "react-markdown";
@@ -216,8 +215,7 @@ export default function CompanyPage({
   };
 
   return (
-    <ContainerTransition>
-      <Navbar />
+    <PageContainer title={`${job.title} at ${job.company}`}>
       <SectionDivider type="alternative" />
       <div className="pb-6 mb-6 border-b default-border-color">
         <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-6">
@@ -281,6 +279,6 @@ export default function CompanyPage({
           {sanitizeAndCleanHtml(job.description)}
         </ReactMarkdown>
       </div>
-    </ContainerTransition>
+    </PageContainer>
   );
 }

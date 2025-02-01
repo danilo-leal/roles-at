@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { SiX, SiBluesky } from "@icons-pack/react-simple-icons";
-import { ContainerTransition } from "@/components/primitives/Container";
-import { Navbar } from "@/components/primitives/Navbar";
+import { PageContainer } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Link } from "@/components/primitives/Link";
 import { Button } from "@/components/primitives/Button";
@@ -65,8 +64,7 @@ function AvatarBlock({ type }: { type: "dan" | "zani" }) {
 
 export default function AboutPage() {
   return (
-    <ContainerTransition>
-      <Navbar />
+    <PageContainer title="About">
       <SectionDivider type="alternative" />
       <h2 className="text-xl font-semibold mb-2">Why build this?</h2>
       <p className="default-p-style mb-1">
@@ -135,6 +133,6 @@ export default function AboutPage() {
         <AvatarBlock type="dan" />
         <AvatarBlock type="zani" />
       </div>
-    </ContainerTransition>
+    </PageContainer>
   );
 }

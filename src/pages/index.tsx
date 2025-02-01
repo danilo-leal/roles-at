@@ -3,8 +3,7 @@ import { Job } from "@/types/job";
 import Link from "next/link";
 import clsx from "clsx";
 import Image from "next/image";
-import { Navbar } from "@/components/primitives/Navbar";
-import { ContainerTransition } from "@/components/primitives/Container";
+import { PageContainer } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
@@ -206,8 +205,7 @@ export default function JobsPage() {
   };
 
   return (
-    <ContainerTransition>
-      <Navbar />
+    <PageContainer title="Roles">
       <SectionDivider />
       <hgroup className="w-full flex items-center justify-between mb-3">
         <h1 className="text-xl font-bold">Find Your Next Role</h1>
@@ -236,6 +234,6 @@ export default function JobsPage() {
       <AnimatePresence mode="wait">
         {loading ? renderLoading() : renderContent()}
       </AnimatePresence>
-    </ContainerTransition>
+    </PageContainer>
   );
 }
