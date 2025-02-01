@@ -10,6 +10,7 @@ import { AuthOnlyRoute } from "@/components/AuthOnlyRoute";
 import { DefaultSeo } from "next-seo";
 import SEO from "../../next-seo.config";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [supabaseClient] = useState(() => createPagesBrowserClient());
@@ -37,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <Component {...pageProps} />
             )}
           </Container>
+          <Analytics />
         </ThemeProvider>
       </SessionContextProvider>
     </ErrorBoundary>
