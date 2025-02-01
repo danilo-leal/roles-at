@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import * as React from "react";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { Navbar } from "@/components/primitives/Navbar";
 import { Button } from "@/components/primitives/Button";
@@ -11,13 +11,13 @@ import { Link } from "@/components/primitives/Link";
 import { RichTextEditor } from "@/components/primitives/RichTextEditor";
 
 function MigrateJobForm() {
-  const [url, setUrl] = useState("");
-  const [notificationEmail, setNotificationEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
+  const [url, setUrl] = React.useState("");
+  const [notificationEmail, setNotificationEmail] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [showMessage, setShowMessage] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (message) {
       setShowMessage(true);
       const timer = setTimeout(() => {
@@ -80,7 +80,7 @@ function MigrateJobForm() {
       <Field>
         <Label htmlFor="notificationEmail">Contact Email</Label>
         <Description>
-          Where to send notifications about the job posting.
+          Where to send notifications about the job posting status.
         </Description>
         <Input
           type="email"
@@ -121,19 +121,20 @@ function MigrateJobForm() {
 }
 
 export default function SubmitPage() {
-  const [company, setCompany] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [salaryRange, setSalaryRange] = useState("");
-  const [location, setLocation] = useState("");
-  const [avatarImg, setAvatarImg] = useState("");
-  const [applicationLink, setApplicationLink] = useState("");
-  const [notificationEmail, setNotificationEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
+  const [company, setCompany] = React.useState("");
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [salaryRange, setSalaryRange] = React.useState("");
+  const [location, setLocation] = React.useState("");
+  const [avatarImg, setAvatarImg] = React.useState("");
+  const [applicationLink, setApplicationLink] = React.useState("");
+  const [notificationEmail, setNotificationEmail] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [showMessage, setShowMessage] = React.useState(false);
+  const editorRef = React.useRef<{ clearContent: () => void }>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (message) {
       setShowMessage(true);
       const timer = setTimeout(() => {
@@ -185,6 +186,7 @@ export default function SubmitPage() {
       setAvatarImg("");
       setApplicationLink("");
       setNotificationEmail("");
+      editorRef.current?.clearContent();
     } catch (error) {
       console.error("Error submitting job posting:", error);
       setMessage(
@@ -301,6 +303,7 @@ export default function SubmitPage() {
             value={description}
             onChange={setDescription}
             className="mt-2"
+            ref={editorRef}
           />
         </Field>
         <Field>
@@ -320,7 +323,7 @@ export default function SubmitPage() {
             Contact Email {renderAsterisk()}
           </Label>
           <Description>
-            Where to send notifications about the job posting.
+            Where to send notifications about the job posting status.
           </Description>
           <Input
             type="email"

@@ -1,3 +1,4 @@
+import React, { forwardRef, useImperativeHandle } from "react";
 import clsx from "clsx";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -10,11 +11,10 @@ interface RichTextEditorProps {
   className?: string;
 }
 
-export function RichTextEditor({
-  value,
-  onChange,
-  className,
-}: RichTextEditorProps) {
+export const RichTextEditor = forwardRef<
+  { clearContent: () => void },
+  RichTextEditorProps
+>(({ value, onChange, className }, ref) => {
   const richTextStyles = clsx(
     "max-w-none p-4 min-h-[100px] dark:bg-white/5 h-full min-h-[150px] p-4 fv-style-inside", // input container itself
     "[&_p]:text-zinc-600 dark:[&_p]:text-zinc-300", // paragraphs
@@ -38,6 +38,12 @@ export function RichTextEditor({
       },
     },
   });
+
+  useImperativeHandle(ref, () => ({
+    clearContent: () => {
+      editor?.commands.setContent("");
+    },
+  }));
 
   if (!editor) {
     return null;
@@ -132,4 +138,6 @@ export function RichTextEditor({
       <EditorContent editor={editor} />
     </div>
   );
-}
+});
+
+RichTextEditor.displayName = "RichTextEditor";
