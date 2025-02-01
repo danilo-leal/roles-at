@@ -139,7 +139,7 @@ export default function JobsPage() {
                       {job.title}
                     </h2>
                     <p className="shrink-0 flex items-center gap-2 text-[0.6875rem] font-mono pb-1 dark:text-zinc-500">
-                      <Clock size={9} className="opacity-80" />
+                      <Clock size={9} className="opacity-80 shrink-0" />
                       {formatDate(job.created_at)}
                     </p>
                   </div>
@@ -148,9 +148,11 @@ export default function JobsPage() {
                       {job.company}
                     </p>
                     {job.location && (
-                      <p className="shrink-0 flex items-center gap-2 text-[0.6875rem] font-mono pb-1 dark:text-zinc-500">
-                        <MapPin size={9} className="opacity-80" />
-                        {job.location}
+                      <p className="max-w-[430px] shrink-0 flex items-center gap-2 pb-1">
+                        <MapPin size={9} className="opacity-80 shrink-0" />
+                        <span className="truncate text-[0.6875rem] font-mono dark:text-zinc-500">
+                          {job.location}
+                        </span>
                       </p>
                     )}
                   </div>
