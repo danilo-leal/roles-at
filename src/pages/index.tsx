@@ -178,12 +178,20 @@ export default function JobsPage() {
 
   if (error) return <div className="text-red-500">{error}</div>;
 
+  const renderPlural = () => {
+    return filteredJobs.length === 1
+      ? "Open Role"
+      : filteredJobs.length > 1
+        ? "Open Roles"
+        : null;
+  };
+
   const renderOpenRolesLabel = () => {
-    if (filteredJobs.length === 1) {
+    if (filteredJobs.length > 1) {
       return (
         <>
           <p className="hidden sm:inline text-xs font-mono dark:text-zinc-500">
-            {filteredJobs.length} Open Role
+            {filteredJobs.length} {renderPlural()}
           </p>
           <p className="inline sm:hidden text-xs font-mono dark:text-zinc-500">
             {filteredJobs.length} Open
