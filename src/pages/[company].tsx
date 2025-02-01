@@ -248,29 +248,32 @@ export default function CompanyPage({
             <Dialog email={job.notification_email || ""} />
           )}
         </div>
-        <div className="flex flex-wrap gap-2 sm:gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="flex flex-col gap-2">
           {job.location && (
             <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
-              <MapPin size={12} />
+              <MapPin size={12} className="shrink-0" />
               {job.location}
             </p>
           )}
-          <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
-          <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
-            <Clock size={12} />
-            {formatDate(job.created_at)}
-          </p>
-          <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
-          <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
-            <Calendar size={12} />
-            {new Date(job.created_at).toLocaleDateString()}
-          </p>
-          <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
-          {job.salary_range && (
+          <div className="flex flex-wrap gap-2 sm:gap-4 text-sm text-zinc-600 dark:text-zinc-400">
             <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
-              {job.salary_range}
+              <Clock size={12} className="shrink-0" />
+              {formatDate(job.created_at)}
             </p>
-          )}
+            <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
+            <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
+              <Calendar size={12} className="shrink-0" />
+              {new Date(job.created_at).toLocaleDateString()}
+            </p>
+            {job.salary_range && (
+              <>
+                <hr className="mx-1 h-4 w-px border-none bg-gray-200 dark:bg-zinc-800" />
+                <p className="shrink-0 flex items-center gap-1.5 text-xs font-mono pb-1 dark:text-zinc-500">
+                  {job.salary_range}
+                </p>
+              </>
+            )}
+          </div>
         </div>
       </div>
       <div className="mb-8">
