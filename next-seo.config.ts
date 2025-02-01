@@ -27,6 +27,11 @@ const SEO = {
       },
     ],
   },
+  twitter: {
+    // handle: "@danilobleal",
+    // site: "@danilobleal",
+    cardType: "summary_large_image",
+  },
 };
 
 export default SEO;

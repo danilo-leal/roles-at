@@ -5,11 +5,6 @@ export const config = {
   runtime: "edge",
 };
 
-// Uncomment this for local testing
-// const fontDataPromise = fetch("http://localhost:3000/WorkSans-Medium.ttf").then(
-//   (res) => res.arrayBuffer(),
-// );
-
 // Use site domain for production
 const fontDataPromise = fetch("https://roles.at/WorkSans-Medium.ttf").then(
   (res) => res.arrayBuffer(),
@@ -54,7 +49,7 @@ export default async function handler(request: Request): Promise<Response> {
             <p
               style={{
                 margin: 0,
-                fontSize: 25,
+                fontSize: 34,
                 color: "#737373",
               }}
             >
