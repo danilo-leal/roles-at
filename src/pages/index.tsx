@@ -188,7 +188,7 @@ export default function JobsPage() {
   };
 
   const renderOpenRolesLabel = () => {
-    if (filteredJobs.length > 1) {
+    if (filteredJobs.length >= 1) {
       return (
         <>
           <p className="hidden sm:inline text-xs font-mono dark:text-zinc-500">
