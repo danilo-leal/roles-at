@@ -1,6 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import { Link } from "@/components/primitives/Link";
+import { Logo } from "@/components/primitives/Navbar";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,9 +16,10 @@ export function Footer() {
       <div
         className={clsx(
           "max-w-[740px] pt-1 pb-6 px-4 m-auto",
-          "flex flex-col sm:flex-row justify-center items-center gap-4",
+          "flex justify-center items-center gap-1",
         )}
       >
+        <Logo className="size-4" />
         <p className="text-xs text-center">
           roles.at © {currentYear}
           <span className="inline gap-0.5">
