@@ -142,7 +142,7 @@ export default function CompanyPage({
 
   const components: Components = {
     h1: (props) => (
-      <h1 className="text-2xl dark:text-white font-bold my-4" {...props} />
+      <h1 className="text-2xl dark:text-white font-semibold my-4" {...props} />
     ),
     h2: (props) => (
       <h2
@@ -218,7 +218,7 @@ export default function CompanyPage({
     <PageContainer title={`${job.title} at ${job.company}`}>
       <SectionDivider type="alternative" />
       <div className="pb-6 mb-6 border-b default-border-color">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-6">
           {job.avatar_img && (
             <Image
               src={job.avatar_img}

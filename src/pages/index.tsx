@@ -1,16 +1,13 @@
 import * as React from "react";
 import { Job } from "@/types/job";
-import Link from "next/link";
-import clsx from "clsx";
-import Image from "next/image";
+import { RoleEntry } from "@/components/RoleEntry";
 import { PageContainer } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { Input, InputGroup } from "@/components/primitives/Input";
 import { SubscribeForm } from "@/components/SubscribeForm";
 import { Kbd } from "@/components/primitives/Keybinding";
-import { formatDate } from "@/utils/date";
-import { MapPin, Clock, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { EmptyBox } from "@/components/primitives/Illustrations";
 
@@ -111,52 +108,7 @@ export default function JobsPage() {
               key={job.id}
               className="p-1 border-b last:border-0 default-border-color"
             >
-              <Link
-                href={`/${job.company_slug}/${job.title_slug}`}
-                className={clsx(
-                  "group cursor-pointer rounded-xl",
-                  "-mx-5 px-4 py-3",
-                  "flex items-start sm:items-center gap-4",
-                  "border border-transparent",
-                  "hover:border-orange-300 dark:hover:border-orange-300/20",
-                  "hover:bg-orange-50/50 dark:hover:bg-orange-800/8",
-                  "transition-colors duration-70 fv-style",
-                )}
-              >
-                {job.avatar_img && (
-                  <Image
-                    src={job.avatar_img}
-                    alt={`${job.company} logo`}
-                    width={44}
-                    height={44}
-                    className="rounded-full mt-1 sm:mt-0 size-8 grow-0 shrink-0 object-cover border default-border-color"
-                  />
-                )}
-                <div className="w-full flex flex-col">
-                  <div className="w-full flex items-center justify-between">
-                    <h2 className="capitalize font-medium text-[0.9375rem]">
-                      {job.title}
-                    </h2>
-                    <p className="shrink-0 flex items-center gap-2 text-[0.6875rem] font-mono pb-1 dark:text-zinc-500">
-                      <Clock size={9} className="opacity-80 shrink-0" />
-                      {formatDate(job.created_at)}
-                    </p>
-                  </div>
-                  <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <p className="text-sm text-zinc-700 dark:text-zinc-500">
-                      {job.company}
-                    </p>
-                    {job.location && (
-                      <p className="max-w-[280px] md:max-w-[430px] shrink-0 flex items-center gap-2 pb-1">
-                        <MapPin size={9} className="opacity-80 shrink-0" />
-                        <span className="truncate text-[0.6875rem] font-mono dark:text-zinc-500">
-                          {job.location}
-                        </span>
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </Link>
+              <RoleEntry job={job} />
             </div>
           ))}
         </motion.div>
@@ -208,7 +160,7 @@ export default function JobsPage() {
     <PageContainer title="Roles">
       <SectionDivider />
       <hgroup className="w-full flex items-center justify-between mb-3">
-        <h1 className="text-xl font-bold">Find Your Next Role</h1>
+        <h1 className="text-xl font-semibold">Find Your Next Role</h1>
         <div className="flex items-center gap-2">
           {renderOpenRolesLabel()}
           <SubscribeForm />
