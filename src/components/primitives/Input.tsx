@@ -30,11 +30,13 @@ export const Input = forwardRef(function Input(
   {
     className,
     startSlot,
+    startPrefix,
     keybinding,
     ...props
   }: {
     className?: string;
     startSlot?: boolean;
+    startPrefix?: string;
     keybinding?: boolean;
     type?:
       | "email"
@@ -65,6 +67,16 @@ export const Input = forwardRef(function Input(
         "before:has-[[data-invalid]]:shadow-red-500/10",
       ])}
     >
+      {startPrefix && (
+        <span
+          className={clsx([
+            "absolute inset-y-0 left-0 flex items-center pl-3 pr-2",
+            "font-mono text-xs muted-p border-r border-zinc-950/10 dark:border-white/10",
+          ])}
+        >
+          {startPrefix}
+        </span>
+      )}
       <Headless.Input
         ref={ref}
         {...props}
@@ -103,6 +115,8 @@ export const Input = forwardRef(function Input(
           "dark:[color-scheme:dark]",
           // Additional padding left if startSlot is true
           startSlot && "pl-10 sm:pl-9",
+          // Additional padding left if startSlot is true
+          startPrefix && "pl-22 sm:pl-22",
           // Additional padding right if keybinding is true
           keybinding && "pr-2 sm:pr-16",
           "[&::-webkit-search-cancel-button]:hidden",

@@ -121,6 +121,7 @@ function MigrateJobForm() {
 
 export default function SubmitPage() {
   const [company, setCompany] = React.useState("");
+  const [companySite, setCompanySite] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [salaryRange, setSalaryRange] = React.useState("");
@@ -156,6 +157,7 @@ export default function SubmitPage() {
         },
         body: JSON.stringify({
           company,
+          company_site: companySite,
           title,
           description,
           salary_range: salaryRange,
@@ -275,8 +277,11 @@ export default function SubmitPage() {
             />
           </Field>
           <Field>
-            <Label>Company Avatar URL</Label>
+            <Label className="flex items-start gap-0.5">
+              Company Avatar URL {renderAsterisk()}
+            </Label>
             <Input
+              required
               type="text"
               value={avatarImg}
               onChange={(e) => setAvatarImg(e.target.value)}
@@ -285,12 +290,34 @@ export default function SubmitPage() {
           </Field>
         </div>
         <Field>
-          <Label>Application Link</Label>
+          <Label className="flex items-start gap-0.5">
+            Application Link {renderAsterisk()}
+          </Label>
           <Input
+            required
             type="text"
             value={applicationLink}
             onChange={(e) => setApplicationLink(e.target.value)}
             placeholder="URL or instructions to apply"
+          />
+        </Field>
+        <Field>
+          <Label className="flex items-start gap-0.5">
+            Company Website {renderAsterisk()}
+          </Label>
+          <Input
+            type="text"
+            required
+            value={companySite}
+            onChange={(e) => {
+              let value = e.target.value;
+              if (value && !value.startsWith("https://")) {
+                value = "https://" + value;
+              }
+              setCompanySite(value);
+            }}
+            startPrefix="https://"
+            placeholder="company.com"
           />
         </Field>
         <Field>

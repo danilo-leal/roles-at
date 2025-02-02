@@ -13,6 +13,7 @@ export default async function handler(
     try {
       const {
         company,
+        company_site,
         title,
         description,
         salary_range,
@@ -39,6 +40,7 @@ export default async function handler(
             id: job_posting_id,
             company,
             company_slug,
+            company_site,
             title,
             title_slug,
             description,

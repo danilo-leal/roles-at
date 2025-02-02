@@ -26,6 +26,7 @@ import {
   Copy,
   CornerDownRight,
   Check,
+  ArrowUpRight,
 } from "lucide-react";
 
 const supabase = createClient(
@@ -281,7 +282,11 @@ export default function CompanyPage({
           )}
           <div>
             <h1 className="text-xl font-semibold capitalize">{job.title}</h1>
-            <p className="default-p-color">{job.company}</p>
+            {job.company_site && (
+              <Link href={job.company_site} external className="text-sm">
+                {job.company}
+              </Link>
+            )}
           </div>
           {job.application_link ? (
             <Button
