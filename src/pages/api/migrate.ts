@@ -66,6 +66,9 @@ export default async function handler(
           .text()
           .trim(),
         title: $('[class*="JobListing_title"]').first().text().trim(),
+        title_slug: createSlug(
+          $('[class*="JobListing_title"]').first().text().trim(),
+        ),
         description: extractJobDescription($),
         application_link:
           $('[class*="JobListing_applicationCTA"] a').attr("href") || "",

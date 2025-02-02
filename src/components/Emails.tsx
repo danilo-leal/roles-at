@@ -13,6 +13,7 @@ import {
 type EmailProps = {
   company: string;
   title: string;
+  titleSlug?: string;
   companySlug?: string;
 };
 
@@ -72,7 +73,12 @@ export function SubmissionConfirmationEmail({ company, title }: EmailProps) {
   );
 }
 
-export function ApprovalEmail({ company, title }: EmailProps) {
+export function ApprovalEmail({
+  company,
+  companySlug,
+  title,
+  titleSlug,
+}: EmailProps) {
   return (
     <Html>
       <Head />
@@ -92,7 +98,13 @@ export function ApprovalEmail({ company, title }: EmailProps) {
             <Text className="m-0 mb-[10px] text-left">
               Great news: Your opening for <strong>{title}</strong> at{" "}
               <strong>{company}</strong>
-              is now live on roles.at and visible to potential candidates.
+              is now live on roles.at and visible to potential candidates.{" "}
+              <Link
+                className="text-[#0366d6] text-[12px] underline"
+                href={`${companySlug}/${titleSlug}`}
+              >
+                Check it out!
+              </Link>
             </Text>
           </Section>
           <Footer />

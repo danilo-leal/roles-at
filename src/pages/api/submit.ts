@@ -29,6 +29,7 @@ export default async function handler(
 
       const job_posting_id = uuidv4();
       const company_slug = createSlug(company);
+      const title_slug = createSlug(title);
 
       // Insert directly into job-postings table
       const { data: jobPostingData, error } = await supabase
@@ -39,6 +40,7 @@ export default async function handler(
             company,
             company_slug,
             title,
+            title_slug,
             description,
             salary_range,
             location,

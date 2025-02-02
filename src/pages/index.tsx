@@ -112,7 +112,7 @@ export default function JobsPage() {
               className="p-1 border-b last:border-0 default-border-color"
             >
               <Link
-                href={job.company_slug}
+                href={`/${job.company_slug}/${job.title_slug}`}
                 className={clsx(
                   "group cursor-pointer rounded-xl",
                   "-mx-5 px-4 py-3",

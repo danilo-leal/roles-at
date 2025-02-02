@@ -5,6 +5,7 @@ export type Job = {
   avatar_img: string;
   location: string;
   title: string;
+  title_slug?: string;
   description: string;
   salary_range: string;
   is_open: boolean;
