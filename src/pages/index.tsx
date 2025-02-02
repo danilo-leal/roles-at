@@ -143,10 +143,10 @@ export default function JobsPage() {
     if (filteredJobs.length >= 1) {
       return (
         <>
-          <p className="hidden sm:inline text-xs font-mono dark:text-zinc-500">
+          <p className="hidden sm:inline text-xs font-mono muted-p">
             {filteredJobs.length} {renderPlural()}
           </p>
-          <p className="inline sm:hidden text-xs font-mono dark:text-zinc-500">
+          <p className="inline sm:hidden text-xs font-mono muted-p">
             {filteredJobs.length} Open
           </p>
         </>

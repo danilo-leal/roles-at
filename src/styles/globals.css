@@ -52,6 +52,10 @@ body {
     @apply dark:text-zinc-400;
   }
 
+  .muted-p {
+    @apply text-zinc-500;
+  }
+
   .default-p-style {
     @apply text-sm dark:text-zinc-400 leading-7;
   }

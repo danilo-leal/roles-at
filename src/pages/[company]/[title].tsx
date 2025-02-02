@@ -176,13 +176,13 @@ export default function CompanyPage({
     ),
     h2: (props) => (
       <h2
-        className="pt-6 text-xl dark:text-white font-semibold my-3"
+        className="text-xl dark:text-white font-semibold mt-8 mb-2"
         {...props}
       />
     ),
     h3: (props) => (
       <h3
-        className="pt-4 text-xl dark:text-white font-semibold my-3"
+        className="text-[1.125rem] dark:text-white font-semibold mt-6 mb-2"
         {...props}
       />
     ),
@@ -191,7 +191,7 @@ export default function CompanyPage({
     ),
     p: (props) => <p className="default-p-color my-2 leading-7" {...props} />,
     strong: (props) => (
-      <strong className="text-black dark:text-white" {...props} />
+      <strong className="font-semibold text-black dark:text-white" {...props} />
     ),
     a: (props) => <Link {...props} />,
     ul: (props) => (
@@ -212,14 +212,17 @@ export default function CompanyPage({
   const cleanHtml = (html: string) => {
     const $ = cheerio.load(html);
 
-    // Remove <p> tags inside <li> tags
+    // No <p> tags inside <li> tags
     $("li p").each((_, elem) => {
       const $elem = $(elem);
       $elem.replaceWith($elem.html() || "");
     });
 
-    // Remove empty paragraphs
+    // No empty paragraphs
     $("p:empty").remove();
+
+    // No lingering <br/>
+    $("br:empty").remove();
 
     // Remove specific classes
     $(".unwanted-class").removeClass("unwanted-class");
@@ -230,7 +233,25 @@ export default function CompanyPage({
       $elem.replaceWith(`<strong>${$elem.html() || ""}</strong>`);
     });
 
-    // Add more rules as needed
+    // Clean up heading tags
+    $("h1, h2, h3, h4, h5, h6").each((_, elem) => {
+      const $elem = $(elem);
+
+      // No <br> tags
+      $elem.find("br").remove();
+
+      // Unwrap <strong> tags
+      $elem.find("strong").each((_, strongElem) => {
+        const $strongElem = $(strongElem);
+        $strongElem.replaceWith($strongElem.html() || "");
+      });
+
+      // Trim whitespace
+      $elem.html($elem.html()?.trim() || "");
+    });
+
+    // Trim whitespace
+    // $elem.html($elem.html()?.trim() || "");
 
     return $.html();
   };
@@ -255,7 +276,7 @@ export default function CompanyPage({
               alt={`${job.company} logo`}
               width={52}
               height={52}
-              className="rounded-full"
+              className="rounded-full grow-0 shrink-0 object-cover border default-border-color"
             />
           )}
           <div>
@@ -311,8 +332,12 @@ export default function CompanyPage({
       </div>
       <div className="pt-8 flex items-center gap-2 default-p-style border-t default-border-color">
         <CornerDownRight size={14} />
-        View all avaialble roles at{" "}
-        <Link href={`/${job.company_slug}`}>{job.company}</Link>
+        <span>
+          You may also want to check out other{" "}
+          <Link href={`/${job.company_slug}`}>
+            avaialble roles at {job.company}.
+          </Link>
+        </span>
       </div>
     </PageContainer>
   );
