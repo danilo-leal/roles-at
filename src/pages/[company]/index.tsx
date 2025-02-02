@@ -4,6 +4,7 @@ import { Job } from "@/types/job";
 import { PageContainer } from "@/components/primitives/Container";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { RoleEntry } from "@/components/RoleEntry";
+import { Link } from "@/components/primitives/Link";
 import { motion } from "motion/react";
 
 const supabase = createClient(
@@ -38,6 +39,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       props: {
         jobs: data,
         company: data[0].company,
+        companySite: data[0].company_site || null,
       },
       revalidate: 60,
     };
@@ -74,16 +76,25 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export default function CompanyPage({
   jobs,
   company,
+  companySite,
 }: {
   jobs: Job[];
   company: string;
+  companySite: string | null;
 }) {
   return (
     <PageContainer title={`Jobs at ${company}`}>
       <SectionDivider type="alternative" />
       <hgroup className="w-full flex flex-col gap-1 mb-3">
         <p className="text-sm text-zinc-700 dark:text-zinc-500">Roles at:</p>
-        <h1 className="text-xl font-semibold">{company}</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <h1 className="text-xl font-semibold">{company}</h1>
+          {companySite && (
+            <Link href={companySite} external className="text-sm">
+              View Company Site
+            </Link>
+          )}
+        </div>
       </hgroup>
       <motion.div
         key="content"

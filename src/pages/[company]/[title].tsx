@@ -26,7 +26,6 @@ import {
   Copy,
   CornerDownRight,
   Check,
-  ArrowUpRight,
 } from "lucide-react";
 
 const supabase = createClient(
