@@ -19,7 +19,14 @@ import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
 import * as cheerio from "cheerio";
-import { MapPin, Clock, Calendar, Copy, Check } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Calendar,
+  Copy,
+  CornerDownRight,
+  Check,
+} from "lucide-react";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -278,6 +285,11 @@ export default function CompanyPage({
         <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
           {sanitizeAndCleanHtml(job.description)}
         </ReactMarkdown>
+      </div>
+      <div className="pt-8 flex items-center gap-2 default-p-style border-t default-border-color">
+        <CornerDownRight size={14} />
+        View all avaialble roles at{" "}
+        <Link href={`/${job.company_slug}`}>{job.company}</Link>
       </div>
     </PageContainer>
   );
