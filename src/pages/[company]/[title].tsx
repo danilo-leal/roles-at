@@ -282,10 +282,12 @@ export default function CompanyPage({
           )}
           <div>
             <h1 className="text-xl font-semibold capitalize">{job.title}</h1>
-            {job.company_site && (
+            {job.company_site ? (
               <Link href={job.company_site} external className="text-sm">
                 {job.company}
               </Link>
+            ) : (
+              <p className="text-sm muted-p">{job.company}</p>
             )}
           </div>
           {job.application_link ? (
