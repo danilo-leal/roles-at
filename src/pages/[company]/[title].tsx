@@ -35,7 +35,10 @@ const supabase = createClient(
 
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
-    const { company } = context.params as { company: string };
+    const { company, title } = context.params as {
+      title: string;
+      company: string;
+    };
 
     if (!company) {
       return { notFound: true };
@@ -45,6 +48,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       .from("job-postings")
       .select("*")
       .eq("company_slug", company)
+      .eq("title_slug", title)
       .order("created_at", { ascending: false })
       .limit(1);
 
@@ -70,7 +74,26 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return { paths: [], fallback: "blocking" };
+  // Fetch all roles
+  const { data: jobs, error } = await supabase
+    .from("job-postings")
+    .select("company_slug, title_slug")
+    .order("created_at", { ascending: false })
+    .limit(100); // Most recent 100 roles
+
+  if (error) {
+    console.error("Error fetching jobs for static paths:", error);
+    return { paths: [], fallback: "blocking" };
+  }
+
+  const paths = jobs.map((job) => ({
+    params: { company: job.company_slug, title: job.title_slug },
+  }));
+
+  return {
+    paths,
+    fallback: "blocking",
+  };
 };
 
 function Dialog({ email }: { email: string }) {

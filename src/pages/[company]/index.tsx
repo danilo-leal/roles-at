@@ -48,7 +48,27 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return { paths: [], fallback: "blocking" };
+  // Fetch all unique companies
+  const { data: companies, error } = await supabase
+    .from("job-postings")
+    .select("company_slug")
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  if (error) {
+    console.error("Error fetching companies for static paths:", error);
+    return { paths: [], fallback: "blocking" };
+  }
+
+  const paths =
+    companies?.map((company: { company_slug: string }) => ({
+      params: { company: company.company_slug },
+    })) || [];
+
+  return {
+    paths,
+    fallback: "blocking",
+  };
 };
 
 export default function CompanyPage({
