@@ -2,7 +2,7 @@ export type Job = {
   id: string;
   company: string;
   company_slug: string;
-  company_site: string;
+  company_site?: string;
   avatar_img: string;
   location: string;
   title: string;
