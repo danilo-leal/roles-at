@@ -45,7 +45,7 @@ export function Container({
           bottom: 0,
           width: "100vw",
           height: 200,
-          opacity: 0.1,
+          opacity: 0.05,
           zIndex: -1,
           maskImage: "linear-gradient(to top, #ffffffad, transparent",
         }}
