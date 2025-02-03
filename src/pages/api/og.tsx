@@ -13,11 +13,7 @@ const fontDataPromise = fetch("https://roles.at/WorkSans-Medium.ttf").then(
 export default async function handler(request: Request): Promise<Response> {
   try {
     const { searchParams } = new URL(request.url);
-
-    const bgColor = searchParams.get("bgColor") || "#281101";
     const textColor = searchParams.get("textColor") || "#FFF";
-
-    // Await font loading
     const fontData = await fontDataPromise;
 
     return new ImageResponse(
@@ -29,8 +25,7 @@ export default async function handler(request: Request): Promise<Response> {
             height: "100%",
             width: "100%",
             flexDirection: "column",
-            backgroundColor: bgColor,
-            backgroundImage: `linear-gradient(180deg, #000, #000, #101010, #000)`,
+            backgroundColor: "#0d0d0d",
           }}
         >
           <div
@@ -43,14 +38,17 @@ export default async function handler(request: Request): Promise<Response> {
               gap: "8px",
             }}
           >
-            <p style={{ fontSize: 60, color: textColor, fontWeight: 700 }}>
+            <p style={{ fontSize: 120, color: textColor, fontWeight: 700 }}>
               roles.at
             </p>
             <p
               style={{
                 margin: 0,
+                width: 600,
+                textAlign: "center",
                 fontSize: 34,
-                color: "#737373",
+                color: textColor,
+                opacity: 0.3,
               }}
             >
               {descriptionOg}
