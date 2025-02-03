@@ -1,21 +1,24 @@
-import { useEffect, useState, useCallback } from "react";
-import { Job } from "@/types/job";
+import * as React from "react";
 import Link from "next/link";
+import { Job } from "@/types/job";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Navbar } from "@/components/primitives/Navbar";
 import { SectionDivider } from "@/components/primitives/Divider";
 import { ContainerTransition } from "@/components/primitives/Container";
 import { Skeleton } from "@/components/primitives/Skeleton";
+import { Button } from "@/components/primitives/Button";
+import { Field, Label } from "@/components/primitives/Fieldset";
+import { Input } from "@/components/primitives/Input";
 import { createSlug } from "@/utils/slugify";
 
 export default function AdminPage() {
-  const [jobPostings, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [jobPostings, setJobs] = React.useState<Job[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<string | null>(null);
   const session = useSession();
   const supabase = useSupabaseClient();
 
-  const fetchJobs = useCallback(async () => {
+  const fetchJobs = React.useCallback(async () => {
     if (!session) {
       setError("No active session. Please log in.");
       setLoading(false);
@@ -42,7 +45,7 @@ export default function AdminPage() {
     }
   }, [supabase, session]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (session) fetchJobs();
     else setLoading(false);
   }, [session, fetchJobs]);
@@ -104,12 +107,14 @@ export default function AdminPage() {
     setLoading(true);
     setError(null);
 
-    const email = (
-      e.currentTarget.elements.namedItem("email") as HTMLInputElement
-    ).value;
-    const password = (
-      e.currentTarget.elements.namedItem("password") as HTMLInputElement
-    ).value;
+    const email = e.currentTarget.email?.value;
+    const password = e.currentTarget.password?.value;
+
+    if (!email || !password) {
+      setError("Email and password are required");
+      setLoading(false);
+      return;
+    }
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -124,32 +129,33 @@ export default function AdminPage() {
 
   if (!session) {
     return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
+      <>
+        <h1 className="text-xl font-semibold my-8">Admin</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleLogin} className="space-y-4">
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            required
-            className="w-full border default-border-color p-2"
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            required
-            className="w-full border default-border-color p-2"
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-sm"
-          >
-            Login
-          </button>
+          <Field>
+            <Label className="flex items-start gap-0.5">Email</Label>
+            <Input
+              name="email"
+              type="email"
+              required
+              placeholder="email@example.com"
+            />
+          </Field>
+          <Field>
+            <Label className="flex items-start gap-0.5">Password</Label>
+            <Input
+              name="password"
+              type="password"
+              required
+              placeholder="Your Password"
+            />
+          </Field>
+          <Button type="submit" variant="primary">
+            Login as Admin
+          </Button>
         </form>
-      </div>
+      </>
     );
   }
 
