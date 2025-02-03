@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { useSession } from "@supabase/auth-helpers-react";
 
@@ -10,15 +10,11 @@ export function AuthOnlyRoute({ children }: AuthOnlyRouteProps) {
   const router = useRouter();
   const session = useSession();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!session) {
       router.push("/");
     }
   }, [session, router]);
 
-  if (!session) {
-    return null; // or a loading spinner
-  }
-
-  return <>{children}</>;
+  return session ? <>{children}</> : null;
 }

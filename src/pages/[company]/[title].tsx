@@ -13,7 +13,7 @@ import { Job } from "@/types/job";
 import { Button } from "@/components/primitives/Button";
 import { Link } from "@/components/primitives/Link";
 import { PageContainer } from "@/components/primitives/Container";
-import { SectionDivider } from "@/components/primitives/Divider";
+import { SectionDivider, Divider } from "@/components/primitives/Divider";
 import { formatDate } from "@/utils/date";
 import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -331,12 +331,10 @@ export default function CompanyPage({
           </div>
         </div>
       </div>
-      <div className="mb-8">
-        <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
-          {sanitizeAndCleanHtml(job.description)}
-        </ReactMarkdown>
-      </div>
-      <hr className="my-8 bg-transparent border-t default-border-color" />
+      <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
+        {sanitizeAndCleanHtml(job.description)}
+      </ReactMarkdown>
+      <Divider />
       <div className="inline gap-2 default-p-style">
         <CornerDownRight size={14} className="inline-block mr-2" />
         <span>

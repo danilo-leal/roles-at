@@ -35,49 +35,13 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# turbo
-.turbo
-
-# sentry
-.sentryclirc
-
-# Ignore bundler config.
-.bundle
-api/.bundle
-
 # Ignore all logfiles and tempfiles.
 api/log/*
 api/tmp/*
 !api/log/.keep
 !api/tmp/.keep
 
-# Ignore pidfiles, but keep the directory.
-api/tmp/pids/*
-!api/tmp/pids/
-!api/tmp/pids/.keep
-
-# Ignore uploaded files in development.
-api/storage/*
-!api/storage/.keep
-api/tmp/storage/*
-!api/tmp/storage/
-!api/tmp/storage/.keep
-
 api/public/assets
-
-# Ignore master key for decrypting credentials and more.
-api/config/master.key
-
-api/app/assets/builds/*
-!api/app/assets/builds/.keep
-
-api/Brewfile.lock.json
-
-api/config/credentials/production.key
-api/config/credentials/production.yml.enc
-
-api/config/credentials/development.key
-api/config/credentials/development.yml.enc
 
 .venv/
 .env*.local

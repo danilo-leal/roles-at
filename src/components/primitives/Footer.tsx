@@ -19,7 +19,7 @@ export function Footer() {
           "flex justify-center items-center gap-1",
         )}
       >
-        <Logo className="size-4" />
+        <Logo className="size-3.5 opacity-80" />
         <p className="text-xs text-center">
           roles.at © {currentYear}
           <span className="inline gap-0.5">
