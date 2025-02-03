@@ -336,8 +336,9 @@ export default function CompanyPage({
           {sanitizeAndCleanHtml(job.description)}
         </ReactMarkdown>
       </div>
-      <div className="pt-8 flex items-center gap-2 default-p-style border-t default-border-color">
-        <CornerDownRight size={14} />
+      <hr className="my-8 bg-transparent border-t default-border-color" />
+      <div className="inline gap-2 default-p-style">
+        <CornerDownRight size={14} className="inline-block mr-2" />
         <span>
           You may also want to check out other{" "}
           <Link href={`/${job.company_slug}`}>
