@@ -65,7 +65,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       props: {
         job: data[0],
       },
-      revalidate: 60, // Revalidate every 60 seconds
+      revalidate: 60,
     };
   } catch (error) {
     console.error("Error in getStaticProps:", error);
@@ -79,7 +79,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     .from("job-postings")
     .select("company_slug, title_slug")
     .order("created_at", { ascending: false })
-    .limit(100); // Most recent 100 roles
+    .limit(100);
 
   if (error) {
     console.error("Error fetching jobs for static paths:", error);
@@ -115,7 +115,7 @@ function Dialog({ email }: { email: string }) {
     <BaseDialog.Root dismissible>
       <BaseDialog.Trigger
         render={
-          <Button variant="primary" className="flex w-full sm:w-fit ml-auto">
+          <Button variant="primary" className="w-full sm:w-fit ml-auto">
             Apply For Role
           </Button>
         }
@@ -295,7 +295,7 @@ export default function CompanyPage({
               target="_blank"
               rel="noopener noreferrer"
               variant="primary"
-              className="flex w-full sm:w-fit ml-auto"
+              className="w-full sm:w-fit ml-auto"
             >
               Apply For Role
             </Button>
@@ -335,7 +335,7 @@ export default function CompanyPage({
         {sanitizeAndCleanHtml(job.description)}
       </ReactMarkdown>
       <Divider />
-      <div className="inline gap-2 default-p-style">
+      <div className="inline default-p-style">
         <CornerDownRight size={14} className="inline-block mr-2" />
         <span>
           You may also want to check out other{" "}
