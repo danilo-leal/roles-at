@@ -226,13 +226,19 @@ export default function SubmitPage() {
           For any desired changes or updates, please contact us at{" "}
           <Link href="mailto:hello@roles.at">hello@roles.at</Link>.
         </li>
+        <li>
+          And yup, that&apos;s right—no cost. By submitting a role, you help us
+          gain influence to, maybe in the future, charge for it. Help your
+          fellow designers!
+        </li>
       </ul>
       <SectionDivider />
       <section>
-        <h2 className="text-xl font-semibold mb-2">Migration From Read.cv</h2>
+        <h2 className="text-xl font-semibold mb-2">
+          Migration a Role From Read.cv
+        </h2>
         <p className="default-p-style mb-4">
-          Migrate an active Read.cv listing by providing its URL and your email
-          address so we can notify you about the status of your submission.
+          Migrate an active Read.cv listing simply by pasting its URL.
         </p>
         <MigrateJobForm />
       </section>

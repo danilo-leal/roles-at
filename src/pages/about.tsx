@@ -82,9 +82,9 @@ export default function AboutPage() {
       <SectionDivider />
       <h2 className="text-xl font-semibold mb-2">The tech stack</h2>
       <p className="default-p-style mb-1">
-        Building roles.at has been a very cool experience at exploring different
-        pieces of technology. We&apos;re thankful for all the open-source
-        software out there that allows us to build things like this so easily.
+        Building roles.at has enabled us to learn and play around with so many
+        cool tech. We&apos;re thankful for all the open-source software out
+        there that allows us to build things like this so easily.
       </p>
       <ul className="default-ul-style">
         <li>
