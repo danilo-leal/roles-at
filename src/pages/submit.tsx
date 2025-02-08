@@ -112,7 +112,7 @@ function MigrateJobForm() {
           disabled={isLoading}
           className="w-full sm:w-auto"
         >
-          {isLoading ? "Migrating..." : "Migrate Opening From Read.cv"}
+          {isLoading ? "Migrating..." : "Migrate Role"}
         </Button>
       </div>
     </form>
@@ -386,7 +386,7 @@ export default function SubmitPage() {
             className="w-full sm:w-auto"
             disabled={isLoading}
           >
-            {isLoading ? "Submitting..." : "Submit Job Posting"}
+            {isLoading ? "Submitting..." : "Submit Role"}
           </Button>
         </div>
       </form>
