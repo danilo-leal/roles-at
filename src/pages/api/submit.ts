@@ -32,7 +32,10 @@ export default async function handler(
       const company_slug = createSlug(company);
       const title_slug = createSlug(title);
 
-      // Insert directly into job-postings table
+      if (!company_slug) {
+        return res.status(400).json({ error: "Invalid company name" });
+      }
+
       const { data: jobPostingData, error } = await supabase
         .from("job-postings")
         .insert([

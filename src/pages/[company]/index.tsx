@@ -50,7 +50,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Fetch all unique companies
   const { data: companies, error } = await supabase
     .from("job-postings")
     .select("company_slug")
