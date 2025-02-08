@@ -142,14 +142,28 @@ export default function JobsPage() {
   const renderOpenRolesLabel = () => {
     if (filteredJobs.length >= 1) {
       return (
-        <>
-          <p className="hidden sm:inline text-xs font-mono muted-p">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key="open-roles"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.1 }}
+            className="hidden sm:inline text-xs font-mono muted-p"
+          >
             {filteredJobs.length} {renderPlural()}
-          </p>
-          <p className="inline sm:hidden text-xs font-mono muted-p">
+          </motion.p>
+          <motion.p
+            key="open-roles"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.1 }}
+            className="inline sm:hidden text-xs font-mono muted-p"
+          >
             {filteredJobs.length} Open
-          </p>
-        </>
+          </motion.p>
+        </AnimatePresence>
       );
     } else {
       return;
