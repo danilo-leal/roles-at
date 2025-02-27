@@ -11,6 +11,16 @@ export default function Document() {
           name={title}
           content={description}
         />
+        <link
+          rel="icon"
+          href="/favicon.ico"
+          media="(prefers-color-scheme: light)"
+        />
+        <link
+          rel="icon"
+          href="/favicon-dark.ico"
+          media="(prefers-color-scheme: dark)"
+        />
       </Head>
       <body className="antialiased bg-white dark:bg-black/50">
         <Main />
