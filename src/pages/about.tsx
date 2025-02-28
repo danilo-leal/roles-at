@@ -126,8 +126,13 @@ export default function AboutPage() {
       <SectionDivider type="alternative" />
       <h2 className="text-xl font-semibold mb-2">Got any feedback?</h2>
       <p className="text-sm default-p-color mb-4">
-        Any cool ideas and/or fix requests are welcome. Email us at{" "}
-        <Link href="mailto:hello@roles.at">hello@roles.at</Link>, or:
+        Any cool ideas and/or fix requests are welcome. You can contribute
+        directly to the{" "}
+        <Link href="https://github.com/danilo-leal/roles-at">
+          GitHub repository
+        </Link>
+        , email us at <Link href="mailto:hello@roles.at">hello@roles.at</Link>,
+        or reach out personally:
       </p>
       <div className="flex flex-col sm:flex-row gap-8 sm:gap-16">
         <AvatarBlock type="dan" />
