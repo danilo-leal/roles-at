@@ -83,7 +83,7 @@ export default function CompanyPage({
   company: string;
   companySite: string | null;
 }) {
-  const ogImageUrl = `/api/og?title=${encodeURIComponent(company)}&subtitle=${encodeURIComponent(`Open roles at ${company}`)}`;
+  const ogImageUrl = `/api/og?title=${encodeURIComponent(company)}&subtitle=${encodeURIComponent("View their open roles.")}`;
   const title = `Jobs at ${company} | roles.at`;
   const description = `Explore ${jobs.length} open roles at ${company}.`;
 
