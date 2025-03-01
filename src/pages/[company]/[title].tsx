@@ -371,7 +371,7 @@ export default function CompanyPage({
         <span>
           You may also want to check out other{" "}
           <Link href={`/${job.company_slug}`}>
-            avaialble roles at {job.company}.
+            available roles at {job.company}.
           </Link>
         </span>
       </div>
