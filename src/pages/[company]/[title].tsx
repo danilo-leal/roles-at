@@ -19,6 +19,8 @@ import ReactMarkdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
 import * as cheerio from "cheerio";
+import { NextSeo } from "next-seo";
+import Head from "next/head";
 import {
   MapPin,
   Clock,
@@ -170,6 +172,12 @@ export default function CompanyPage({
     return <div>Job not found</div>;
   }
 
+  const ogImageUrl = job
+    ? `/api/og?title=${encodeURIComponent(job.title)}&company=${encodeURIComponent(job.company)}`
+    : "/api/og";
+  const title = `${job.title} at ${job.company} | roles.at`;
+  const description = `${job.title} role at ${job.company}.`;
+
   const components: Components = {
     h1: (props) => (
       <h1 className="text-2xl dark:text-white font-semibold my-4" {...props} />
@@ -266,7 +274,30 @@ export default function CompanyPage({
   };
 
   return (
-    <PageContainer title={`${job.title} at ${job.company}`}>
+    <PageContainer title={title}>
+      <Head>
+        <meta property="og:image" content={ogImageUrl} />
+      </Head>
+      <NextSeo
+        title={title}
+        description={description}
+        openGraph={{
+          title,
+          description,
+          url: `/${job.company_slug}/${job.title_slug}`,
+          images: [
+            {
+              url: ogImageUrl,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ],
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+        }}
+      />
       <SectionDivider type="alternative" />
       <div className="pb-6 mb-6 border-b default-border-color">
         <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-6">

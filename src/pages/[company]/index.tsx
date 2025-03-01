@@ -6,6 +6,8 @@ import { SectionDivider } from "@/components/primitives/Divider";
 import { RoleEntry } from "@/components/RoleEntry";
 import { Link } from "@/components/primitives/Link";
 import { motion } from "motion/react";
+import { NextSeo } from "next-seo";
+import Head from "next/head";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -81,8 +83,35 @@ export default function CompanyPage({
   company: string;
   companySite: string | null;
 }) {
+  const ogImageUrl = `/api/og?title=${encodeURIComponent(company)}&subtitle=${encodeURIComponent(`Open roles at ${company}`)}`;
+  const title = `Jobs at ${company} | roles.at`;
+  const description = `Explore ${jobs.length} open roles at ${company}.`;
+
   return (
-    <PageContainer title={`Jobs at ${company}`}>
+    <PageContainer title={title}>
+      <Head>
+        <meta property="og:image" content={ogImageUrl} />
+      </Head>
+      <NextSeo
+        title={title}
+        description={description}
+        openGraph={{
+          title,
+          description,
+          url: `https://roles.at/${jobs[0].company_slug}`,
+          images: [
+            {
+              url: ogImageUrl,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ],
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+        }}
+      />
       <SectionDivider type="alternative" />
       <hgroup className="w-full flex flex-col gap-1 mb-3">
         <p className="text-sm text-zinc-700 dark:text-zinc-500">Roles at:</p>

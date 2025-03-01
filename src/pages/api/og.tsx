@@ -5,7 +5,7 @@ export const config = {
   runtime: "edge",
 };
 
-// Use site domain for production
+// Use site domain for prod
 const fontDataPromise = fetch("https://roles.at/WorkSans-Medium.ttf").then(
   (res) => res.arrayBuffer(),
 );
@@ -14,6 +14,9 @@ export default async function handler(request: Request): Promise<Response> {
   try {
     const { searchParams } = new URL(request.url);
     const textColor = searchParams.get("textColor") || "#FFF";
+    const title = searchParams.get("title") || "roles.at";
+    const company = searchParams.get("company");
+    const subtitle = searchParams.get("subtitle") || descriptionOg;
     const fontData = await fontDataPromise;
 
     return new ImageResponse(
@@ -32,15 +35,50 @@ export default async function handler(request: Request): Promise<Response> {
             style={{
               height: "100%",
               display: "flex",
-              alignItems: "center",
+              // alignItems: "center",
               justifyContent: "center",
               flexDirection: "column",
               gap: "8px",
             }}
           >
-            <p style={{ fontSize: 120, color: textColor, fontWeight: 700 }}>
-              roles.at
-            </p>
+            {company ? (
+              <div
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  // alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: "8px",
+                }}
+              >
+                <p
+                  style={{
+                    backgroundColor: "#FFF",
+                    fontSize: 36,
+                    color: textColor,
+                    opacity: 0.6,
+                    margin: 0,
+                  }}
+                >
+                  Role at {company}
+                </p>
+                <p
+                  style={{
+                    fontSize: 80,
+                    color: textColor,
+                    fontWeight: 700,
+                    margin: 0,
+                  }}
+                >
+                  {title}
+                </p>
+              </div>
+            ) : (
+              <p style={{ fontSize: 120, color: textColor, fontWeight: 700 }}>
+                {title}
+              </p>
+            )}
             <p
               style={{
                 margin: 0,
@@ -51,7 +89,7 @@ export default async function handler(request: Request): Promise<Response> {
                 opacity: 0.3,
               }}
             >
-              {descriptionOg}
+              {subtitle}
             </p>
           </div>
         </div>
