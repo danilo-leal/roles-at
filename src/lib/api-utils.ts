@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { resend } from "./resend";
+import type { ReactElement } from "react";
 
 export type ApiError = {
   error: string;
@@ -16,7 +17,7 @@ export type EmailTemplate = {
   from: string;
   to: string;
   subject: string;
-  react: JSX.Element;
+  react: ReactElement;
 };
 
 export function validateMethod(
