@@ -235,7 +235,7 @@ export default function SubmitPage() {
       <SectionDivider />
       <section>
         <h2 className="text-xl font-semibold mb-2">
-          Migration a Role From Read.cv
+          Migrating a Role From Read.cv
         </h2>
         <p className="default-p-style mb-4">
           Migrate an active Read.cv listing simply by pasting its URL.
