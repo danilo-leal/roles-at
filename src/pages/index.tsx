@@ -29,7 +29,7 @@ export default function JobsPage() {
             errorData.message || `HTTP error! status: ${response.status}`,
           );
         }
-        const data = await response.json();
+        const { data } = await response.json();
         const approvedJobs = data.filter((job: Job) => job.is_approved);
         setJobs(approvedJobs);
         setFilteredJobs(approvedJobs);
