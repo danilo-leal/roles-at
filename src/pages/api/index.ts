@@ -1,12 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { supabase } from "@/lib/supabaseClient";
+import { validateMethod, handleApiError } from "@/lib/api-utils";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method === "GET") {
-    // Fetch only approved job postings
+  if (!validateMethod(req, res, ["GET"])) return;
+
+  try {
     const { data, error } = await supabase
       .from("job-postings")
       .select("*")
@@ -14,13 +16,11 @@ export default async function handler(
       .order("created_at", { ascending: false });
 
     if (error) {
-      res.status(500).json({ error: error.message });
-      return;
+      throw error;
     }
 
-    res.status(200).json(data);
-  } else {
-    res.setHeader("Allow", "GET");
-    res.status(405).end("Method Not Allowed");
+    res.status(200).json({ data });
+  } catch (error) {
+    handleApiError(res, error, "Failed to fetch job postings");
   }
 }

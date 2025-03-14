@@ -83,20 +83,17 @@ export default async function handler(request: Request): Promise<Response> {
         ],
       },
     );
-  } catch (e) {
-    if (e instanceof Error) {
-      console.error(`Error generating image: ${e.message}`);
-      return new Response(`Failed to generate the image: ${e.message}`, {
-        status: 500,
-      });
-    } else {
-      console.error("Unknown error occurred");
-      return new Response(
-        "Failed to generate the image due to an unknown error",
-        {
-          status: 500,
-        },
-      );
-    }
+  } catch (error) {
+    const errorResponse = {
+      error: "Failed to generate image",
+      details: error instanceof Error ? error.message : "Unknown error occurred"
+    };
+    
+    return new Response(JSON.stringify(errorResponse), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 }
